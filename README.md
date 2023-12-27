@@ -2,7 +2,7 @@
 
 Here's a collection of dotfiles that I use regularly on my MacOS development environment. If you want to use them simply copy them to their appropriate locations, majority of them being in `~/.config`. 
 
-![screenshot]("./assets/screenshot.png")
+![screenshot]("https://github.com/stevedylandev/dotfiles/assets/screenshot.png")
 
 **A few things to be aware of:**
 - Alcritty is expecting a custom font called [Commit Mono](https://commitmono.com/) which I have included here since it is open source!
