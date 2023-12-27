@@ -49,7 +49,7 @@ font:
   # The normal (roman) font face to use.
   # Style can be specified to pick a specific face.
   normal:
-   family: Commit Mono 
+   family: CommitMono Nerd Font
     # style: Retina
 
   # Point size of the font
