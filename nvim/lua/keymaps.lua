@@ -3,7 +3,7 @@ local map = vim.api.nvim_set_keymap
 
 -- format
 -- Fast saving
-map("n", "++", ":write!<CR>", opts)
+map("n", "++", "<cmd>write!<CR>", opts)
 
 -- Some useful quickfix shortcuts for quickfix
 map("n", "<C-n>", "<cmd>cnext<CR>zz", opts)
@@ -19,7 +19,7 @@ map("i", "jj", "<ESC>", opts)
 map("i", "jk", "<ESC>", opts)
 
 -- Remove search highlight
-map("n", "<Leader>h", ":nohlsearch<CR>", opts)
+map("n", "<leader>h", "<cmd>nohlsearch<CR>", opts)
 
 -- Grab text between curly braces
 map("n", "YY", "va{Vy", opts)
@@ -45,7 +45,6 @@ map("x", "p", '"_dP', opts)
 -- map("n", "<C-j>", "<C-w>j", opts)
 -- map("n", "<C-k>", "<C-w>k", opts)
 -- map("n", "<C-l>", "<C-w>l", opts)
-
 
 -- Visual --
 -- Stay in indent mode
