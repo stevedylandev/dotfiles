@@ -6,7 +6,7 @@ Here's a collection of dotfiles that I use regularly on my MacOS development env
 
 **A few things to be aware of:**
 
-- Alacritty is expecting a Nerd font patched verson of [Commit Mono](https://commitmono.com/) which I have included here since it is open source!
-- The color scheme is built using [Tinted Themeing Base16](https://github.com/tinted-theming/base16-shell) which allows you to use the shell to change the color scheme for all the apps used; just try somerhing like `base16-rose-pine`. I would recommend installing via the instructions on their repo vs trying to install by cloning this one. In the screenshot I am using `base16-black-metal-bathory`.
+- Alacritty is expecting a Nerd font patched verson of [Commit Mono](https://commitmono.com/) which I have included in `assets` since it is open source!
+- The color scheme is built using [Tinted Themeing Base16](https://github.com/tinted-theming/base16-shell) which allows you to use the shell to change the color scheme for all the apps used; just try something like `base16-rose-pine`. I would recommend installing via the instructions on their repo vs trying to install by cloning this one. In the screenshot I am using `base16-black-metal-bathory`.
 
 Feel free to [reach out](mailto:hello@stevedylan.dev) if you have any questions!
