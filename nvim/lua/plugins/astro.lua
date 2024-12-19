@@ -1,3 +1,0 @@
-return {
-   "wuelnerdotexe/vim-astro",
-}
