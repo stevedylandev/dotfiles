@@ -108,7 +108,7 @@ path add ~/.local/bin
 path add ~/.bun/bin
 path add /Applications/Docker.app/Contents/Resources/bin
 $env.GOPATH = "/Users/stevedsimkins/.local/share/go"
-$env.GITHUB_TOKEN = (prs show github/secret)
+# $env.GITHUB_TOKEN = (prs show github/secret)
 path add ~/.tmux/plugins/t-smart-tmux-session-manager/bin
 path add ~/.deno/bin
 path add ~/.foundry/bin
