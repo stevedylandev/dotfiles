@@ -3,20 +3,22 @@ font-family-bold = CommitMono Nerd Font
 font-family-italic = CommitMono Nerd Font
 font-family-bold-italic = CommitMono Nerd Font
 font-size = 14
+
 confirm-close-surface = false
 clipboard-read = allow
 clipboard-write = allow
 mouse-hide-while-typing = true
-command = /opt/homebrew/bin/nu
-window-padding-x = 6
-click-repeat-interval = 500
 macos-titlebar-style = hidden
-keybind = super+alt+j=toggle_quick_terminal
 macos-window-shadow = false
-auto-update-channel = stable
+window-padding-x = 6
+window-padding-balance = true
+window-save-state = always
 window-width = 85
 window-height = 30
+
+# Icon
 macos-icon = custom-style
+macos-icon-frame = plastic
 macos-icon-screen-color = #000000
 macos-icon-ghost-color = #E78B52
 
@@ -50,3 +52,7 @@ palette = 18=#121212
 palette = 19=#222222
 palette = 20=#999999
 palette = 21=#999999
+
+auto-update-channel = stable
+click-repeat-interval = 500
+command = /opt/homebrew/bin/nu

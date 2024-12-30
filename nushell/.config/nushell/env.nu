@@ -105,6 +105,7 @@ path add /opt/homebrew/bin
 path add ~/.cargo/bin
 path add ~/.local/share/go/bin
 path add ~/.local/bin
+path add /usr/local/bin
 path add ~/.bun/bin
 path add /Applications/Docker.app/Contents/Resources/bin
 $env.GOPATH = "/Users/stevedsimkins/.local/share/go"
