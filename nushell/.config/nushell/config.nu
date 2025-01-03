@@ -904,6 +904,14 @@ $env.config.hooks.env_change.PWD = [...$env.config.hooks.env_change.PWD
       }
     }]
 
+alias ll = ls -l
+alias la = ls -a
+alias lg = lazygit
+alias nf = neofetch
+alias fl = fastfetch -c ~/.config/fastfetch/presets/examples/8.jsonc
+alias ff = fastfetch -c ~/.config/fastfetch/presets/examples/20.jsonc
+alias tailscale = /Applications/Tailscale.app/Contents/MacOS/Tailscale
+
 
 source ~/.config/nushell/black-metal-bathory.nu
 source ~/.config/nushell/zoxide.nu
