@@ -6,6 +6,8 @@ if wezterm.config_builder then
   config = wezterm.config_builder()
 end
 
+config.default_prog = { '/opt/homebrew/bin/nu' }
+
 config.color_scheme = "Poimandres"
 
 config.font = wezterm.font('CommitMono Nerd Font')
@@ -20,7 +22,13 @@ config.window_padding = {
   bottom = 4
 }
 
+-- ITS OVER 9000!!!!
+config.max_fps = 120
+config.front_end = "WebGpu"
+config.webgpu_power_preference = "HighPerformance",
+
 config.initial_cols = 85
 config.initial_rows = 30
+
 
 return config
