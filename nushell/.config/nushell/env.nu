@@ -114,6 +114,8 @@ path add ~/.tmux/plugins/t-smart-tmux-session-manager/bin
 path add ~/.deno/bin
 path add ~/.foundry/bin
 path add ~/.local/share/pinata-go-cli
+path add ~/.local/share/solana/install/active_release/bin
+$env.RUSTUP_TOOLCHAIN = "nightly-2024-11-19"
 # $env.FNM_DIR = "/Users/stevedsimkins/Library/Application Support/fnm"
 # $env.FNM_ARCH = "arm64"
 # $env.FNM_LOGLEVEL = "info"

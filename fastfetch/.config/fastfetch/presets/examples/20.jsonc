@@ -64,7 +64,7 @@
         {
             "type": "host",
             "key": "│ MACHINE    │{$1}",
-            "format": "{name}"
+            "format": "MacBook Pro"
         },
         {
             "type": "custom",

@@ -904,6 +904,10 @@ $env.config.hooks.env_change.PWD = [...$env.config.hooks.env_change.PWD
       }
     }]
 
+def t [] {
+  sesh list -i | gum filter --limit 1 --placeholder "Choose a session" --height 50 --prompt="⚡"
+}
+
 alias ll = ls -l
 alias la = ls -a
 alias lg = lazygit
