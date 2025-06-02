@@ -1,0 +1,1 @@
+/Users/stevedylandev/.config/nushell/git-completions.nu
