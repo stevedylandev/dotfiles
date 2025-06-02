@@ -1,0 +1,19 @@
+# Zed editor files
+conversations/**
+embeddings/
+prompts/
+themes/
+
+# Temporary files
+.tmp*
+tmp*
+
+# Backup files
+*_backup.*
+*_backup/
+
+# OS and editor temp files
+.DS_Store
+*.swp
+*.swo
+*~
