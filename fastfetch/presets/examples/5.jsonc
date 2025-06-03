@@ -1,0 +1,27 @@
+// Load with --load-config examples/5.jsonc
+
+{
+    "$schema": "https://github.com/fastfetch-cli/fastfetch/raw/dev/doc/json_schema.json",
+    "logo": null,
+    "display": {
+        "color": "magenta"
+    },
+    "modules": [
+        {
+            "type": "theme",
+            "key": "T"
+        },
+        {
+            "type": "icons",
+            "key": "I"
+        },
+        {
+            "type": "font",
+            "key": "F"
+        },
+        {
+            "type": "cursor",
+            "key": "C"
+        }
+    ]
+}
