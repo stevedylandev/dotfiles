@@ -1,0 +1,103 @@
+// Zed settings
+//
+// For information on how to configure Zed, see the Zed
+// documentation: https://zed.dev/docs/configuring-zed
+//
+// To see all of Zed's default settings without changing your
+// custom settings, run the `open default settings` command
+// from the command palette or from `Zed` application menu.
+{
+  "edit_predictions": {
+    "mode": "subtle",
+    "copilot": {
+      "proxy": null,
+      "proxy_no_verify": null
+    },
+    "enabled_in_assistant": false
+  },
+  "icon_theme": "Zed (Default)",
+  "language_models": {
+    "anthropic": {
+      "version": "1"
+    }
+  },
+  "show_copilot_suggestions": false,
+  "theme": "Base16 Black Metal (Bathory) Dark",
+  "buffer_font_size": 13.0,
+  "buffer_font_family": "CommitMono Nerd Font",
+  "vim_mode": true,
+  "cursor_blink": false,
+  "relative_line_numbers": true,
+  "scrollbar": {
+    "show": "never"
+  },
+  "vertical_scroll_margin": 0,
+  "vim": {
+    "use_system_clipboard": "always",
+    "use_multiline_find": true
+  },
+  "tab_bar": {
+    "show": false
+  },
+  "toolbar": {
+    "breadcrumbs": true,
+    "quick_actions": false
+  },
+  "show_edit_predictions": false,
+  "preferred_line_length": 100,
+  "soft_wrap": "preferred_line_length",
+  "use_autoclose": false,
+  "git": {
+    "inline_blame": {
+      "enabled": false,
+      "delay_ms": 500
+    }
+  },
+  "terminal": {
+    "alternate_scroll": "off",
+    "blinking": "terminal_controlled",
+    "copy_on_select": true,
+    "font_family": "CommitMono Nerd Font",
+    "line_height": "standard",
+    "toolbar": {
+      "title": true
+    },
+    "working_directory": "current_project_directory",
+    "button": false
+  },
+  "project_panel": {
+    "hide_gitignore": false,
+    "button": false,
+    "auto_fold_dirs": false,
+    "scrollbar": {
+      "show": "never"
+    }
+  },
+  "assistant": {
+    "profiles": {
+      "steve": {
+        "name": "Steve",
+        "tools": {},
+        "enable_all_context_servers": false,
+        "context_servers": {}
+      }
+    },
+    "default_profile": "steve",
+    "default_model": {
+      "provider": "zed.dev",
+      "model": "claude-3-7-sonnet-latest"
+    },
+    "version": "2",
+    "provider": "anthropic",
+    "button": false
+  },
+  "outline_panel": {
+    "button": false
+  },
+  "formatter": {
+    "language_server": {
+      "name": "biome"
+    }
+  },
+  "tab_size": 2
+}
