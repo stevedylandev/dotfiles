@@ -20,7 +20,7 @@
       "space e": "workspace::ToggleLeftDock",
       "space /": "workspace::NewSearch",
       "n": "search::SelectNextMatch",
-      "shift-n": "search::SelectPreviousMatch",
+      "shift-n": "search::SelectPrevMatch",
       "space t": "workspace::NewCenterTerminal",
       "g b": "editor::ToggleComments",
       "+ +": "workspace::Save",
@@ -30,7 +30,7 @@
   {
     "context": "vim_mode == insert",
     "bindings": {
-      "ctrl-k": "editor::ContextMenuPrevious",
+      "ctrl-k": "editor::ContextMenuPrev",
       "ctrl-j": "editor::ContextMenuNext"
     }
   },
@@ -44,21 +44,21 @@
   {
     "context": "TabSwitcher",
     "bindings": {
-      "ctrl-k": "menu::SelectPrevious",
+      "ctrl-k": "menu::SelectPrev",
       "ctrl-j": "menu::SelectNext"
     }
   },
   {
     "context": "FileFinder",
     "bindings": {
-      "ctrl-k": "menu::SelectPrevious",
+      "ctrl-k": "menu::SelectPrev",
       "ctrl-j": "menu::SelectNext"
     }
   },
   {
     "context": "CommandPalette",
     "bindings": {
-      "ctrl-k": "menu::SelectPrevious",
+      "ctrl-k": "menu::SelectPrev",
       "ctrl-j": "menu::SelectNext"
     }
   },
