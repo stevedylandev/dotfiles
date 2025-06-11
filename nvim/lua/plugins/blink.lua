@@ -24,6 +24,29 @@ return {
                     },
                 },
                 keymap = {
+                    -- Accept suggestion with Tab or Enter
+                    ["<Tab>"] = { "accept", "fallback" },
+                    ["<CR>"] = { "accept", "fallback" },
+
+                    -- Navigate completion menu with Ctrl+j/k
+                    ["<C-j>"] = { "select_next", "fallback" },
+                    ["<C-k>"] = { "select_prev", "fallback" },
+
+                    -- Alternative: Use arrow keys for navigation
+                    ["<Down>"] = { "select_next", "fallback" },
+                    ["<Up>"] = { "select_prev", "fallback" },
+
+                    -- Show completion menu manually
+                    ["<C-Space>"] = { "show", "show_documentation", "hide_documentation" },
+
+                    -- Hide completion menu
+                    ["<C-e>"] = { "hide", "fallback" },
+
+                    -- Scroll documentation
+                    ["<C-u>"] = { "scroll_documentation_up", "fallback" },
+                    ["<C-d>"] = { "scroll_documentation_down", "fallback" },
+
+                    -- Remove the disabled Ctrl+f mapping
                     ["<C-f>"] = {},
                 },
                 cmdline = {
