@@ -146,8 +146,8 @@
     },
     "default_profile": "steve",
     "default_model": {
-      "provider": "ollama",
-      "model": "gemma3:4b"
+      "provider": "anthropic",
+      "model": "claude-sonnet-4-latest"
     },
     "version": "2",
     "button": false
