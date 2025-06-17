@@ -1,7 +1,7 @@
-font-family = CommitMono Nerd Font
-font-family-bold = CommitMono Nerd Font
-font-family-italic = CommitMono Nerd Font
-font-family-bold-italic = CommitMono Nerd Font
+font-family = BerkeleyMono Nerd Font
+font-family-bold = BerkelyMono Nerd Font
+font-family-italic = BerkeleyMono Nerd Font
+font-family-bold-italic = BerkeleyMono Nerd Font
 font-size = 14
 
 confirm-close-surface = false
@@ -12,9 +12,12 @@ macos-titlebar-style = hidden
 macos-window-shadow = false
 window-padding-x = 6
 window-padding-balance = true
-window-save-state = always
+window-save-state = never
+window-inherit-working-directory = false
 window-width = 85
 window-height = 30
+
+keybind = global:opt+i=toggle_quick_terminal
 
 # Icon
 macos-icon = custom-style
