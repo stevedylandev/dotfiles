@@ -1,4 +1,14 @@
 {
+	"ssh_connections": [
+		{
+			"host": "jetson-local",
+			"projects": [
+				{
+					"paths": ["/home/steve/Developer"]
+				}
+			]
+		}
+	],
 	"edit_predictions": {
 		"mode": "subtle",
 		"copilot": {
@@ -149,7 +159,7 @@
 		"default_profile": "steve",
 		"default_model": {
 			"provider": "anthropic",
-			"model": "claude-3-7-sonnet-latest"
+			"model": "claude-sonnet-4-latest"
 		},
 		"version": "2",
 		"button": false,
@@ -166,11 +176,11 @@
 			"formatter": "language_server"
 		}
 	},
-	// "formatter": {
-	// 	"language_server": {
-	// 		"name": "biome"
-	// 	}
-	// },
+	"formatter": {
+		"language_server": {
+			"name": "biome"
+		}
+	},
 	"lsp": {
 		"biome": {
 			"settings": {
