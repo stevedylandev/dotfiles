@@ -931,4 +931,6 @@ alias ff = fastfetch -c ~/.config/fastfetch/presets/examples/20.jsonc
 alias shitter = ssh itter
 alias tailscale = /Applications/Tailscale.app/Contents/MacOS/Tailscale
 
-use ~/.cache/starship/init.nu
+mkdir ($nu.data-dir | path join "vendor/autoload")
+starship init nu | save -f ($nu.data-dir | path join "vendor/autoload/starship.nu")
+source $"($nu.home-path)/.cargo/env.nu"
