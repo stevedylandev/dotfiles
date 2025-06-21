@@ -73,6 +73,7 @@ path add /Users/stevedylandev/.local/share/pinata
 path add ~/.sp1/bin
 path add ~/.aztec/bin
 path add ~/.nargo/bin
+path add ~/.helios/bin
 $env.ANDROID_HOME = "~/Library/Android/sdk"
 path add ~/Library/Android/sdk/emulator
 path add ~/Library/Android/sdk/platform-tools
