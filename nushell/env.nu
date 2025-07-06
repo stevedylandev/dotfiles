@@ -101,9 +101,9 @@ source ~/.config/nushell/black-metal-bathory.nu
 # source ~/.config/nushell/zoxide.nu
 source ~/.config/nushell/git-completions.nu
 source ~/.cargo/env.nu
-source ~/.config/nushell/zoxide.nu
 
 $env.EDITOR = "nvim"
 
+zoxide init nushell | save -f ~/.zoxide.nu
 mkdir ~/.cache/starship
 starship init nu | save -f ~/.cache/starship/init.nu
