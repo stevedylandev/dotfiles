@@ -84,7 +84,7 @@ export def main [] {
         shape_variable: '#999999'
 
         foreground: '#c1c1c1'
-        background: '#000000'
+        background: '#121113'
         cursor: '#c1c1c1'
 
         empty: '#888888'
