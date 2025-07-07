@@ -95,7 +95,7 @@
 		}
 	},
 	"show_copilot_suggestions": false,
-	"theme": "Base16 Black Metal (Bathory) Dark",
+	"theme": "Darkmatter",
 	"buffer_font_size": 13.0,
 	"buffer_font_family": "Berkeley Mono",
 	"vim_mode": true,
