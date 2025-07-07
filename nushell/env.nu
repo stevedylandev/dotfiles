@@ -62,7 +62,21 @@ path add /Applications/Docker.app/Contents/Resources/bin
 $env.GOROOT = "/usr/local/go"
 $env.GOPATH = "/Users/stevedylandev/.local/share/go"
 $env.GOMODCACHE = "/Users/stevedylandev/.local/share/go-mod-cache"
-# $env.GITHUB_TOKEN = ""
+$env.FZF_DEFAULT_COMMAND = 'fd --type f --hidden --exclude ".git"'
+$env.FZF_DEFAULT_OPTS = [
+  '--color=fg:#c1c1c1,fg+:#ffffff,bg:#121113,bg+:#222222'
+  '--color=hl:#5f8787,hl+:#fbcb97,info:#e78a53,marker:#fbcb97'
+  '--color=prompt:#e78a53,spinner:#5f8787,pointer:#fbcb97,header:#aaaaaa'
+  '--color=border:#333333,label:#888888,query:#ffffff'
+  '--border="rounded"'
+  '--border-label=""'
+  '--preview-window="border-rounded"'
+  '--prompt="> "'
+  '--marker=">"'
+  '--pointer="◆"'
+  '--separator="─"'
+  '--scrollbar="│"'
+] | str join ' '
 path add ~/.tmux/plugins/t-smart-tmux-session-manager/bin
 path add ~/.deno/bin
 path add ~/.foundry/bin
@@ -80,9 +94,8 @@ path add ~/Library/Android/sdk/platform-tools
 $env.JAVA_HOME = "/Library/Java/JavaVirtualMachines/zulu-17.jdk/Contents/Home"
 $env.RUSTUP_TOOLCHAIN = "nightly-2025-01-05"
 $env.config.filesize.unit = "MB"
-$env.BAT_THEME_DARK = "base16"
-$env.BAT_THEME_LIGHT = "base16"
-$env.BAT_THEME = "base16"
+$env.BAT_THEME_DARK = "ansi"
+$env.BAT_THEME = "ansi"
 # $env.FNM_DIR = "/Users/stevedsimkins/Library/Application Support/fnm"
 # $env.FNM_ARCH = "arm64"
 # $env.FNM_LOGLEVEL = "info"
