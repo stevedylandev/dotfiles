@@ -932,6 +932,7 @@ alias nvimrc = nvim ~/.config/nvim
 alias shitter = ssh itter
 alias tailscale = /Applications/Tailscale.app/Contents/MacOS/Tailscale
 alias ai = aichat
+alias ma = macchina
 
 mkdir ($nu.data-dir | path join "vendor/autoload")
 starship init nu | save -f ($nu.data-dir | path join "vendor/autoload/starship.nu")
