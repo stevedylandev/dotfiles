@@ -110,7 +110,7 @@ path add ($env.FNM_MULTISHELL_PATH + "/bin")
 # To load from a custom file you can use:
 # source ~/.config/nushell/env.nu
 
-source ~/.config/nushell/black-metal-bathory.nu
+source ~/.config/nushell/darkmatter.nu
 # source ~/.config/nushell/zoxide.nu
 source ~/.config/nushell/git-completions.nu
 source ~/.cargo/env.nu
