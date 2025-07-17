@@ -902,7 +902,7 @@ $env.config.hooks.env_change.PWD = [...$env.config.hooks.env_change.PWD
 
 # Function to open sesh
 def t [] {
-  let selected = (sesh list -i | gum filter --limit 1 --placeholder "Choose a session" --height 50 --prompt="⚡")
+  let selected = (sesh list -i | gum filter --limit 1 --placeholder "Choose a session" --height 50 --prompt="> " --indicator.foreground="2" --match.foreground="2")
   if ($selected | is-empty) {
     echo "No session selected"
   } else {
@@ -931,6 +931,8 @@ alias ff = fastfetch -c ~/.config/fastfetch/presets/examples/20.jsonc
 alias shitter = ssh itter
 alias tailscale = /Applications/Tailscale.app/Contents/MacOS/Tailscale
 alias ai = aichat
+alias ma = macchina
+alias bonsai = cbonsai -li -t 0.4
 
 mkdir ($nu.data-dir | path join "vendor/autoload")
 starship init nu | save -f ($nu.data-dir | path join "vendor/autoload/starship.nu")

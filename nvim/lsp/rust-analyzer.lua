@@ -18,11 +18,7 @@ return {
 				runBuildScripts = true,
 			},
 			-- Add other rust-analyzer specific settings here
-			checkOnSave = {
-				allFeatures = true,
-				command = "clippy",
-				extraArgs = { "--no-deps" },
-			},
+			checkOnSave = true,
 			procMacro = {
 				enable = true,
 				ignored = {

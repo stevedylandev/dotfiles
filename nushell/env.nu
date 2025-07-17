@@ -92,7 +92,7 @@ $env.ANDROID_HOME = "~/Library/Android/sdk"
 path add ~/Library/Android/sdk/emulator
 path add ~/Library/Android/sdk/platform-tools
 $env.JAVA_HOME = "/Library/Java/JavaVirtualMachines/zulu-17.jdk/Contents/Home"
-$env.RUSTUP_TOOLCHAIN = "nightly-2025-01-05"
+# $env.RUSTUP_TOOLCHAIN = "nightly-2025-01-05"
 $env.config.filesize.unit = "MB"
 $env.BAT_THEME_DARK = "ansi"
 $env.BAT_THEME = "ansi"
