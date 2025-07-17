@@ -20,9 +20,7 @@
 	"icon_theme": "Zed (Default)",
 	"ui_font_family": "Berkeley Mono",
 	"language_models": {
-		"anthropic": {
-			"version": "1"
-		},
+		"anthropic": {},
 		"ollama": {
 			"api_url": "http://localhost:11434",
 			"available_models": [
@@ -94,7 +92,7 @@
 			]
 		}
 	},
-	"show_copilot_suggestions": false,
+
 	"theme": "Darkmatter",
 	"buffer_font_size": 13.0,
 	"buffer_font_family": "Berkeley Mono",
@@ -106,8 +104,7 @@
 	},
 	"vertical_scroll_margin": 0,
 	"vim": {
-		"use_system_clipboard": "always",
-		"use_multiline_find": true
+		"use_system_clipboard": "always"
 	},
 	"tab_bar": {
 		"show": false
@@ -133,9 +130,6 @@
 		"font_family": "BerkeleyMono Nerd Font",
 		"font_size": 14,
 		"line_height": "standard",
-		"toolbar": {
-			"title": true
-		},
 		"working_directory": "current_project_directory",
 		"button": false
 	},
@@ -161,7 +155,6 @@
 			"provider": "anthropic",
 			"model": "claude-sonnet-4-latest"
 		},
-		"version": "2",
 		"button": false,
 		"default_view": "text_thread"
 	},
@@ -171,9 +164,6 @@
 	"languages": {
 		"TypeScript": {
 			"prettier": { "allowed": false }
-		},
-		"Solidity": {
-			"formatter": "language_server"
 		}
 	},
 	"formatter": {

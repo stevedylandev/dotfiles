@@ -1,0 +1,27 @@
+# Beryllium
+
+spacing         = 3
+hide_ascii      = true
+key_color       = "green"
+separator       = ""
+
+[box]
+border          = "plain"
+visible         = true
+
+[palette]
+glyph           = "○"
+spacing         = 2
+visible         = true
+
+[bar]
+glyph           = "○"
+hide_delimiters = true
+visible         = true
+
+[box.inner_margin]
+x               = 2
+y               = 1
+
+[custom_ascii]
+color           = "green"

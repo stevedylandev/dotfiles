@@ -1,8 +1,8 @@
 return {
-	"stevedylandev/base16-nvim",
+	"stevedylandev/darkmatter-nvim",
 	lazy = false,
 	priority = 1000,
 	config = function()
-		vim.cmd.colorscheme "base16-black-metal-bathory"
+		vim.cmd.colorscheme "darkmatter"
 	end,
 }
