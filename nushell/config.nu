@@ -928,6 +928,7 @@ alias lg = lazygit
 alias nf = neofetch
 alias fl = fastfetch -c ~/.config/fastfetch/presets/examples/8.jsonc
 alias ff = fastfetch -c ~/.config/fastfetch/presets/examples/20.jsonc
+alias nvimrc = nvim ~/.config/nvim
 alias shitter = ssh itter
 alias tailscale = /Applications/Tailscale.app/Contents/MacOS/Tailscale
 alias ai = aichat
