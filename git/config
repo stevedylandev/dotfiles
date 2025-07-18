@@ -7,6 +7,7 @@
   compression = 9
   whitespace = error
   preloadindex = true
+  pager = delta
 
 [commit]
   template = ~/.config/git/template
@@ -33,6 +34,14 @@
 [diff]
   context = 3
   interHunkContext = 10
+
+[interactive]
+  diffFilter = delta --color-only --dark --true-color always
+
+[delta]
+  navigate = true
+  light = false  
+  side-by-side = true
 
 [push]
   followTags = true
