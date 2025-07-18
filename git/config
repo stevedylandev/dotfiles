@@ -1,0 +1,83 @@
+[user]
+  name = Steve simkins
+  email = stevedsimkins@gmail.com
+	signingkey = ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQCg5SovL4D8z2lT8m2FG+94fPWOn0Ia7IxD3Q9dujCMMz0NqzHYdNTOJXe81MzugLDWFsWFds2FZhJxUdJ12+VhCdJRS5K1wTvf1gdkvXUK7hvemLPPNj+Qwmokw+qVw3LOm8MIITvN0q8tploZ+GuOSvwldootPdm/YwQLhzYafYTSh4YeiCuU5TmZy7YzVuaECle1quqaI8MJ/PO2tvJurSW8QSBBBZh9u/95fAHNCe0Yr3Zvq1zhyXkpf6Z+lXOOoxxhFwvsTs7pJqCqNK/1csu1Ci17pNsBnEEMreR+jojyOMRyR8wi4L7VODNlc25QndsivqhKXybGxRRZZY+KMlpQYTip5SF35KCUP6K3F4uImbRnxzbwBgeOYxRwxyucV4RswdXGk8+PpI1ahdyHGccGJT8uRc8d6wbEY7R5AZE814In6KzzDceOw2dErsItdtmWaEVf7nJ30A3wvUE74bPOPFDjd2DTqI4zcQssdDO1d+7kvw/hLRWZgGzuQNogfl5Pk81UJoiFn5DXMBY2LJi7Y+U9Xva7foWVibqhCWQrXD2PNb0BDtVluJGokd7WSAx3nxDou1qOU6Itq49vbcHZfx2b4mNmGkXJTBMO6a7prRHz6bGjjHaftTgj/tsQNgT5YQX0Ew+EP5gYlfs1eCUwnA8OOBQjPvjSVvCXNQ==
+
+[core]
+  compression = 9
+  whitespace = error
+  preloadindex = true
+
+[commit]
+  template = ~/.config/git/template
+	gpgsign = true
+
+[advice]
+  addEmptyPathspec = false
+  pushNonFastForward = false
+
+[url "git@github.com:stevedylandev/"]
+  insteadOf = "stevedylandev:"
+
+[url "git@github.com:"]
+  insteadOf = "gh:"
+
+[init]
+  defaultBranch = main
+
+[status]
+  branch = true
+  showStash = true
+  showUntrackedFiles = all
+
+[diff]
+  context = 3
+  interHunkContext = 10
+
+[push]
+  followTags = true
+
+[pull]
+  default = current
+  rebase = true
+
+[rebase]
+  autoStash = true
+  missingCommitsCheck = warn
+
+[log]
+  abbrevCommit = true
+  graphColors = blue,yellow,cyan,megenta,green,red
+
+[color "diff"]
+    meta       = black bold
+    frag       = magenta
+    context    = white
+    whitespace = yellow reverse
+    old        = red
+
+[color "decorate"]
+  HEAD = red
+  branch = blue
+  tag = yellow
+  remoteBranch = magenta
+
+[color "branch"]
+  current = magenta
+  local = default
+  remote = yellow
+  upstream = green
+  plain = blue
+
+[branch]
+  sort = -committerdate
+
+[tag]
+  sort = -taggerdate
+
+
+
+[gpg]
+	format = ssh
+[gpg "ssh"]
+	program = /Applications/1Password.app/Contents/MacOS/op-ssh-sign
