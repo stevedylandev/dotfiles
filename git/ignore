@@ -1,0 +1,51 @@
+# Python specific
+.venv/
+.mypy_cache/
+.pytest_cache/
+__pycache__/
+.hypothesis/
+.ruff_cache/
+.ropeproject/
+
+# Typescript
+node_modules/
+dist/
+*.tsbuildinfo
+.npm
+.yarn
+yarn-error.log
+npm-debug.log
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# Rust
+/target/
+**/*.rs.bk
+Cargo.lock
+.cargo/
+
+# Go
+/bin/
+/pkg/
+/vendor/
+*.exe
+*.exe~
+*.dll
+*.so
+*.dylib
+*.test
+*.out
+go.work
+
+# Common
+.DS_Store
+.idea/
+.vscode/
+*.swp
+*.swo
+.project
+.classpath
+.settings/
