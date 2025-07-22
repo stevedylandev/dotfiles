@@ -128,7 +128,7 @@
 		"blinking": "terminal_controlled",
 		"copy_on_select": true,
 		"font_family": "BerkeleyMono Nerd Font",
-		"font_size": 14,
+		"font_size": 13,
 		"line_height": "standard",
 		"working_directory": "current_project_directory",
 		"button": false
@@ -166,11 +166,11 @@
 			"prettier": { "allowed": false }
 		}
 	},
-	"formatter": {
-		"language_server": {
-			"name": "biome"
-		}
-	},
+	// "formatter": {
+	// 	"language_server": {
+	// 		"name": "biome"
+	// 	}
+	// },
 	"lsp": {
 		"biome": {
 			"settings": {
