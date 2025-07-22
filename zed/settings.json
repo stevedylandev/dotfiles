@@ -93,7 +93,7 @@
 		}
 	},
 
-	"theme": "Darkmatter",
+	"theme": "poimandres",
 	"buffer_font_size": 13.0,
 	"buffer_font_family": "Berkeley Mono",
 	"vim_mode": true,

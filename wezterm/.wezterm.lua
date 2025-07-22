@@ -6,26 +6,78 @@ if wezterm.config_builder then
   config = wezterm.config_builder()
 end
 
-config.color_scheme = 'Darkmatter'
 config.color_schemes = {
-  ["Darkmatter"] = {
-    foreground = "#ffffff",
-    background = "#121113",
-    cursor_fg = "#121113",
-    cursor_bg = "#ffffff",
-    cursor_border = "#ffffff",
-    selection_fg = "#000000",
-    selection_bg = "#222222",
+  ["Poimandres"] = {
+    foreground = "#E4F0FB",
+    background = "#1B1E28",
+    cursor_fg = "#1B1E28",
+    cursor_bg = "#A6ACCD",
+    cursor_border = "#A6ACCD",
+    selection_fg = "#E4F0FB",
+    selection_bg = "#506477",
     ansi = {
-      "#121113", "#5f8787", "#fbcb97", "#e78a53",
-      "#888888", "#999999", "#aaaaaa", "#c1c1c1"
+      "#171922", "#D0679D", "#5DE4C7", "#FFFAC2",
+      "#89DDFF", "#FCC5E9", "#89DDFF", "#FFFFFF"
     },
     brights = {
-      "#333333", "#5f8787", "#fbcb97", "#e78a53",
-      "#888888", "#999999", "#aaaaaa", "#c1c1c1"
+      "#506477", "#D0679D", "#5DE4C7", "#FFFAC2",
+      "#ADD7FF", "#FCC5E9", "#ADD7FF", "#FFFFFF"
+    },
+    scrollbar_thumb = "#303340",
+    split = "#171922",
+    visual_bell = "#506477",
+    compose_cursor = "#FCC5E9",
+    indexed = {
+      [16] = "#5DE4C7",
+      [17] = "#D0679D"
+    },
+    tab_bar = {
+      background = "#171922",
+      active_tab = {
+        bg_color = "#1B1E28",
+        fg_color = "#E4F0FB",
+        intensity = "Normal",
+        italic = false,
+        strikethrough = false,
+        underline = "None"
+      },
+      inactive_tab = {
+        bg_color = "#171922",
+        fg_color = "#506477",
+        intensity = "Normal",
+        italic = false,
+        strikethrough = false,
+        underline = "None"
+      },
+      inactive_tab_hover = {
+        bg_color = "#171922",
+        fg_color = "#767C9D",
+        intensity = "Normal",
+        italic = false,
+        strikethrough = false,
+        underline = "None"
+      },
+      new_tab = {
+        bg_color = "#171922",
+        fg_color = "#506477",
+        intensity = "Normal",
+        italic = false,
+        strikethrough = false,
+        underline = "None"
+      },
+      new_tab_hover = {
+        bg_color = "#171922",
+        fg_color = "#767C9D",
+        intensity = "Normal",
+        italic = true,
+        strikethrough = false,
+        underline = "None"
+      }
     }
   }
 }
+
+config.color_scheme = 'Poimandres'
 
 config.font = wezterm.font('BerkeleyMono Nerd Font')
 config.font_size = 14
