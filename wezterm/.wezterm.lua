@@ -6,8 +6,9 @@ if wezterm.config_builder then
   config = wezterm.config_builder()
 end
 
-config.color_scheme = 'Darkmatter'
-config.color_schemes = {
+config.color_scheme = 'nord'
+
+--[[ config.color_schemes = {
   ["Darkmatter"] = {
     foreground = "#ffffff",
     background = "#121113",
@@ -25,7 +26,7 @@ config.color_schemes = {
       "#888888", "#999999", "#aaaaaa", "#c1c1c1"
     }
   }
-}
+} ]]
 
 config.font = wezterm.font('BerkeleyMono Nerd Font')
 config.font_size = 14
