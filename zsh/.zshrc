@@ -27,7 +27,7 @@ alias lg="lazygit"
 alias nf="neofetch"
 alias fl="fastfetch -c ~/.config/fastfetch/presets/examples/8.jsonc"
 alias ff="fastfetch -c ~/.config/fastfetch/presets/examples/20.jsonc"
-alias cd="z"
+# alias cd="z"
 alias ai="aichat"
 alias inv='nvim $(fzf -m --preview="bat --color=always {}")'
 
@@ -65,7 +65,7 @@ export PATH="$PATH:/usr/local/bin"
 
 # JavaScript/Node.js tools
 export PATH="$PATH:$HOME/.bun/bin"
-export PATH="$PATH:$HOME/.deno/bin"
+# export PATH="$PATH:$HOME/.deno/bin"
 
 # Docker
 export PATH="$PATH:/Applications/Docker.app/Contents/Resources/bin"
