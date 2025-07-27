@@ -2,7 +2,8 @@ vim.lsp.enable({
     "gopls",
     "lua_ls",
     "tsserver",
-    "rust-analyzer"
+    "rust-analyzer",
+    "asm-lsp"
 })
 
 vim.diagnostic.config({
