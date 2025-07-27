@@ -58,3 +58,13 @@ map("v", "K", ":m '<-2<CR>gv=gv", opts)
 map("n", "<leader>c", ":bd<cr>", opts)
 
 map("n", "<leader>dd", "<cmd>lua vim.diagnostic.open_float({ border = 'rounded' })<CR>", opts)
+
+map("i", "<C-j>", 'pumvisible() ? "\\<C-n>" : "\\<C-j>"', { expr = true, noremap = true, silent = true })
+map("i", "<C-k>", 'pumvisible() ? "\\<C-p>" : "\\<C-k>"', { expr = true, noremap = true, silent = true })
+
+map("n", "<leader>e", "<cmd>lua MiniFiles.open()<CR>", opts)
+
+map("n", "<leader>o", "<cmd>Pick buffers<CR>", opts)
+map("n", "<leader>f", "<cmd>Pick files<CR>", opts)
+map("n", "<leader>/", "<cmd>Pick grep_live<CR>", opts)
+map("n", "<leader>hh", "<cmd>Pick help<CR>", opts)
