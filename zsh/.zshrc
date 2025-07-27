@@ -20,6 +20,18 @@ bindkey -v
 source $(brew --prefix)/share/zsh-autosuggestions/zsh-autosuggestions.zsh
 source $(brew --prefix)/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 
+ns() {
+    rm -f ~/.nvim-startup.txt
+    nvim --headless --startuptime ~/.nvim-startup.txt +qa
+    grep "NVIM STARTED" ~/.nvim-startup.txt
+}
+
+nh() {
+    rm -f ~/.nvim-startup.txt
+    nvim --headless --startuptime ~/.nvim-startup.txt +qa
+    bat ~/.nvim-startup.txt
+}
+
 alias ls="eza --icons=always"
 alias ll="ls -l"
 alias la="ls -a"
@@ -65,7 +77,6 @@ export PATH="$PATH:/usr/local/bin"
 
 # JavaScript/Node.js tools
 export PATH="$PATH:$HOME/.bun/bin"
-# export PATH="$PATH:$HOME/.deno/bin"
 
 # Docker
 export PATH="$PATH:/Applications/Docker.app/Contents/Resources/bin"
@@ -99,4 +110,3 @@ source <(fzf --zsh)
 # bun
 export BUN_INSTALL="$HOME/.bun"
 export PATH="$BUN_INSTALL/bin:$PATH"
-. "/Users/steve-simkins/.deno/env"
