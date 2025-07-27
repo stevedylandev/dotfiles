@@ -910,6 +910,18 @@ def t [] {
   }
 }
 
+def ns [] {
+    rm -f ~/.nvim-startup.txt
+    nvim --headless --startuptime ~/.nvim-startup.txt +qa
+    grep "NVIM STARTED" ~/.nvim-startup.txt
+}
+
+def nh [] {
+    rm -f ~/.nvim-startup.txt
+    nvim --headless --startuptime ~/.nvim-startup.txt +qa
+    bat ~/.nvim-startup.txt
+}
+
 # Custom git init with .gitignore template
 def ginit [
   --template (-t): string = "node,macos,linux,windows"  # The template to use for .gitignore, comma separated values
