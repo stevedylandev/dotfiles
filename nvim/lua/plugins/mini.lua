@@ -20,9 +20,10 @@ return {
             },
             window = { config = win_config }
         })
-        vim.api.nvim_set_hl(0, "MiniPickMatchCurrent",
-            { bg = vim.g.terminal_color_8
-            })
+
+        vim.api.nvim_set_hl(0, "MiniPickMatchCurrent", {
+            bg = vim.g.terminal_color_8
+        })
 
         require("mini.comment").setup({
             mappings = {
@@ -39,7 +40,11 @@ return {
             },
         })
 
-        require('mini.files').setup()
+        require('mini.files').setup({
+            mappings = {
+                go_in_plus = '<CR>'
+            }
+        })
 
         require('mini.surround').setup({
             mappings = {
