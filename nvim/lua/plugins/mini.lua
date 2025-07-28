@@ -42,6 +42,7 @@ return {
 
         require('mini.files').setup({
             mappings = {
+                close      = '<ESC>',
                 go_in_plus = '<CR>'
             }
         })
