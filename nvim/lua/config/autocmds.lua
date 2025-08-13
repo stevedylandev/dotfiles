@@ -73,6 +73,14 @@ vim.api.nvim_create_autocmd("VimEnter", {
   end,
 })
 
+vim.api.nvim_create_autocmd("FileType", {
+  pattern = { "markdown", "mdx", "text" },
+  callback = function()
+    vim.opt_local.wrap = true
+    vim.opt_local.linebreak = true  -- Break at word boundaries
+  end,
+})
+
 --[[ require("conform").setup({
   format_on_save = {
     -- These options will be passed to conform.format()
