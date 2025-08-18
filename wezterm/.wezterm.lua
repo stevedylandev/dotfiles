@@ -6,6 +6,7 @@ if wezterm.config_builder then
   config = wezterm.config_builder()
 end
 
+-- config.color_scheme = "Poimandres"
 config.color_scheme = 'Darkmatter'
 config.color_schemes = {
   ["Darkmatter"] = {
