@@ -58,6 +58,7 @@ map("v", "K", ":m '<-2<CR>gv=gv", opts)
 map("n", "<leader>c", ":bd<cr>", opts)
 
 map("n", "<leader>dd", "<cmd>lua vim.diagnostic.open_float({ border = 'rounded' })<CR>", opts)
+map("n", "<leader>gg", "<cmd>lua MiniDiff.toggle_overlay()<CR>", opts)
 
 map("i", "<C-j>", 'pumvisible() ? "\\<C-n>" : "\\<C-j>"', { expr = true, noremap = true, silent = true })
 map("i", "<C-k>", 'pumvisible() ? "\\<C-p>" : "\\<C-k>"', { expr = true, noremap = true, silent = true })
