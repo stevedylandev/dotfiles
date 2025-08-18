@@ -155,7 +155,7 @@ $env.config = {
     }
 
     rm: {
-        always_trash: true # always act as if -t was given. Can be overridden with -p
+        always_trash: false # always act as if -t was given. Can be overridden with -p
     }
 
     table: {
@@ -220,7 +220,7 @@ $env.config = {
             max_results: 100 # setting it lower can improve completion performance at the cost of omitting some options
             completer: null # check 'carapace_completer' above as an example
         }
-        use_ls_colors: true # set this to true to enable file/path/directory completions using LS_COLORS
+        use_ls_colors: false # set this to true to enable file/path/directory completions using LS_COLORS
     }
 
 
@@ -930,7 +930,6 @@ def ginit [
   echo $"Fetching .gitignore template for ($template)..."
   curl -sL $"https://www.toptal.com/developers/gitignore/api/($template)" | save .gitignore
   git add .gitignore
-  git commit -m "Initial commit with .gitignore"
   echo "Repository initialized with .gitignore template!"
 }
 
