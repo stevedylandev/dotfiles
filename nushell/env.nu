@@ -60,14 +60,14 @@ path add /usr/local/bin
 path add ~/.bun/bin
 path add /Applications/Docker.app/Contents/Resources/bin
 $env.GOROOT = "/usr/local/go"
-$env.GOPATH = "/Users/stevedylandev/.local/share/go"
-$env.GOMODCACHE = "/Users/stevedylandev/.local/share/go-mod-cache"
+$env.GOPATH = ($env.HOME | path join ".local" "share" "go")
+$env.GOMODCACHE = ($env.HOME | path join ".local" "share" "go-mod-cache")
 $env.FZF_DEFAULT_COMMAND = 'fd --type f --hidden --exclude ".git"'
 $env.FZF_DEFAULT_OPTS = [
-  '--color=fg:#c1c1c1,fg+:#ffffff,bg:#121113,bg+:#222222'
-  '--color=hl:#5f8787,hl+:#fbcb97,info:#e78a53,marker:#fbcb97'
-  '--color=prompt:#e78a53,spinner:#5f8787,pointer:#fbcb97,header:#aaaaaa'
-  '--color=border:#333333,label:#888888,query:#ffffff'
+  '--color=fg:7,fg+:15,bg:0,bg+:8'              # fg: ansi[7], fg+: white, bg: ansi[0], bg+: brights[0]
+  '--color=hl:1,hl+:2,info:3,marker:2'          # hl: ansi[1], hl+: ansi[2], info: ansi[3], marker: ansi[2]
+  '--color=prompt:3,spinner:1,pointer:2,header:6' # prompt: ansi[3], spinner: ansi[1], pointer: ansi[2], header: ansi[6]
+  '--color=border:8,label:4,query:15'           # border: brights[0], label: ansi[4], query: white
   '--border="rounded"'
   '--border-label=""'
   '--preview-window="border-rounded"'
@@ -80,38 +80,23 @@ $env.FZF_DEFAULT_OPTS = [
 path add ~/.tmux/plugins/t-smart-tmux-session-manager/bin
 path add ~/.deno/bin
 path add ~/.foundry/bin
-path add ~/.local/share/pinata-go-cli
 path add ~/.local/share/
 path add ~/.local/share/solana/install/active_release/bin
-path add /Users/stevedylandev/.local/share/pinata
-path add ~/.sp1/bin
 path add ~/.aztec/bin
 path add ~/.nargo/bin
 path add ~/.helios/bin
-$env.ANDROID_HOME = "~/Library/Android/sdk"
-path add ~/Library/Android/sdk/emulator
-path add ~/Library/Android/sdk/platform-tools
-$env.JAVA_HOME = "/Library/Java/JavaVirtualMachines/zulu-17.jdk/Contents/Home"
-# $env.RUSTUP_TOOLCHAIN = "nightly-2025-01-05"
+
 $env.config.filesize.unit = "MB"
 $env.BAT_THEME_DARK = "ansi"
 $env.BAT_THEME = "ansi"
-# $env.FNM_DIR = "/Users/stevedsimkins/Library/Application Support/fnm"
-# $env.FNM_ARCH = "arm64"
-# $env.FNM_LOGLEVEL = "info"
-# $env.FNM_COREPACK_ENABLED = "false"
-# $env.FNM_RESOLVE_ENGINES = "false"
-# $env.FNM_VERSION_FILE_STRATEGY = "local"
-# $env.FNM_MULTISHELL_PATH = "/Users/stevedsimkins/.local/state/fnm_multishells/96094_1730946598404"
-# $env.FNM_NODE_DIST_MIRROR = "https://nodejs.org/dist"
+
 fnm env --json | from json | load-env
 path add ($env.FNM_MULTISHELL_PATH + "/bin")
 
-# To load from a custom file you can use:
-# source ~/.config/nushell/env.nu
+$env.PNPM_HOME = ($env.HOME | path join "Library" "pnpm")
+$env.PATH = ($env.PATH | split row (char esep) | prepend $env.PNPM_HOME )
 
-source ~/.config/nushell/darkmatter.nu
-# source ~/.config/nushell/zoxide.nu
+# source ~/.config/nushell/darkmatter.nu
 source ~/.config/nushell/git-completions.nu
 source ~/.cargo/env.nu
 
@@ -120,3 +105,4 @@ $env.EDITOR = "nvim"
 zoxide init nushell | save -f ~/.zoxide.nu
 mkdir ~/.cache/starship
 starship init nu | save -f ~/.cache/starship/init.nu
+
