@@ -922,6 +922,19 @@ def nh [] {
     bat ~/.nvim-startup.txt
 }
 
+def cpf [file_path: string] {
+   cat ($file_path) | pbcopy 
+  echo "✔︎ Copied to clipboard!"
+}
+
+def orbiter-personal [] {
+  orbiter auth --key (op read "op://Personal/orbiter-api-key/credential")
+}
+
+def orbiter-account [] {
+  orbiter auth --key (op read "op://Personal/orbiter-account-api-key/credential")
+}
+
 # Custom git init with .gitignore template
 def ginit [
   --template (-t): string = "node,macos,linux,windows"  # The template to use for .gitignore, comma separated values
