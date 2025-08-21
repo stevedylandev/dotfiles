@@ -12,9 +12,14 @@
             "type": 6
         },
         "bar": {
-            "borderLeft": "",
-            "borderRight": "",
-            "charElapsed": "█",
+            "border": {
+        "left": "",
+        "right": "",
+            
+            },
+            "char": {
+              "elapsed": "█",
+            },
             "charTotal": "░",
             "width": 40
         },
