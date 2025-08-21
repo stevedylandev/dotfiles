@@ -21,10 +21,6 @@ return {
       window = { config = win_config }
     })
 
-    vim.api.nvim_set_hl(0, "MiniPickMatchCurrent", {
-      bg = vim.g.terminal_color_8
-    })
-
     require("mini.comment").setup({
       mappings = {
         comment = 'gb',
