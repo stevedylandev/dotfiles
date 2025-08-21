@@ -928,11 +928,16 @@ def cpf [file_path: string] {
 }
 
 def orbiter-personal [] {
-  orbiter auth --key (op read "op://Personal/orbiter-api-key/credential")
+  gum spin --spinner dot --spinner.foreground="2" --title "Updating..."  -- orbiter auth --key (op read "op://Personal/orbiter-api-key/credential")
+  let check = (gum style --foreground="2" "✓ ");
+  gum join $check "Orbiter key set to personal!"
+
 }
 
 def orbiter-account [] {
-  orbiter auth --key (op read "op://Personal/orbiter-account-api-key/credential")
+  gum spin --spinner dot --spinner.foreground="2" --title "Updating..."  -- orbiter auth --key (op read "op://Personal/orbiter-account-api-key/credential")
+  let check = (gum style --foreground="2" "✓ ");
+  gum join $check "Orbiter key set to Orbiter account!"
 }
 
 # Custom git init with .gitignore template
