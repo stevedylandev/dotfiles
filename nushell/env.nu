@@ -96,6 +96,7 @@ path add ($env.FNM_MULTISHELL_PATH + "/bin")
 $env.PNPM_HOME = ($env.HOME | path join "Library" "pnpm")
 $env.PATH = ($env.PATH | split row (char esep) | prepend $env.PNPM_HOME )
 
+$env.GPG_TTY = (tty)
 # source ~/.config/nushell/darkmatter.nu
 source ~/.config/nushell/git-completions.nu
 source ~/.cargo/env.nu
