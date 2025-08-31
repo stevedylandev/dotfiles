@@ -3,7 +3,8 @@ vim.lsp.enable({
     "lua_ls",
     "tsserver",
     "rust-analyzer",
-    "asm-lsp"
+    "asm-lsp",
+    "solc"
 })
 
 vim.diagnostic.config({

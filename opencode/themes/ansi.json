@@ -1,0 +1,223 @@
+{
+  "$schema": "https://opencode.ai/theme.json",
+  "defs": {
+    "base00": 0,
+    "base01": 8,
+    "base02": 10,
+    "base03": 11,
+    "base04": 12,
+    "base05": 7,
+    "base06": 14,
+    "base07": 15,
+    "base08": 1,
+    "base09": 9,
+    "base0A": 3,
+    "base0B": 2,
+    "base0C": 6,
+    "base0D": 4,
+    "base0E": 5,
+    "base0F": 13
+  },
+  "theme": {
+    "primary": {
+      "dark": "base0D",
+      "light": "base0D"
+    },
+    "secondary": {
+      "dark": "base0E",
+      "light": "base0E"
+    },
+    "accent": {
+      "dark": "base0C",
+      "light": "base0C"
+    },
+    "error": {
+      "dark": "base08",
+      "light": "base08"
+    },
+    "warning": {
+      "dark": "base0A",
+      "light": "base0A"
+    },
+    "success": {
+      "dark": "base0B",
+      "light": "base0B"
+    },
+    "info": {
+      "dark": "base0D",
+      "light": "base0D"
+    },
+    "text": {
+      "dark": "base05",
+      "light": "base02"
+    },
+    "textMuted": {
+      "dark": "base04",
+      "light": "base03"
+    },
+    "background": {
+      "dark": "base00",
+      "light": "base07"
+    },
+    "backgroundPanel": {
+      "dark": "base01",
+      "light": "base06"
+    },
+    "backgroundElement": {
+      "dark": "base01",
+      "light": "base06"
+    },
+    "border": {
+      "dark": "base02",
+      "light": "base04"
+    },
+    "borderActive": {
+      "dark": "base03",
+      "light": "base03"
+    },
+    "borderSubtle": {
+      "dark": "base01",
+      "light": "base05"
+    },
+    "diffAdded": {
+      "dark": "base0B",
+      "light": "base0B"
+    },
+    "diffRemoved": {
+      "dark": "base08",
+      "light": "base08"
+    },
+    "diffContext": {
+      "dark": "base04",
+      "light": "base04"
+    },
+    "diffHunkHeader": {
+      "dark": "base03",
+      "light": "base03"
+    },
+    "diffHighlightAdded": {
+      "dark": "base0B",
+      "light": "base0B"
+    },
+    "diffHighlightRemoved": {
+      "dark": "base08",
+      "light": "base08"
+    },
+    "diffAddedBg": {
+      "dark": "base01",
+      "light": "base06"
+    },
+    "diffRemovedBg": {
+      "dark": "base01",
+      "light": "base06"
+    },
+    "diffContextBg": {
+      "dark": "base00",
+      "light": "base07"
+    },
+    "diffLineNumber": {
+      "dark": "base03",
+      "light": "base04"
+    },
+    "diffAddedLineNumberBg": {
+      "dark": "base01",
+      "light": "base06"
+    },
+    "diffRemovedLineNumberBg": {
+      "dark": "base01",
+      "light": "base06"
+    },
+    "markdownText": {
+      "dark": "base05",
+      "light": "base02"
+    },
+    "markdownHeading": {
+      "dark": "base0D",
+      "light": "base0D"
+    },
+    "markdownLink": {
+      "dark": "base0C",
+      "light": "base0C"
+    },
+    "markdownLinkText": {
+      "dark": "base0D",
+      "light": "base0D"
+    },
+    "markdownCode": {
+      "dark": "base0B",
+      "light": "base0B"
+    },
+    "markdownBlockQuote": {
+      "dark": "base03",
+      "light": "base03"
+    },
+    "markdownEmph": {
+      "dark": "base0E",
+      "light": "base0E"
+    },
+    "markdownStrong": {
+      "dark": "base0A",
+      "light": "base0A"
+    },
+    "markdownHorizontalRule": {
+      "dark": "base03",
+      "light": "base03"
+    },
+    "markdownListItem": {
+      "dark": "base0D",
+      "light": "base0D"
+    },
+    "markdownListEnumeration": {
+      "dark": "base0C",
+      "light": "base0C"
+    },
+    "markdownImage": {
+      "dark": "base0C",
+      "light": "base0C"
+    },
+    "markdownImageText": {
+      "dark": "base0D",
+      "light": "base0D"
+    },
+    "markdownCodeBlock": {
+      "dark": "base05",
+      "light": "base02"
+    },
+    "syntaxComment": {
+      "dark": "base03",
+      "light": "base04"
+    },
+    "syntaxKeyword": {
+      "dark": "base0E",
+      "light": "base0E"
+    },
+    "syntaxFunction": {
+      "dark": "base0D",
+      "light": "base0D"
+    },
+    "syntaxVariable": {
+      "dark": "base08",
+      "light": "base08"
+    },
+    "syntaxString": {
+      "dark": "base0B",
+      "light": "base0B"
+    },
+    "syntaxNumber": {
+      "dark": "base09",
+      "light": "base09"
+    },
+    "syntaxType": {
+      "dark": "base0A",
+      "light": "base0A"
+    },
+    "syntaxOperator": {
+      "dark": "base05",
+      "light": "base02"
+    },
+    "syntaxPunctuation": {
+      "dark": "base05",
+      "light": "base02"
+    }
+  }
+}
