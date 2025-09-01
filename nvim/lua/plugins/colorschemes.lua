@@ -1,8 +1,8 @@
 return {
-	"stevedylandev/ansi-nvim",
+	"stevedylandev/darkmatter-nvim",
 	lazy = false,
 	priority = 1000,
 	config = function()
-		vim.cmd.colorscheme "ansi"
+		vim.cmd.colorscheme "darkmatter"
 	end,
 }
