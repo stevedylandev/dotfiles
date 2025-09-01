@@ -1,0 +1,95 @@
+[user]
+  name = Steve
+  email = contact@stevedylan.dev
+  signingkey = contact@stevedylan.dev
+
+[alias]
+	ac = "!f() { git add . && git commit -m \"$1\"; }; f"
+	wip = "!f() { git add . && git commit -m \"wip\" && git push; }; f"
+
+[column]
+  ui = auto
+
+[branch]
+  sort = -comitterdate
+
+[init]
+  defaultBranch = main
+
+[diff]
+  algorithm = histogram
+  colorMoved = plain
+  mnemonicPrefix = true
+  renames = true
+  context = 3
+  interHunkContext = 10
+
+[delta]
+  navigate = true
+  light = false  
+  side-by-side = true
+
+
+[status]
+  branch = true
+  showStash = true
+  showUntrackedFiles = all
+
+[interactive]
+  diffFilter = delta --color-only --dark --true-color always
+
+
+[push]
+  default = simple
+  autoSetupRemote = true
+  followTags = true
+
+[pull]
+  rebase = true
+
+[rebase]
+  autoStash = true
+  missingCommitsCheck = warn
+
+[fetch]
+  prune = true
+  pruneTags = true
+  all = true
+
+[help]
+  autocorrect = prompt
+
+[commit]
+  gpgsign = true
+  verbose = true
+
+[core]
+  excludesfile = ~/.gitignore
+
+[tag]
+  gpgsign = true
+
+[log]
+  abbrevCommit = true
+  graphColors = blue,yellow,cyan,megenta,green,red
+
+[color "diff"]
+    meta       = black bold
+    frag       = magenta
+    context    = white
+    whitespace = yellow reverse
+    old        = red
+
+[color "decorate"]
+  HEAD = red
+  branch = blue
+  tag = yellow
+  remoteBranch = magenta
+
+[color "branch"]
+  current = magenta
+  local = default
+  remote = yellow
+  upstream = green
+  plain = blue
+
