@@ -23,7 +23,7 @@ return {
 
     vim.api.nvim_set_hl(0, "MiniPickMatchCurrent",
       { bg = vim.g.terminal_color_8
-    })
+      })
 
     require("mini.comment").setup({
       mappings = {
@@ -37,6 +37,13 @@ return {
       mappings = {
         scroll_down = '<C-j>',
         scroll_up = '<C-k>',
+      },
+    })
+
+    local gen_loader = require('mini.snippets').gen_loader
+    require('mini.snippets').setup({
+      snippets = {
+        gen_loader.from_lang(),
       },
     })
 
