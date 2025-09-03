@@ -20,6 +20,7 @@ opt.grepformat = "%f:%l:%c:%m"
 opt.grepprg = "rg --vimgrep"
 opt.ignorecase = true      -- Ignore case
 opt.inccommand = "nosplit" -- preview incremental substitute
+opt.incsearch = true
 opt.laststatus = 3         -- global statusline
 opt.list = true            -- Show some invisible characters (tabs...
 opt.mouse = "a"            -- Enable mouse mode
