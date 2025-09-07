@@ -1,0 +1,11 @@
+[Personal Blocklist]
+! Title: Personal Blocklist
+! Description: Increases security! Blocks Malware, Spam, Scam and Phishing.
+! Homepage: https://github.com/stevedylandev/dotfiles
+! Expires: 1 day
+! Last modified: 06 Sep 2025 18:54 UTC
+! Version: 2025.0906.1854.58
+! Syntax: PersonalBlocklist
+! Number of entries: 1
+!
+||chat.avatar.ext.hp.com^
