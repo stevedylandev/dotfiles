@@ -142,6 +142,10 @@
     }
   },
   "agent": {
+    "inline_assistant_model": {
+      "provider": "anthropic",
+      "model": "claude-sonnet-4-latest"
+    },
     "profiles": {
       "steve": {
         "name": "Steve",

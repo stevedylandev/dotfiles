@@ -1,6 +1,6 @@
 return {
 	cmd = {
-		"biome", "lsp-proxy"
+		"bunx", "@biomejs/biome", "lsp-proxy"
 	},
 	filetypes = {
 		'json',
