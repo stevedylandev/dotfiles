@@ -1,0 +1,4 @@
+[mgr]
+ratio = [1,3,4]
+sort_by = "mtime"
+sort_reverse = true
