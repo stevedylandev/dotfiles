@@ -910,6 +910,16 @@ def t [] {
   }
 }
 
+def nvimf [] {
+  let file = (fd --type f --hidden --exclude .git | fzf --preview "bat --color=always {}")
+  if ($file | is-empty) {
+    echo "No file selected"
+  } else {
+    nvim $file
+  }
+}
+
+
 def ns [] {
     rm -f ~/.nvim-startup.txt
     nvim --headless --startuptime ~/.nvim-startup.txt +qa
