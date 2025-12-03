@@ -93,12 +93,12 @@
     }
   },
 
-  "theme": "Darkmatter",
+  "theme": "Compline",
   "buffer_font_size": 13.0,
   "buffer_font_family": "Berkeley Mono",
   "vim_mode": true,
   "cursor_blink": false,
-  "relative_line_numbers": true,
+  "relative_line_numbers": "enabled",
   "scrollbar": {
     "show": "never"
   },
