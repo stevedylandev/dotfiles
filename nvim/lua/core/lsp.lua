@@ -1,4 +1,5 @@
 vim.lsp.enable({
+  "astro",
   "gopls",
   "lua_ls",
   "tsserver",
