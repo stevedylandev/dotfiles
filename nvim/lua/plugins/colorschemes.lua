@@ -1,9 +1,9 @@
 return {
-	"stevedylandev/compline-nvim",
+	"stevedylandev/darkmatter-nvim",
 	lazy = false,
 	priority = 1000,
 	config = function()
-		vim.cmd.colorscheme "compline"
+		vim.cmd.colorscheme "darkmatter"
 	end,
 }
 
