@@ -971,7 +971,7 @@ alias nvimrc = nvim ~/.config/nvim
 alias shitter = ssh itter
 alias tailscale = /Applications/Tailscale.app/Contents/MacOS/Tailscale
 alias ai = aichat
-alias ma = macchina
+alias system = macchina
 alias bonsai = cbonsai -li -t 0.4
 alias lst = lstr --icons --color=always --size
 alias keys = keysmasher
@@ -979,4 +979,4 @@ alias keys = keysmasher
 mkdir ($nu.data-dir | path join "vendor/autoload")
 starship init nu | save -f ($nu.data-dir | path join "vendor/autoload/starship.nu")
 source ~/.zoxide.nu
-source $"($nu.home-path)/.cargo/env.nu"
+source ~/.cargo/env.nu
