@@ -66,7 +66,16 @@ config.initial_cols = 85
 config.initial_rows = 30
 
 -- config.default_prog = { '/opt/homebrew/bin/nu' }
-
-
+--
+config.keys = {
+  {
+    key = 'k',
+    mods = 'CMD',
+    action = wezterm.action.Multiple {
+      wezterm.action.SendKey { key = 'q', mods = 'CTRL' },  -- send prefix (C-q)
+      wezterm.action.SendKey { key = 'T' },                  -- send T
+    },
+  },
+}
 
 return config
