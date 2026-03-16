@@ -6,6 +6,16 @@ vim.api.nvim_create_autocmd('TextYankPost', {
   end,
 })
 
+-- Reload files automatically if edited externally
+vim.api.nvim_create_autocmd({ "FocusGained", "BufEnter", "CursorHold", "CursorHoldI" }, {
+  pattern = "*",
+  callback = function()
+    if vim.fn.mode() ~= "c" then
+      vim.cmd("checktime")
+    end
+  end,
+})
+
 vim.api.nvim_create_autocmd("LspAttach", {
   group = vim.api.nvim_create_augroup('lsp-attach', { clear = true }),
   callback = function(event)
@@ -80,11 +90,3 @@ vim.api.nvim_create_autocmd("FileType", {
     vim.opt_local.linebreak = true  -- Break at word boundaries
   end,
 })
-
---[[ require("conform").setup({
-  format_on_save = {
-    -- These options will be passed to conform.format()
-    timeout_ms = 500,
-    lsp_format = "fallback",
-  },
-}) ]]
