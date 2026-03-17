@@ -64,18 +64,21 @@ $env.GOPATH = ($env.HOME | path join ".local" "share" "go")
 $env.GOMODCACHE = ($env.HOME | path join ".local" "share" "go-mod-cache")
 $env.FZF_DEFAULT_COMMAND = 'fd --type f --hidden --exclude ".git"'
 $env.FZF_DEFAULT_OPTS = [
-  '--color=fg:7,fg+:15,bg:0,bg+:8'              # fg: ansi[7], fg+: white, bg: ansi[0], bg+: brights[0]
-  '--color=hl:1,hl+:2,info:3,marker:2'          # hl: ansi[1], hl+: ansi[2], info: ansi[3], marker: ansi[2]
-  '--color=prompt:3,spinner:1,pointer:2,header:6' # prompt: ansi[3], spinner: ansi[1], pointer: ansi[2], header: ansi[6]
-  '--color=border:8,label:4,query:15'           # border: brights[0], label: ansi[4], query: white
+  '--color=fg:8:bold,fg+:15,bg:-1,bg+:-1'
+  '--color=hl:10:bold,hl+:10:bold'
+  '--color=info:8,spinner:9,header:4'
+  '--color=prompt:2,pointer:9,marker:1'
+  '--color=border:7,label:15:bold,query:15'
   '--border="rounded"'
   '--border-label=""'
   '--preview-window="border-rounded"'
   '--prompt="> "'
-  '--marker=">"'
+  '--marker=" "'
   '--pointer="◆"'
-  '--separator="─"'
-  '--scrollbar="│"'
+  '--separator=""'
+  '--scrollbar=""'
+  '--gutter=" "'
+  '--info=inline-right'
 ] | str join ' '
 path add ~/.tmux/plugins/t-smart-tmux-session-manager/bin
 path add ~/.deno/bin
