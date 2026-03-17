@@ -10,5 +10,6 @@
 require("config.options")
 require("core.lazy")
 require("core.lsp")
+require("core.treesitter")
 require("config.keymaps")
 require("config.autocmds")

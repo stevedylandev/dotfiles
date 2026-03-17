@@ -6,6 +6,12 @@ vim.api.nvim_create_autocmd('TextYankPost', {
   end,
 })
 
+vim.api.nvim_create_autocmd("FileType", {
+    callback = function(ev)
+        pcall(vim.treesitter.start, ev.buf)
+    end
+})
+
 -- Reload files automatically if edited externally
 vim.api.nvim_create_autocmd({ "FocusGained", "BufEnter", "CursorHold", "CursorHoldI" }, {
   pattern = "*",
