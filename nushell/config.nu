@@ -900,6 +900,11 @@ $env.config.hooks.env_change.PWD = [...$env.config.hooks.env_change.PWD
       }
     }]
 
+def tsi [parser: string] {
+  let tree = $"($env.HOME)/.local/share/nvim/site"
+  luarocks --lua-version=5.1 $"--tree=($tree)" install $"tree-sitter-($parser)"
+}
+
 # Function to open sesh
 def t [] {
   let selected = (sesh list -i | gum filter --limit 1 --placeholder "Choose a session" --height 50 --prompt="> " --indicator.foreground="2" --match.foreground="2")
