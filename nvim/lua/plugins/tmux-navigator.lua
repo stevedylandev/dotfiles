@@ -1,3 +1,5 @@
+local opts = { noremap = true, silent = true }
+
 return {
     "christoomey/vim-tmux-navigator",
     config = function()
