@@ -1,6 +1,7 @@
 return {
   'echasnovski/mini.nvim',
   version = '*',
+  dependencies = { 'rafamadriz/friendly-snippets' },
   config = function()
     local win_config = function()
       local height = math.floor(0.618 * vim.o.lines)
@@ -46,6 +47,7 @@ return {
         gen_loader.from_lang(),
       },
     })
+    MiniSnippets.start_lsp_server()
 
     require('mini.files').setup({
       mappings = {
@@ -53,6 +55,17 @@ return {
         go_in_plus = '<CR>'
       }
     })
+
+    require('mini.icons').setup()
+    vim.api.nvim_set_hl(0, 'MiniIconsAzure',  { fg = vim.g.terminal_color_12 })
+    vim.api.nvim_set_hl(0, 'MiniIconsBlue',   { fg = vim.g.terminal_color_4 })
+    vim.api.nvim_set_hl(0, 'MiniIconsCyan',    { fg = vim.g.terminal_color_6 })
+    vim.api.nvim_set_hl(0, 'MiniIconsGreen',   { fg = vim.g.terminal_color_2 })
+    vim.api.nvim_set_hl(0, 'MiniIconsGrey',    { fg = vim.g.terminal_color_8 })
+    vim.api.nvim_set_hl(0, 'MiniIconsOrange',  { fg = vim.g.terminal_color_3 })
+    vim.api.nvim_set_hl(0, 'MiniIconsPurple',  { fg = vim.g.terminal_color_5 })
+    vim.api.nvim_set_hl(0, 'MiniIconsRed',     { fg = vim.g.terminal_color_1 })
+    vim.api.nvim_set_hl(0, 'MiniIconsYellow',  { fg = vim.g.terminal_color_11 })
 
     require('mini.surround').setup({
       mappings = {
