@@ -21,6 +21,7 @@ map("n", "<leader>c", ":bd<cr>", opts)
 -- Quickfix
 map("n", "<C-n>", "<cmd>cnext<CR>zz", opts)
 map("n", "<C-m>", "<cmd>cprev<CR>zz", opts)
+map("n", "<leader>q", "<cmd>copen<CR>", opts)
 map("n", "<leader>a", "<cmd>cclose<CR>", opts)
 
 -- Search

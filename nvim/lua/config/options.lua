@@ -56,6 +56,7 @@ vim.opt.fillchars = {
   eob = " ",
 }
 vim.opt.list = false
+vim.opt.shell = "sh"
 
 if vim.fn.has("nvim-0.10") == 1 then
   vim.opt.smoothscroll = true
