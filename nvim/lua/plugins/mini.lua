@@ -16,7 +16,7 @@ return {
     end
     require("mini.pick").setup({
       mappings = {
-        choose_marked = '<C-m>',
+        choose_marked = '<C-y>',
         move_down     = '<C-j>',
         move_up       = '<C-k>',
       },
