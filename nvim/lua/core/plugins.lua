@@ -3,16 +3,13 @@
 -- ============================================================================
 vim.pack.add({
 	"https://github.com/stevedylandev/darkmatter-nvim",
+  'https://github.com/echasnovski/mini.nvim',
 })
 vim.cmd.colorscheme('darkmatter')
 
 -- ============================================================================
 -- Mini.nvim — startup modules
 -- ============================================================================
-vim.pack.add({
-  'https://github.com/echasnovski/mini.nvim',
-})
-
 local win_config = function()
   local height = math.floor(0.618 * vim.o.lines)
   local width = math.floor(0.618 * vim.o.columns)
@@ -52,7 +49,6 @@ vim.api.nvim_set_hl(0, 'MiniIconsYellow', { fg = vim.g.terminal_color_11 })
 require('mini.diff').setup({
   view = {
     style = vim.go.number and 'sign' or 'number',
-
     signs = {
       add = "+",
       change = "~",
@@ -61,29 +57,7 @@ require('mini.diff').setup({
       changedelete = "▎",
       untracked = "+"
     },
-
     priority = 199,
-  },
-
-  delay = {
-    text_change = 200,
-  },
-
-  mappings = {
-    apply = 'gh',
-    reset = 'gH',
-    textobject = 'gh',
-    goto_first = '[H',
-    goto_prev = '[h',
-    goto_next = ']h',
-    goto_last = ']H',
-  },
-
-  options = {
-    algorithm = 'histogram',
-    indent_heuristic = true,
-    linematch = 60,
-    wrap_goto = false,
   },
 })
 require('mini.statusline').setup()
