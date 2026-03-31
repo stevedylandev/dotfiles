@@ -4,6 +4,12 @@ local map = vim.api.nvim_set_keymap
 -- Saving
 map("n", "++", "<cmd>write!<CR>", opts)
 
+-- Tmux Navigation
+map("n", "<C-h>", "<cmd>TmuxNavigateLeft<CR>", opts)
+map("n", "<C-j>", "<cmd>TmuxNavigateDown<CR>", opts)
+map("n", "<C-k>", "<cmd>TmuxNavigateUp<CR>", opts)
+map("n", "<C-l>", "<cmd>TmuxNavigateRight<CR>", opts)
+
 -- Navigation
 map("n", "j", "gj", opts)
 map("n", "k", "gk", opts)
