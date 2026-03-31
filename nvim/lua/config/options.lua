@@ -17,7 +17,7 @@ vim.opt.ignorecase = true      -- Ignore case
 vim.opt.inccommand = "nosplit" -- preview incremental substitute
 vim.opt.incsearch = true
 vim.opt.laststatus = 3         -- global statusline
-vim.opt.list = true            -- Show some invisible characters (tabs...
+vim.opt.list = false           -- Don't show invisible characters
 vim.opt.mouse = "a"            -- Enable mouse mode
 vim.opt.number = true          -- Print line number
 vim.opt.pumblend = 10          -- Popup blend
@@ -55,12 +55,17 @@ vim.opt.fillchars = {
   diff = "╱",
   eob = " ",
 }
-vim.opt.list = false
 vim.opt.shell = "sh"
 
 if vim.fn.has("nvim-0.10") == 1 then
   vim.opt.smoothscroll = true
 end
+
+-- Treesitter folding
+vim.o.foldenable = true
+vim.o.foldlevel = 99
+vim.o.foldmethod = "expr"
+vim.o.foldexpr = "v:lua.vim.treesitter.foldexpr()"
 
 -- Fix markdown indentation settings
 vim.g.markdown_recommended_style = 0

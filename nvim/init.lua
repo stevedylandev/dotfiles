@@ -1,5 +1,5 @@
 require("config.options")
-require("core.lazy")
+require("core.plugins")
 require("core.lsp")
 require("core.treesitter")
 require("config.keymaps")
