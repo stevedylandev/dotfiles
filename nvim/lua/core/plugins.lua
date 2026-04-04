@@ -69,6 +69,7 @@ require('mini.extra').setup()
 vim.schedule(function()
   vim.pack.add({
     "https://github.com/christoomey/vim-tmux-navigator",
+    "https://github.com/rafamadriz/friendly-snippets",
   })
 
   require("mini.comment").setup({
@@ -99,15 +100,19 @@ end)
 vim.api.nvim_create_autocmd('InsertEnter', { once = true, callback = function()
   require("mini.completion").setup({
     mappings = {
-      scroll_down = '<C-j>',
-      scroll_up = '<C-k>',
+      scroll_down = '',
+      scroll_up = '',
     },
   })
 
   local gen_loader = require('mini.snippets').gen_loader
   require('mini.snippets').setup({
     snippets = {
+      gen_loader.from_runtime("snippets"),
       gen_loader.from_lang(),
+    },
+    mappings = {
+      expand = '',
     },
   })
   MiniSnippets.start_lsp_server()
