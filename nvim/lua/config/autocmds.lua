@@ -8,7 +8,10 @@ vim.api.nvim_create_autocmd('TextYankPost', {
 
 vim.api.nvim_create_autocmd("FileType", {
     callback = function(ev)
-        pcall(vim.treesitter.start, ev.buf)
+        local lang = vim.treesitter.language.get_lang(ev.match) or ev.match
+        if vim.treesitter.language.add(lang) then
+            vim.treesitter.start(ev.buf, lang)
+        end
     end
 })
 
