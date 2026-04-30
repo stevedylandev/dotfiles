@@ -6,6 +6,8 @@ if wezterm.config_builder then
   config = wezterm.config_builder()
 end
 
+config.warn_about_missing_glyphs = false
+
 -- config.color_scheme = 'Compline'
 -- config.color_schemes = {
 --   ["Compline"] = {
