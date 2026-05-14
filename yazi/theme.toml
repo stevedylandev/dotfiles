@@ -1,0 +1,135 @@
+[mgr]
+cwd = { fg = "yellow" }
+
+find_keyword  = { fg = "yellow", italic = true }
+find_position = { fg = "magenta", bg = "reset", italic = true }
+
+marker_copied   = { fg = "green",  bg = "green" }
+marker_cut      = { fg = "red",    bg = "red" }
+marker_marked   = { fg = "cyan",   bg = "cyan" }
+marker_selected = { fg = "yellow", bg = "yellow" }
+
+count_copied   = { fg = "black", bg = "green" }
+count_cut      = { fg = "black", bg = "red" }
+count_selected = { fg = "black", bg = "yellow" }
+
+border_symbol = "│"
+border_style  = { fg = "white" }
+
+syntect_theme = ""
+
+[tabs]
+active   = { fg = "black", bg = "white" }
+inactive = { fg = "white", bg = "black" }
+
+[mode]
+normal_main = { fg = "black", bg = "yellow", bold = true }
+normal_alt  = { fg = "yellow", bg = "black" }
+
+select_main = { fg = "black", bg = "green", bold = true }
+select_alt  = { fg = "green", bg = "black" }
+
+unset_main  = { fg = "black", bg = "magenta", bold = true }
+unset_alt   = { fg = "magenta", bg = "black" }
+
+[status]
+sep_left  = { open = "", close = "" }
+sep_right = { open = "", close = "" }
+
+progress_label  = { bold = true }
+progress_normal = { fg = "blue",   bg = "black" }
+progress_error  = { fg = "red",    bg = "black" }
+
+perm_type  = { fg = "cyan" }
+perm_read  = { fg = "yellow" }
+perm_write = { fg = "red" }
+perm_exec  = { fg = "green" }
+perm_sep   = { fg = "white" }
+
+[pick]
+border   = { fg = "yellow" }
+active   = { fg = "magenta" }
+inactive = {}
+
+[input]
+border   = { fg = "yellow" }
+title    = {}
+value    = {}
+selected = { reversed = true }
+
+[cmp]
+border   = { fg = "yellow" }
+active   = { bg = "black" }
+inactive = {}
+
+icon_file    = ""
+icon_folder  = ""
+icon_command = ""
+
+[tasks]
+border  = { fg = "yellow" }
+title   = {}
+hovered = { underline = true }
+
+[which]
+mask            = { bg = "black" }
+cand            = { fg = "cyan" }
+rest            = { fg = "white" }
+desc            = { fg = "magenta" }
+separator       = "  "
+separator_style = { fg = "black" }
+
+[help]
+on      = { fg = "cyan" }
+run     = { fg = "magenta" }
+hovered = { reversed = true, bold = true }
+footer  = { fg = "white", bg = "black" }
+
+[notify]
+title_info  = { fg = "green" }
+title_warn  = { fg = "yellow" }
+title_error = { fg = "red" }
+
+icon_info  = ""
+icon_warn  = ""
+icon_error = ""
+
+[icon]
+prepend_dirs = [
+	{ name = "Desktop", text = "", fg = "blue" },
+	{ name = "Downloads", text = "", fg = "blue" },
+	{ name = "Developer", text = "󱌣", fg = "blue" },
+	{ name = "Pictures", text = "", fg = "blue" },
+	{ name = "Documents", text = "", fg = "blue" },
+	{ name = "Movies", text = "", fg = "blue" },
+	{ name = "Library", text = "", fg = "blue" },
+	{ name = "Music", text = "", fg = "blue" },
+	{ name = "Public", text = "󰛳", fg = "blue" },
+]
+prepend_conds = [
+  { if = "dir",          text = "󰉋", fg = "blue" },
+  { if = "hidden & dir", text = "󰉋", fg = "blue" },
+  { if = "link",         text = "󰌹", fg = "cyan" },
+  { if = "orphan",       text = "", fg = "red" },
+  { if = "exec",         text = "", fg = "green" },
+  { if = "hidden",       text = "", fg = "yellow" },
+]
+
+prepend_exts = [
+  { name = "png",        text = "", fg = "red" },
+  { name = "jpg",        text = "", fg = "red" },
+  { name = "jpeg",        text = "", fg = "red" },
+  { name = "webp",        text = "", fg = "red" },
+  { name = "gif",        text = "", fg = "red" },
+  { name = "csv",        text = "", fg = "red" },
+]
+
+[filetype]
+rules = [
+  { mime = "image/*", fg = "cyan" },
+  { mime = "{audio,video}/*", fg = "yellow" },
+  { mime = "application/{zip,rar,7z*,tar,gzip,xz,zstd,bzip*,lzma,compress,archive,cpio,arj,xar,ms-cab*}", fg = "magenta" },
+  { mime = "application/{pdf,doc*,rtf}", fg = "green" },
+  { url = "*/", fg = "blue" },
+  { url = "*",  fg = "white" },
+]
