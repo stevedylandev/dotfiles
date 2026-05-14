@@ -6,17 +6,25 @@
 [alias]
 	ac = "!f() { git add . && git commit -m \"$1\"; }; f"
 	wip = "!f() { git add . && git commit -m \"wip\" && git push; }; f"
+	d = difftool -y --tool=oy
+
+[difftool "oy"]
+	cmd = oy "$LOCAL" "$REMOTE"
+
+[difftool]
+	prompt = false
 
 [column]
   ui = auto
 
 [branch]
-  sort = -comitterdate
+  sort = -committerdate
 
 [init]
   defaultBranch = main
 
 [diff]
+  tool = oy
   algorithm = histogram
   colorMoved = plain
   mnemonicPrefix = true
