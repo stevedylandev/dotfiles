@@ -106,6 +106,8 @@ source ~/.cargo/env.nu
 
 $env.EDITOR = "nvim"
 
+$env.BULLETS_FEEDS = "feeds.stevedylan.dev/feed.xml"
+
 zoxide init nushell | save -f ~/.zoxide.nu
 mkdir ~/.cache/starship
 starship init nu | save -f ~/.cache/starship/init.nu
