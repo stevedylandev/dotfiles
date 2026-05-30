@@ -966,6 +966,10 @@ def ginit [
   echo "Repository initialized with .gitignore template!"
 }
 
+def blogdate [] {
+  date now | date to-timezone UTC | format date "%Y-%m-%dT%H:%M:%SZ"
+}
+
 alias ll = ls -l
 alias la = ls -a
 alias lg = lazygit
