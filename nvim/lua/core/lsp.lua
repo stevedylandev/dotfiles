@@ -4,7 +4,6 @@ vim.lsp.enable({
   "lua_ls",
   "tsserver",
   "rust-analyzer",
-  "asm-lsp",
   "solc",
   "html",
   "json"
