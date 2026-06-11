@@ -56,10 +56,7 @@ vim.opt.fillchars = {
   eob = " ",
 }
 vim.opt.shell = "sh"
-
-if vim.fn.has("nvim-0.10") == 1 then
-  vim.opt.smoothscroll = true
-end
+vim.opt.smoothscroll = true
 
 -- Treesitter folding
 vim.o.foldenable = true
