@@ -100,13 +100,14 @@ $env.PNPM_HOME = ($env.HOME | path join "Library" "pnpm")
 $env.PATH = ($env.PATH | split row (char esep) | prepend $env.PNPM_HOME )
 
 $env.GPG_TTY = (tty)
-# source ~/.config/nushell/darkmatter.nu
+source ~/.config/nushell/darkmatter.nu
 source ~/.config/nushell/git-completions.nu
 source ~/.cargo/env.nu
 
 $env.EDITOR = "nvim"
 
-zoxide init nushell | save -f ~/.zoxide.nu
+$env.BULLETS_FEEDS = "feeds.stevedylan.dev/feed.xml"
+
 mkdir ~/.cache/starship
 starship init nu | save -f ~/.cache/starship/init.nu
 

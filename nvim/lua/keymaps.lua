@@ -38,7 +38,6 @@ map("n", "<leader>hh", "<cmd>Pick help<CR>", opts)
 
 -- Diagnostics
 map("n", "<leader>d", "<cmd>Pick diagnostic<CR>", opts)
-map("n", "<leader>dd", "<cmd>lua vim.diagnostic.open_float({ border = 'rounded' })<CR>", opts)
 
 -- Git
 map("n", "<leader>gg", "<cmd>lua MiniDiff.toggle_overlay()<CR>", opts)

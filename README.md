@@ -1,6 +1,6 @@
 # Dotfiles
 
-A collection of MacOS dotfiles I use in my developement environment
+A collection of MacOS dotfiles I use in my development environment
 
 ![screenshot](assets/screenshot.png)
 

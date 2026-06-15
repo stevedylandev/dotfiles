@@ -966,6 +966,10 @@ def ginit [
   echo "Repository initialized with .gitignore template!"
 }
 
+def blogdate [] {
+  date now | date to-timezone UTC | format date "%Y-%m-%dT%H:%M:%SZ"
+}
+
 alias ll = ls -l
 alias la = ls -a
 alias lg = lazygit
@@ -983,5 +987,5 @@ alias keys = keysmasher
 
 mkdir ($nu.data-dir | path join "vendor/autoload")
 starship init nu | save -f ($nu.data-dir | path join "vendor/autoload/starship.nu")
-source ~/.zoxide.nu
+source ~/.config/nushell/zoxide.nu
 source ~/.cargo/env.nu

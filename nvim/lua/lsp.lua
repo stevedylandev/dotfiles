@@ -4,7 +4,6 @@ vim.lsp.enable({
   "lua_ls",
   "tsserver",
   "rust-analyzer",
-  "asm-lsp",
   "solc",
   "html",
   "json"
@@ -16,9 +15,6 @@ vim.api.nvim_create_autocmd("LspAttach", {
     local map = function(keys, func, desc)
       vim.keymap.set("n", keys, func, { buffer = event.buf, desc = "LSP: " .. desc })
     end
-
-    -- defaults:
-    -- https://neovim.io/doc/user/news-0.11.html#_defaults
 
     map("gl", vim.diagnostic.open_float, "Open Diagnostic Float")
     map("K", vim.lsp.buf.hover, "Hover Documentation")
@@ -42,12 +38,12 @@ vim.api.nvim_create_autocmd("LspAttach", {
       local highlight_augroup = vim.api.nvim_create_augroup('lsp-highlight', { clear = false })
 
       -- When cursor stops moving: Highlights all instances of the symbol under the cursor
-      -- When cursor moves: Clears the highlighting
       vim.api.nvim_create_autocmd({ 'CursorHold', 'CursorHoldI' }, {
         buffer = event.buf,
         group = highlight_augroup,
         callback = vim.lsp.buf.document_highlight,
       })
+      -- When cursor moves: Clears the highlighting
       vim.api.nvim_create_autocmd({ 'CursorMoved', 'CursorMovedI' }, {
         buffer = event.buf,
         group = highlight_augroup,

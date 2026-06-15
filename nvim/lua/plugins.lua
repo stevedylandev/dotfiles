@@ -1,15 +1,11 @@
--- ============================================================================
--- Colorscheme (must load at startup)
--- ============================================================================
+-- Colorscheme
 vim.pack.add({
 	"https://github.com/stevedylandev/darkmatter-nvim",
   'https://github.com/echasnovski/mini.nvim',
 })
 vim.cmd.colorscheme('darkmatter')
 
--- ============================================================================
 -- Mini.nvim — startup modules
--- ============================================================================
 local win_config = function()
   local height = math.floor(0.618 * vim.o.lines)
   local width = math.floor(0.618 * vim.o.columns)
@@ -63,9 +59,7 @@ require('mini.diff').setup({
 require('mini.statusline').setup()
 require('mini.extra').setup()
 
--- ============================================================================
 -- Deferred — loads right after startup via vim.schedule()
--- ============================================================================
 vim.schedule(function()
   vim.pack.add({
     "https://github.com/christoomey/vim-tmux-navigator",
@@ -94,9 +88,7 @@ vim.schedule(function()
   })
 end)
 
--- ============================================================================
 -- Lazy — loads on InsertEnter
--- ============================================================================
 vim.api.nvim_create_autocmd('InsertEnter', { once = true, callback = function()
   require("mini.completion").setup({
     mappings = {
