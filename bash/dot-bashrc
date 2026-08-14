@@ -1,0 +1,222 @@
+# ~/.bashrc — mirrors the nushell config
+#
+# Linked via: fling link -s bash -l ~
+
+# Interactive-only guard
+case $- in
+  *i*) ;;
+  *) return ;;
+esac
+
+# =============================================================================
+# History
+# =============================================================================
+HISTSIZE=100000
+HISTFILESIZE=100000
+HISTCONTROL=ignoreboth
+shopt -s histappend
+
+# vi mode (matches nushell edit_mode: vi)
+set -o vi
+
+# =============================================================================
+# Environment
+# =============================================================================
+export EDITOR="nvim"
+export CLICOLOR=1
+
+# Go
+export GOROOT="/usr/local/go"
+export GOPATH="$HOME/.local/share/go"
+export GOMODCACHE="$HOME/.local/share/go-mod-cache"
+#export GOPRIVATE="*gitlab*"
+
+# bat
+export BAT_THEME="ansi"
+export BAT_THEME_DARK="ansi"
+
+# gpg
+export GPG_TTY="$(tty)"
+
+# misc
+export BULLETS_FEEDS="feeds.stevedylan.dev/feed.xml"
+export FLOW_BOARD_PATH="$HOME/notes/board"
+
+# pnpm
+export PNPM_HOME="$HOME/.local/share/pnpm"
+
+# fzf
+export FZF_DEFAULT_COMMAND='fd --type f --hidden --exclude ".git"'
+export FZF_DEFAULT_OPTS='
+  --color=fg:8:bold,fg+:15,bg:-1,bg+:-1
+  --color=hl:10:bold,hl+:10:bold
+  --color=info:8,spinner:9,header:4
+  --color=prompt:2,pointer:9,marker:1
+  --color=border:7,label:15:bold,query:15
+  --border="rounded"
+  --border-label=""
+  --preview-window="border-rounded"
+  --prompt="> "
+  --marker=" "
+  --pointer="◆"
+  --separator=""
+  --scrollbar=""
+  --gutter=" "
+  --info=inline-right'
+
+# =============================================================================
+# PATH
+# =============================================================================
+# path_add <dir>: prepend if not already present and dir exists
+path_add() {
+  case ":$PATH:" in
+    *":$1:"*) ;;
+    *) [ -d "$1" ] && PATH="$1:$PATH" ;;
+  esac
+}
+
+path_add "/home/linuxbrew/.linuxbrew/bin"
+path_add "/usr/local/go/bin"
+path_add "$HOME/.cargo/bin"
+path_add "$HOME/.local/share/go/bin"
+path_add "$HOME/.local/bin"
+path_add "/usr/local/bin"
+path_add "$HOME/.bun/bin"
+path_add "$HOME/.deno/bin"
+path_add "$HOME/.foundry/bin"
+path_add "$HOME/.local/share"
+path_add "$HOME/.local/share/solana/install/active_release/bin"
+path_add "$HOME/.radicle/bin"
+path_add "$HOME/.nargo/bin"
+path_add "$HOME/.aztec/bin"
+path_add "$HOME/.helios/bin"
+path_add "$HOME/.tmux/plugins/t-smart-tmux-session-manager/bin"
+path_add "$PNPM_HOME"
+
+export PATH
+
+# fnm (node version manager)
+if command -v fnm >/dev/null 2>&1; then
+  eval "$(fnm env --shell bash)"
+  path_add "$FNM_MULTISHELL_PATH/bin"
+  export PATH
+  # auto-switch node version on cd when .node-version / .nvmrc present
+  __fnm_autouse() {
+    if [ -f .node-version ] || [ -f .nvmrc ]; then
+      fnm use --silent-if-unchanged 2>/dev/null
+    fi
+  }
+  PROMPT_COMMAND="__fnm_autouse${PROMPT_COMMAND:+; $PROMPT_COMMAND}"
+fi
+
+# cargo
+[ -f "$HOME/.cargo/env" ] && . "$HOME/.cargo/env"
+
+# =============================================================================
+# Aliases
+# =============================================================================
+alias ll='ls -l'
+alias la='ls -a'
+alias lg='lazygit'
+alias nf='neofetch'
+alias fl='fastfetch -c ~/.config/fastfetch/presets/examples/8.jsonc'
+alias ff='fastfetch -c ~/.config/fastfetch/presets/examples/20.jsonc'
+alias nvimrc='nvim ~/.config/nvim'
+alias shitter='ssh itter'
+alias ai='aichat'
+alias system='macchina'
+alias bonsai='cbonsai -li -t 0.4'
+alias lst='lstr --icons --color=always --size'
+alias keys='keysmasher'
+alias timestamp='node -e "process.stdout.write(new Date().toISOString())"'
+
+# tailscale is in PATH natively on linux (no app bundle alias needed)
+
+# =============================================================================
+# Functions
+# =============================================================================
+# Open a sesh session via gum filter
+t() {
+  local selected
+  selected=$(sesh list -i | gum filter --limit 1 --placeholder "Choose a session" --height 50 --prompt="> " --indicator.foreground="2" --match.foreground="2")
+  if [ -z "$selected" ]; then
+    echo "No session selected"
+  else
+    sesh connect "$selected"
+  fi
+}
+
+# Fuzzy-find a file and open in nvim
+nvimf() {
+  local file
+  file=$(fd --type f --hidden --exclude .git | fzf --preview "bat --color=always {}")
+  if [ -z "$file" ]; then
+    echo "No file selected"
+  else
+    nvim "$file"
+  fi
+}
+
+# Install a tree-sitter parser into the nvim luarocks tree
+tsi() {
+  local parser="$1"
+  local tree="$HOME/.local/share/nvim/site"
+  luarocks --lua-version=5.1 "--tree=$tree" install "tree-sitter-$parser"
+}
+
+# nvim startup time -> grep summary line
+ns() {
+  rm -f ~/.nvim-startup.txt
+  nvim --headless --startuptime ~/.nvim-startup.txt +qa
+  grep "NVIM STARTED" ~/.nvim-startup.txt
+}
+
+# nvim startup time -> full bat dump
+nh() {
+  rm -f ~/.nvim-startup.txt
+  nvim --headless --startuptime ~/.nvim-startup.txt +qa
+  bat ~/.nvim-startup.txt
+}
+
+# Copy file contents to clipboard
+cpf() {
+  if command -v wl-copy >/dev/null 2>&1; then
+    wl-copy < "$1"
+  elif command -v xclip >/dev/null 2>&1; then
+    xclip -selection clipboard < "$1"
+  elif command -v xsel >/dev/null 2>&1; then
+    xsel --clipboard --input < "$1"
+  else
+    echo "No clipboard tool found (wl-copy/xclip/xsel)" >&2
+    return 1
+  fi
+  echo "✔︎ Copied to clipboard!"
+}
+
+# Set orbiter key to personal
+orbiter-personal() {
+  gum spin --spinner dot --spinner.foreground="2" --title "Updating..." -- orbiter auth --key "$(op read 'op://Personal/orbiter-api-key/credential')"
+  local check
+  check=$(gum style --foreground="2" "✓ ")
+  gum join "$check" "Orbiter key set to personal!"
+}
+
+# Set orbiter key to orbiter account
+orbiter-account() {
+  gum spin --spinner dot --spinner.foreground="2" --title "Updating..." -- orbiter auth --key "$(op read 'op://Personal/orbiter-account-api-key/credential')"
+  local check
+  check=$(gum style --foreground="2" "✓ ")
+  gum join "$check" "Orbiter key set to Orbiter account!"
+}
+
+# UTC timestamp for blog frontmatter
+blogdate() {
+  date -u +"%Y-%m-%dT%H:%M:%SZ"
+}
+
+# =============================================================================
+# Tooling init
+# =============================================================================
+command -v zoxide >/dev/null 2>&1 && eval "$(zoxide init bash)"
+command -v starship >/dev/null 2>&1 && eval "$(starship init bash)"
+command -v fzf >/dev/null 2>&1 && eval "$(fzf --bash)"

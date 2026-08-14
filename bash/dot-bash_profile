@@ -1,0 +1,4 @@
+# ~/.bash_profile
+# Login shells read this, not ~/.bashrc.
+# Source ~/.bashrc so interactive config loads either way.
+[ -f ~/.bashrc ] && . ~/.bashrc
