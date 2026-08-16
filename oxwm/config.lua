@@ -22,7 +22,7 @@
 local modkey = "Mod4"
 
 -- Terminal emulator command (defaults to alacritty)
-local terminal = "alacritty"
+local terminal = "wezterm"
 
 -- Color palette - customize these to match your theme
 -- Alternatively you can import other files in here, such as
@@ -118,13 +118,13 @@ oxwm.set_tags(tags)
 -------------------------------------------------------------------------------
 -- Set custom symbols for layouts (displayed in the status bar)
 -- Available layouts: "tiling", "normie" (floating), "grid", "monocle", "tabbed", "dwindle"
-oxwm.set_layout_symbol("tiling", "[T]")
 oxwm.set_layout_symbol("normie", "[F]")
+oxwm.set_layout_symbol("tiling", "[T]")
 oxwm.set_layout_symbol("tabbed", "[=]")
--- oxwm.set_layout_symbol("dwindle", "[\\]")
+oxwm.set_layout_symbol("dwindle", "[\\]")
 
 -- Example: bind dwindle (fibonacci) layout
--- oxwm.key.bind({ modkey }, "R", oxwm.layout.set("dwindle"))
+oxwm.key.bind({ modkey }, "R", oxwm.layout.set("dwindle"))
 
 -- Set default layout of specific tag (tag_index, layout_name)
 -- Unset value uses oxwm.set_layout value
@@ -144,14 +144,14 @@ oxwm.border.set_unfocused_color(colors.grey)
 
 -- Where floating windows spawn: "top-left", "top-center", "top-right",
 -- "center-left", "center", "center-right", "bottom-left", "bottom-center", "bottom-right"
-oxwm.set_floating_position("center")
+oxwm.set_floating_position("top-right")
 
 -- Smart Enabled = No border if 1 window
 oxwm.gaps.set_smart(true)
 -- Inner gaps (horizontal, vertical) in pixels
-oxwm.gaps.set_inner(5, 5)
+oxwm.gaps.set_inner(10, 10)
 -- Outer gaps (horizontal, vertical) in pixels
-oxwm.gaps.set_outer(5, 5)
+oxwm.gaps.set_outer(10, 10)
 
 -------------------------------------------------------------------------------
 -- Window Rules
@@ -166,7 +166,8 @@ oxwm.gaps.set_outer(5, 5)
 -- - Configure window behavior based on title or class
 
 -- Examples (uncomment to use):
-oxwm.rule.add({ instance = "gimp", floating = true })
+oxwm.rule.add({ instance = "chromium", floating = true, tag = 2 })
+oxwm.rule.add({ instance = "gimp", floating = true})
 -- oxwm.rule.add({ class = "Alacritty", tag = 9, focus = true })
 -- oxwm.rule.add({ class = "firefox", title = "Library", floating = true })
 -- oxwm.rule.add({ class = "firefox", tag = 2 })
@@ -218,16 +219,16 @@ oxwm.bar.set_scheme_urgent(colors.red, colors.bg, colors.red)
 oxwm.key.bind({ modkey }, "Return", oxwm.spawn_terminal())
 -- Launch Dmenu
 oxwm.key.bind({ modkey }, "D", oxwm.spawn({ "sh", "-c", "dmenu_run -l 10" }))
--- Copy screenshot to clipboard
-oxwm.key.bind({ modkey }, "S", oxwm.spawn({ "sh", "-c", "maim -s | xclip -selection clipboard -t image/png" }))
+-- Save screenshot to ~/Downloads
+oxwm.key.bind({ modkey }, "S", oxwm.spawn({ "sh", "-c", "maim -s ~/Downloads/screenshot-$(date +%Y%m%d-%H%M%S).png" }))
 oxwm.key.bind({ modkey }, "W", oxwm.client.kill())
 
 -- Keybind overlay - Shows important keybindings on screen
 oxwm.key.bind({ modkey, "Shift" }, "Slash", oxwm.show_keybinds())
 
 -- Window state toggles
-oxwm.key.bind({ modkey, "Shift" }, "F", oxwm.client.toggle_fullscreen())
-oxwm.key.bind({ modkey, "Shift" }, "Space", oxwm.client.toggle_floating())
+--oxwm.key.bind({ modkey, "Shift" }, "A", oxwm.client.toggle_fullscreen())
+oxwm.key.bind({ modkey, "Shift" }, "F", oxwm.client.toggle_floating())
 
 -- Layout management
 oxwm.key.bind({ modkey }, "F", oxwm.layout.set("normie"))

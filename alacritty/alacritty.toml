@@ -9,7 +9,7 @@ decorations = "None"
 dimensions = { columns = 85, lines = 30 }
 padding = { x = 10, y = 4 }
 dynamic_padding = false
-opacity = 1.0
+opacity = 0.9
 
 [font]
 size = 11

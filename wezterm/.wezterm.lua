@@ -54,6 +54,7 @@ config.color_schemes = {
 config.font = wezterm.font('BerkeleyMono Nerd Font')
 config.font_size = 14
 
+config.front_end = "WebGpu"
 
 config.enable_tab_bar = false
 config.window_decorations = "RESIZE"
