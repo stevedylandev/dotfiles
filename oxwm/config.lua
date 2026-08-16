@@ -147,11 +147,11 @@ oxwm.border.set_unfocused_color(colors.grey)
 oxwm.set_floating_position("top-right")
 
 -- Smart Enabled = No border if 1 window
-oxwm.gaps.set_smart(true)
+oxwm.gaps.set_smart(false)
 -- Inner gaps (horizontal, vertical) in pixels
-oxwm.gaps.set_inner(10, 10)
+oxwm.gaps.set_inner(12, 12)
 -- Outer gaps (horizontal, vertical) in pixels
-oxwm.gaps.set_outer(10, 10)
+oxwm.gaps.set_outer(12, 12)
 
 -------------------------------------------------------------------------------
 -- Window Rules
@@ -167,6 +167,7 @@ oxwm.gaps.set_outer(10, 10)
 
 -- Examples (uncomment to use):
 oxwm.rule.add({ instance = "chromium", floating = true, tag = 2 })
+oxwm.rule.add({ instance = "helium.AppImage", floating = true, tag = 2 })
 oxwm.rule.add({ instance = "gimp", floating = true})
 -- oxwm.rule.add({ class = "Alacritty", tag = 9, focus = true })
 -- oxwm.rule.add({ class = "firefox", title = "Library", floating = true })
