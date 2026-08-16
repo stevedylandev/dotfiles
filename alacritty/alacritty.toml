@@ -12,7 +12,7 @@ dynamic_padding = false
 opacity = 1.0
 
 [font]
-size = 14
+size = 11
 
 [font.normal]
 family = "BerkeleyMono Nerd Font"
