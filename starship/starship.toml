@@ -38,9 +38,9 @@ style_root = "white bold"
 format = '[$user ]($style)'
 
 [character]
-success_symbol = " [](bold white)"
-error_symbol = " [](bold red)"
-vimcmd_symbol = " [](bold yellow)"
+success_symbol = " [](bold white)"
+error_symbol = " [](bold red)"
+vimcmd_symbol = " [](bold yellow)"
 # vimcmd_replace_one_symbol = "◌"
 # vimcmd_replace_symbol = "□"
 # vimcmd_visual_symbol = "▼"
