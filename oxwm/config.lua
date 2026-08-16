@@ -59,28 +59,28 @@ local blocks = {
     oxwm.bar.block.ram({
         format = "Ram: {used}/{total} GB",
         interval = 5,
-        color = colors.light_blue,
+        color = colors.blue,
         underline = true,
     }),
     oxwm.bar.block.static({
         text = "│",
         interval = 999999999,
-        color = colors.lavender,
+        color = colors.green,
         underline = false,
     }),
-    oxwm.bar.block.shell({
-        format = "{}",
-        command = "uname -r",
-        interval = 999999999,
-        color = colors.red,
-        underline = true,
-    }),
-    oxwm.bar.block.static({
-        text = "│",
-        interval = 999999999,
-        color = colors.lavender,
-        underline = false,
-    }),
+    -- oxwm.bar.block.shell({
+    --     format = "{}",
+    --     command = "uname -r",
+    --     interval = 999999999,
+    --     color = colors.red,
+    --     underline = true,
+    -- }),
+    -- oxwm.bar.block.static({
+    --     text = "│",
+    --     interval = 999999999,
+    --     color = colors.lavender,
+    --     underline = false,
+    -- }),
     oxwm.bar.block.datetime({
         format = "{}",
         date_format = "%a, %b %d - %-I:%M %P",
