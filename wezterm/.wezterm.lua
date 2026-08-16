@@ -72,7 +72,7 @@ config.initial_rows = 30
 config.keys = {
   {
     key = 'k',
-    mods = 'SUPER',
+    mods = 'SUPER|CTRL',
     action = wezterm.action.Multiple {
       wezterm.action.SendKey { key = 'q', mods = 'CTRL' },  -- send prefix (C-q)
       wezterm.action.SendKey { key = 'T' },                  -- send T

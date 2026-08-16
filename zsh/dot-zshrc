@@ -138,7 +138,7 @@ alias fl='fastfetch -c ~/.config/fastfetch/presets/examples/8.jsonc'
 alias ff='fastfetch -c ~/.config/fastfetch/presets/examples/20.jsonc'
 alias nvimrc='nvim ~/.config/nvim'
 alias shitter='ssh itter'
-alias tailscale='/Applications/Tailscale.app/Contents/MacOS/Tailscale'
+# alias tailscale='/Applications/Tailscale.app/Contents/MacOS/Tailscale'
 alias ai='aichat'
 alias system='macchina'
 alias bonsai='cbonsai -li -t 0.4'
@@ -251,3 +251,4 @@ command -v fzf >/dev/null 2>&1 && eval "$(fzf --zsh)"
 # zsh-autosuggestions and syntax highlighting
 source /usr/share/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh
 source /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+export PATH="$HOME/.local/bin:$PATH"
