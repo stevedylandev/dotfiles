@@ -221,6 +221,7 @@ oxwm.key.bind({ modkey }, "Return", oxwm.spawn_terminal())
 oxwm.key.bind({ modkey }, "D", oxwm.spawn({ "sh", "-c", "dmenu_run -l 10" }))
 -- Save screenshot to ~/Downloads
 oxwm.key.bind({ modkey }, "S", oxwm.spawn({ "sh", "-c", "maim -s ~/Downloads/screenshot-$(date +%Y%m%d-%H%M%S).png" }))
+oxwm.key.bind({ modkey }, "O", oxwm.spawn({ "sh", "-c", "helium.AppImage --no-sandbox" }))
 oxwm.key.bind({ modkey }, "W", oxwm.client.kill())
 
 -- Keybind overlay - Shows important keybindings on screen
