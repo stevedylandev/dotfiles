@@ -22,7 +22,7 @@
 local modkey = "Mod4"
 
 -- Terminal emulator command (defaults to alacritty)
-local terminal = "wezterm"
+local terminal = "st"
 
 -- Color palette - customize these to match your theme
 -- Alternatively you can import other files in here, such as
@@ -68,19 +68,19 @@ local blocks = {
         color = colors.green,
         underline = false,
     }),
-    -- oxwm.bar.block.shell({
-    --     format = "{}",
-    --     command = "uname -r",
-    --     interval = 999999999,
-    --     color = colors.red,
-    --     underline = true,
-    -- }),
-    -- oxwm.bar.block.static({
-    --     text = "│",
-    --     interval = 999999999,
-    --     color = colors.lavender,
-    --     underline = false,
-    -- }),
+    oxwm.bar.block.shell({
+        format = "{}",
+        command = "/home/stevedylandev/scripts/weather.sh -h",
+        interval = 999999999,
+        color = colors.red,
+        underline = true,
+    }),
+    oxwm.bar.block.static({
+        text = "│",
+        interval = 999999999,
+        color = colors.green,
+        underline = false,
+    }),
     oxwm.bar.block.datetime({
         format = "{}",
         date_format = "%a, %b %d - %-I:%M %P",
@@ -111,7 +111,7 @@ oxwm.set_modkey(modkey) -- This is for Mod + mouse binds, such as drag/resize
 oxwm.set_tags(tags)
 
 -- Set default layout (tiling by default)
--- oxwm.set_layout("tiling")
+oxwm.set_layout("dwindle")
 
 -------------------------------------------------------------------------------
 -- Layouts
@@ -144,7 +144,7 @@ oxwm.border.set_unfocused_color(colors.grey)
 
 -- Where floating windows spawn: "top-left", "top-center", "top-right",
 -- "center-left", "center", "center-right", "bottom-left", "bottom-center", "bottom-right"
-oxwm.set_floating_position("top-right")
+oxwm.set_floating_position("center")
 
 -- Smart Enabled = No border if 1 window
 oxwm.gaps.set_smart(false)
@@ -219,7 +219,7 @@ oxwm.bar.set_scheme_urgent(colors.red, colors.bg, colors.red)
 
 oxwm.key.bind({ modkey }, "Return", oxwm.spawn_terminal())
 -- Launch Dmenu
-oxwm.key.bind({ modkey }, "D", oxwm.spawn({ "sh", "-c", "dmenu_run -l 10" }))
+oxwm.key.bind({ modkey }, "D", oxwm.spawn({ "sh", "-c", "dmenu_run -c -l 10" }))
 -- Save screenshot to ~/Downloads
 oxwm.key.bind({ modkey }, "S", oxwm.spawn({ "sh", "-c", "maim -s ~/Downloads/screenshot-$(date +%Y%m%d-%H%M%S).png" }))
 oxwm.key.bind({ modkey }, "O", oxwm.spawn({ "sh", "-c", "helium.AppImage --no-sandbox" }))
