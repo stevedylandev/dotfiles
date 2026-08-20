@@ -39,10 +39,8 @@ export EDITOR="nvim"
 export CLICOLOR=1
 
 # Go
-export GOROOT="/usr/local/go"
 export GOPATH="$HOME/.local/share/go"
 export GOMODCACHE="$HOME/.local/share/go-mod-cache"
-export GOPRIVATE="*gitlab*"
 
 # bat
 export BAT_THEME="ansi"

@@ -28,8 +28,13 @@ local scripts = "/home/stevedylandev/dotfiles/scripts"
 
 -- Spawn one of those scripts. They resolve their own siblings relative to
 -- themselves, so an absolute path is all they need — PATH is not involved.
-local function script(name)
-    return oxwm.spawn({ scripts .. "/" .. name })
+-- Extra arguments are passed straight through: script("txtcliphist.sh", "sel").
+local function script(name, ...)
+    local cmd = { scripts .. "/" .. name }
+    for _, arg in ipairs({ ... }) do
+        cmd[#cmd + 1] = arg
+    end
+    return oxwm.spawn(cmd)
 end
 
 -- Color palette - customize these to match your theme
@@ -283,6 +288,13 @@ oxwm.key.bind({ modkey, "Shift" }, "N", script("dm-net-menu"))
 -- Straight to the wifi picker, skipping the menu
 oxwm.key.bind({ modkey, "Control", "Shift" }, "N", script("dm-wifi-connect"))
 
+-- Clipboard history, kept as plain text in ~/.cache/cliphist.
+-- Mod+Shift+V pushes the current primary selection (whatever is highlighted)
+-- into the clipboard and appends it to the history file; Mod+V picks an
+-- earlier entry back out through dmenu and recopies it.
+oxwm.key.bind({ modkey }, "P", script("txtcliphist.sh", "add"))
+oxwm.key.bind({ modkey, "Shift" }, "P", script("txtcliphist.sh", "sel"))
+
 -- Keybind overlay - Shows important keybindings on screen
 oxwm.key.bind({ modkey, "Shift" }, "Slash", oxwm.show_keybinds())
 
@@ -292,7 +304,7 @@ oxwm.key.bind({ modkey, "Shift" }, "F", oxwm.client.toggle_floating())
 
 -- Layout management
 oxwm.key.bind({ modkey }, "F", oxwm.layout.set("normie"))
-oxwm.key.bind({ modkey }, "C", oxwm.layout.set("tiling"))
+--oxwm.key.bind({ modkey }, "C", oxwm.layout.set("tiling"))
 -- Cycle through layouts
 oxwm.key.bind({ modkey }, "N", oxwm.layout.cycle())
 
@@ -304,8 +316,8 @@ oxwm.key.bind({ modkey }, "L", oxwm.set_master_factor(5))
 -- Enable tiled resize mode: Mod+RMB drag adjusts mfact instead of floating
 -- oxwm.tiled_resize_mode(true)
 -- Increment/Decrement number of master windows
-oxwm.key.bind({ modkey }, "I", oxwm.inc_num_master(1))
-oxwm.key.bind({ modkey }, "P", oxwm.inc_num_master(-1))
+--oxwm.key.bind({ modkey }, "I", oxwm.inc_num_master(1))
+--oxwm.key.bind({ modkey }, "P", oxwm.inc_num_master(-1))
 
 -- Gaps toggle
 oxwm.key.bind({ modkey }, "A", oxwm.toggle_gaps())
