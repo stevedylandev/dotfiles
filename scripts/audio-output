@@ -1,0 +1,83 @@
+#!/bin/sh
+# Requires: wireplumber (wpctl), gum
+# Pick which sink audio plays out of.
+#   audio-output           interactive picker
+#   audio-output --list    print sinks (* marks the current default)
+#   audio-output --auto    clear the pin, let wireplumber pick by priority
+#   audio-output ID|NAME   select by wpctl id, or by a substring of the name
+set -u
+
+# wpctl has no machine-readable listing, so carve the Sinks block out of `status`.
+# Output: "<*|space>\t<id>\t<name>"
+sinks() {
+    wpctl status 2>/dev/null | awk '
+        /^Audio/                                { audio = 1; next }
+        /^[A-Z]/                                { audio = 0 }
+        audio && /Sinks:/ && !/endpoints:/      { insec = 1; next }
+        audio && /Devices:|Sources:|Streams:|endpoints:|Filters:/ { insec = 0; next }
+        insec {
+            line = $0
+            prefix = line; sub(/[0-9].*$/, "", prefix)
+            def = (prefix ~ /\*/) ? "*" : " "
+            sub(/^[^0-9]*/, "", line)
+            if (line !~ /^[0-9]+\./) next
+            id = line;   sub(/\..*$/, "", id)
+            name = line; sub(/^[0-9]+\.[[:space:]]*/, "", name)
+            sub(/[[:space:]]*\[vol:.*$/, "", name)
+            sub(/[[:space:]]+$/, "", name)
+            print def "\t" id "\t" name
+        }
+    '
+}
+
+name_of() {
+    printf '%s\n' "$SINKS" | awk -F'\t' -v id="$1" '$2 == id { print $3; exit }'
+}
+
+SINKS=$(sinks)
+if [ -z "$SINKS" ]; then
+    echo "audio-output: no sinks found (is pipewire/wireplumber running?)" >&2
+    exit 1
+fi
+
+use_auto() {
+    wpctl clear-default || exit 1
+    gum style --foreground 212 "Output: automatic (wireplumber picks)"
+    exit 0
+}
+
+use_sink() {
+    wpctl set-default "$1" || exit 1
+    gum style --foreground 212 "Output: $(name_of "$1")"
+    exit 0
+}
+
+case "${1:-}" in
+    --list|-l)
+        printf '%s\n' "$SINKS" | awk -F'\t' '{ printf "%s %-6s %s\n", $1, $2, $3 }'
+        exit 0
+        ;;
+    --auto|-a) use_auto ;;
+    "") ;;
+    *)
+        ID=$(printf '%s\n' "$SINKS" | awk -F'\t' -v q="$1" '
+            $2 == q                         { print $2; found = 1; exit }
+            index(tolower($3), tolower(q))  { print $2; found = 1; exit }')
+        if [ -z "$ID" ]; then
+            echo "audio-output: no sink matching '$1'" >&2
+            exit 1
+        fi
+        use_sink "$ID"
+        ;;
+esac
+
+CHOICE=$(printf '%s\n' "$SINKS" \
+    | awk -F'\t' '{ printf "%s %-6s %s\n", $1, $2, $3 }' \
+    | { cat; echo "  auto   (let wireplumber choose)"; } \
+    | gum choose --header "Select audio output") || exit 0
+
+[ -n "$CHOICE" ] || exit 0
+
+ID=$(printf '%s\n' "$CHOICE" | awk '{ print $2 }')
+[ "$ID" = "auto" ] && use_auto
+use_sink "$ID"

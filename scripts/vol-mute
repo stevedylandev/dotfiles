@@ -1,0 +1,27 @@
+#!/bin/sh
+# Requires: wireplumber (wpctl)
+# Mute the default sink. Usage: vol-mute [toggle|on|off]   (default toggle)
+# Pass -s / --source to act on the default microphone instead.
+set -u
+
+TARGET="@DEFAULT_AUDIO_SINK@"
+case "${1:-}" in
+    -s|--source) TARGET="@DEFAULT_AUDIO_SOURCE@"; shift ;;
+esac
+
+case "${1:-toggle}" in
+    toggle|"") ARG=toggle ;;
+    on|1|mute)     ARG=1 ;;
+    off|0|unmute)  ARG=0 ;;
+    *) echo "usage: vol-mute [-s] [toggle|on|off]" >&2; exit 2 ;;
+esac
+
+wpctl set-mute "$TARGET" "$ARG" || exit 1
+
+if [ "$TARGET" = "@DEFAULT_AUDIO_SOURCE@" ]; then
+    STATE=$(wpctl get-volume @DEFAULT_AUDIO_SOURCE@ 2>/dev/null)
+    case "$STATE" in *MUTED*) echo "mic muted" ;; *) echo "mic live" ;; esac
+    exit 0
+fi
+
+exec "$(dirname "$0")/vol-status" -n

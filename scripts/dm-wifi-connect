@@ -1,0 +1,127 @@
+#!/bin/sh
+# Requires: dmenu, libnotify, iw, wpa_supplicant, udhcpc, openrc, doas
+# dmenu counterpart of wifi-connect. All prompting happens as the calling
+# user so dmenu keeps the X session and notifications keep the user's bus;
+# only scanning, the config write and the bring-up are handed to doas.
+set -u
+
+CONF=/etc/wpa_supplicant/wpa_supplicant.conf
+NOTIFY_ID=7301
+
+menu() { dmenu -c -i "$@"; }
+
+# Typed text with no dmenu-visible input still has to be hidden, and this
+# build has no password patch — paint the prompt's foreground onto its
+# background so the passphrase never renders.
+menu_secret() {
+    dmenu -c -p "$1" -nb '#000000' -nf '#000000' -sb '#000000' -sf '#000000' </dev/null
+}
+
+notify() {
+    # dunstify can replace an earlier notification in place, so the progress
+    # line becomes the result line instead of stacking up.
+    if command -v dunstify >/dev/null 2>&1; then
+        dunstify -r "$NOTIFY_ID" ${2:+-u "$2"} "WiFi" "$1"
+    else
+        notify-send ${2:+-u "$2"} "WiFi" "$1"
+    fi
+}
+
+fail() { notify "$1" critical; exit 1; }
+
+# doas asks for a passphrase on a tty, and launched from a keybinding there
+# is none — fail with something readable instead of hanging invisibly.
+doas -n true 2>/dev/null || fail "doas needs a password; add a nopass rule for this user."
+
+# Ask the kernel which interfaces are wireless rather than assuming wlan0.
+IFACES=$(iw dev | awk '$1 == "Interface" { print $2 }')
+
+case $(printf '%s' "$IFACES" | grep -c .) in
+    0) fail "No wireless interfaces found." ;;
+    1) IFACE=$IFACES ;;
+    *) IFACE=$(printf '%s\n' "$IFACES" | menu -l 5 -p "Interface:") ;;
+esac
+
+[ -n "$IFACE" ] || exit 1
+
+doas ip link set "$IFACE" up 2>/dev/null
+
+notify "Scanning for networks on $IFACE..."
+
+# `scan dump` reuses cached results if the card is busy (already associated),
+# which is when a live scan tends to fail.
+SCAN=$(doas iw dev "$IFACE" scan 2>/dev/null || doas iw dev "$IFACE" scan dump 2>/dev/null)
+
+# Only real SSID lines: bare "SSID: " is a hidden network, and "SSID List"
+# under extended capabilities is not a network at all.
+SSIDS=$(printf '%s\n' "$SCAN" | sed -n 's/^[[:space:]]*SSID: \(..*\)$/\1/p' | sort -u)
+
+if [ -n "$SSIDS" ]; then
+    # dmenu returns whatever was typed when nothing matches, so a hidden or
+    # out-of-range network can just be typed into the same prompt.
+    SSID=$(printf '%s\n' "$SSIDS" | menu -l 10 -p "Network:")
+else
+    notify "No networks found on $IFACE — type one in."
+    SSID=$(menu -p "Network:" </dev/null)
+fi
+
+[ -n "$SSID" ] || exit 1
+
+PASS=$(menu_secret "Password (empty = open):")
+
+# Build the new config before touching anything: a rejected passphrase must
+# not blank out the config that is currently working. The PSK never lands on
+# disk unprivileged — it goes to the root shell over a pipe.
+if [ -z "$PASS" ]; then
+    NEW=$(printf 'network={\n\tssid="%s"\n\tkey_mgmt=NONE\n}\n' "$SSID")
+else
+    NEW=$(wpa_passphrase "$SSID" "$PASS" 2>/dev/null | grep -v '^[[:space:]]*#psk=') ||
+        fail "Rejected by wpa_passphrase — password must be 8-63 characters."
+fi
+
+[ -n "$NEW" ] || fail "Could not generate a config for $SSID."
+
+printf '%s\n' "$NEW" | doas sh -c '
+    [ -f "$1" ] && cp "$1" "$1.bak"
+    cat > "$1"
+    chmod 600 "$1"
+' _ "$CONF" || fail "Could not write $CONF."
+
+notify "Connecting to $SSID..."
+
+doas sh -c '
+    # wpa_supplicant is a supervised OpenRC service on this host and will not
+    # reread its config on its own, so restart it rather than signalling it.
+    # This also covers the case where dm-wifi-disable stopped it outright.
+    # ifup is no help here: wlan0 has no stanza in /etc/network/interfaces.
+    rc-service wpa_supplicant restart >/dev/null 2>&1
+
+    # Give the supplicant time to associate before asking for a lease — a
+    # DHCP request sent before association just burns its whole timeout.
+    i=0
+    while [ "$i" -lt 20 ]; do
+        iw dev "$1" link 2>/dev/null | grep -q "^Connected to" && break
+        sleep 1
+        i=$((i + 1))
+    done
+
+    # Replace any DHCP client left over from a previous connect; without this
+    # they stack up, one per run, all renewing the same lease.
+    PIDFILE=/var/run/udhcpc.$1.pid
+    if [ -f "$PIDFILE" ]; then
+        kill "$(cat "$PIDFILE")" 2>/dev/null
+        rm -f "$PIDFILE"
+    fi
+    ip addr flush dev "$1" 2>/dev/null
+
+    # Same invocation ifupdown-ng uses for a dhcp stanza. udhcpc daemonises
+    # once it has the lease, so this returns with the address already set.
+    udhcpc -b -R -p "$PIDFILE" -i "$1" -x "hostname:$(hostname)" >/dev/null 2>&1
+' _ "$IFACE"
+
+if ip addr show "$IFACE" | grep -q "inet "; then
+    IP=$(ip -4 addr show "$IFACE" | awk '/inet /{print $2; exit}')
+    notify "✓ Connected to $SSID on $IFACE — $IP"
+else
+    fail "✗ Failed to connect to $SSID"
+fi

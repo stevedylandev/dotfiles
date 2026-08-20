@@ -1,0 +1,11 @@
+#!/bin/sh
+# Requires: wireplumber (wpctl)
+# Raise the default sink. Usage: vol-up [STEP_PERCENT]   (default 5)
+# VOL_MAX caps the ceiling (1.0 = 100%); raise it if you want overamplification.
+set -u
+
+STEP="${1:-5}"
+MAX="${VOL_MAX:-1.0}"
+
+wpctl set-volume -l "$MAX" @DEFAULT_AUDIO_SINK@ "${STEP}%+" || exit 1
+exec "$(dirname "$0")/vol-status" -n

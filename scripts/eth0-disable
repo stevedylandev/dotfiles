@@ -1,0 +1,19 @@
+#!/bin/sh
+# Requires: gum, ifupdown-ng
+# Bringing interfaces down needs root.
+set -u
+
+IFACE="${1:-eth0}"
+
+if [ "$(id -u)" -ne 0 ]; then
+    exec doas "$0" "$@"
+fi
+
+gum confirm "Disable $IFACE?" || exit 0
+
+gum spin --spinner dot --title "Disabling $IFACE..." -- sh -c '
+    ifdown "$1" 2>/dev/null
+    ip link set "$1" down
+' _ "$IFACE"
+
+gum style --foreground 214 "$IFACE disabled"

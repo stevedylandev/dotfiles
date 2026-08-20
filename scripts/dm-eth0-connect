@@ -1,0 +1,41 @@
+#!/bin/sh
+# Requires: dmenu, libnotify, ifupdown-ng, openrc, doas
+# dmenu counterpart of eth0-connect. The confirm prompt runs as the calling
+# user; only the switch itself is handed to doas.
+set -u
+
+IFACE="${1:-eth0}"
+WIFI="${2:-wlan0}"
+NOTIFY_ID=7303
+
+notify() {
+    if command -v dunstify >/dev/null 2>&1; then
+        dunstify -r "$NOTIFY_ID" ${2:+-u "$2"} "Network" "$1"
+    else
+        notify-send ${2:+-u "$2"} "Network" "$1"
+    fi
+}
+
+fail() { notify "$1" critical; exit 1; }
+
+doas -n true 2>/dev/null || fail "doas needs a password; add a nopass rule for this user."
+
+[ "$(printf 'No\nYes\n' | dmenu -c -i -l 2 -p "Switch to $IFACE and disable $WIFI?")" = "Yes" ] || exit 0
+
+notify "Switching to wired..."
+
+doas sh -c '
+    ifdown "$2" 2>/dev/null
+    ip link set "$2" down 2>/dev/null
+    # Same reason as dm-wifi-disable: the supervisor respawns the daemon
+    # after a bare kill, so stop the service instead of pkill-ing it.
+    rc-service -s -q wpa_supplicant stop 2>/dev/null
+    ifup "$1"
+' _ "$IFACE" "$WIFI"
+
+if ip addr show "$IFACE" | grep -q "inet "; then
+    IP=$(ip -4 addr show "$IFACE" | awk '/inet /{print $2; exit}')
+    notify "✓ $IFACE up — $IP"
+else
+    fail "✗ $IFACE failed to come up"
+fi

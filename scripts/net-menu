@@ -1,0 +1,36 @@
+#!/bin/sh
+# Resolve the sibling scripts relative to this one rather than through PATH.
+DIR=$(dirname "$0")
+
+# BusyBox's `ip` has no `-br`, so build the brief view by hand.
+net_status() {
+    ip -4 addr show | awk '
+        function flush() {
+            if (iface != "") printf "%-16s %-8s %s\n", iface, state, addrs
+        }
+        /^[0-9]+: / {
+            flush()
+            iface = $2; sub(/:$/, "", iface)
+            addrs = ""
+            state = "DOWN"
+            if ($0 ~ /state UP/) state = "UP"
+            else if ($0 ~ /state UNKNOWN/) state = "UNKNOWN"
+        }
+        /^[[:space:]]*inet / { addrs = addrs (addrs ? " " : "") $2 }
+        END { flush() }
+    '
+}
+
+CHOICE=$(gum choose "Connect to WiFi" "Disable WiFi" "Connect eth0" "Disable eth0" "Show status" "Quit")
+
+case "$CHOICE" in
+    "Connect to WiFi") "$DIR/wifi-connect" ;;
+    "Disable WiFi")    "$DIR/wifi-disable" ;;
+    "Connect eth0")    "$DIR/eth0-connect" ;;
+    "Disable eth0")    "$DIR/eth0-disable" ;;
+    "Show status")
+        gum style --border normal --padding "1 2" --border-foreground 212 \
+            "$(net_status)"
+        ;;
+    *) exit 0 ;;
+esac

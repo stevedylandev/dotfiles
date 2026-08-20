@@ -1,0 +1,9 @@
+#!/bin/sh
+# Requires: wireplumber (wpctl)
+# Lower the default sink. Usage: vol-down [STEP_PERCENT]   (default 5)
+set -u
+
+STEP="${1:-5}"
+
+wpctl set-volume @DEFAULT_AUDIO_SINK@ "${STEP}%-" || exit 1
+exec "$(dirname "$0")/vol-status" -n

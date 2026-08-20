@@ -1,0 +1,33 @@
+#!/bin/sh
+# Requires: iw
+# Prints the wireless link state, for the status bar and menus.
+# Usage: wifi-status [IFACE]   (default: first wireless interface)
+set -u
+
+# Ask the kernel which interfaces are wireless rather than assuming wlan0.
+IFACE="${1:-$(iw dev 2>/dev/null | awk '$1 == "Interface" { print $2; exit }')}"
+
+if [ -z "$IFACE" ]; then
+    echo "none"
+    exit 0
+fi
+
+# `iw link` prints "Not connected." while the card is up but unassociated, and
+# fails outright once wifi-disable has downed the link.
+LINK=$(iw dev "$IFACE" link 2>/dev/null) || { echo "off"; exit 0; }
+
+case "$LINK" in
+    "Connected to"*) ;;
+    *) echo "off"; exit 0 ;;
+esac
+
+SSID=$(printf '%s\n' "$LINK" | sed -n 's/^[[:space:]]*SSID: \(..*\)$/\1/p')
+[ -n "$SSID" ] || SSID="unknown"
+
+# Associated but without a lease carries no traffic — say so rather than
+# showing a network name that looks connected.
+if ip addr show "$IFACE" 2>/dev/null | grep -q "inet "; then
+    echo "$SSID"
+else
+    echo "$SSID (no ip)"
+fi

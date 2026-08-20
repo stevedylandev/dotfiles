@@ -1,0 +1,47 @@
+#!/bin/sh
+# Requires: wireplumber (wpctl), optionally libnotify
+# Prints the default sink's volume. Shared by vol-up / vol-down / vol-mute.
+# Usage: vol-status [-n]   -n also fires a desktop notification
+set -u
+
+NOTIFY=0
+[ "${1:-}" = "-n" ] && NOTIFY=1
+
+RAW=$(wpctl get-volume @DEFAULT_AUDIO_SINK@ 2>/dev/null)
+if [ -z "$RAW" ]; then
+    echo "vol-status: no default sink (is pipewire/wireplumber running?)" >&2
+    exit 1
+fi
+
+# "Volume: 0.45" or "Volume: 0.45 [MUTED]"
+PCT=$(printf '%s\n' "$RAW" | awk '{ printf "%d", $2 * 100 + 0.5 }')
+case "$RAW" in
+    *MUTED*) MUTED=1 ;;
+    *)       MUTED=0 ;;
+esac
+
+if [ "$MUTED" -eq 1 ]; then
+    TEXT="muted ($PCT%)"
+    ICON="audio-volume-muted"
+else
+    TEXT="$PCT%"
+    if   [ "$PCT" -ge 66 ]; then ICON="audio-volume-high"
+    elif [ "$PCT" -ge 33 ]; then ICON="audio-volume-medium"
+    elif [ "$PCT" -gt 0 ];  then ICON="audio-volume-low"
+    else                         ICON="audio-volume-muted"
+    fi
+fi
+
+echo "$TEXT"
+
+# Only bother with notifications when there is a session to show them in.
+[ "$NOTIFY" -eq 1 ] || exit 0
+[ -n "${WAYLAND_DISPLAY:-}${DISPLAY:-}" ] || exit 0
+command -v notify-send >/dev/null 2>&1 || exit 0
+
+notify-send \
+    -a volume \
+    -i "$ICON" \
+    -h string:x-canonical-private-synchronous:volume \
+    -h "int:value:$PCT" \
+    "Volume" "$TEXT"

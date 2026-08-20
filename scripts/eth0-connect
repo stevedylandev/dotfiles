@@ -1,0 +1,27 @@
+#!/bin/sh
+# Requires: gum, ifupdown-ng
+# Bringing interfaces up/down needs root.
+set -u
+
+IFACE="${1:-eth0}"
+WIFI="${2:-wlan0}"
+
+if [ "$(id -u)" -ne 0 ]; then
+    exec doas "$0" "$@"
+fi
+
+gum confirm "Switch to $IFACE and disable $WIFI?" || exit 0
+
+gum spin --spinner dot --title "Switching to wired..." -- sh -c '
+    ifdown "$2" 2>/dev/null
+    ip link set "$2" down 2>/dev/null
+    pkill wpa_supplicant 2>/dev/null
+    ifup "$1"
+' _ "$IFACE" "$WIFI"
+
+if ip addr show "$IFACE" | grep -q "inet "; then
+    IP=$(ip -4 addr show "$IFACE" | grep inet | awk '{print $2}')
+    gum style --foreground 46 --bold "✓ $IFACE up — $IP"
+else
+    gum style --foreground 196 --bold "✗ $IFACE failed to come up"
+fi

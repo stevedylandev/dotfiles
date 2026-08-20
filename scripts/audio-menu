@@ -1,0 +1,38 @@
+#!/bin/sh
+# Requires: wireplumber (wpctl), gum
+# One menu over the vol-* / audio-output scripts.
+set -u
+
+DIR=$(dirname "$0")
+
+CHOICE=$(gum choose \
+    "Volume up" \
+    "Volume down" \
+    "Set volume" \
+    "Toggle mute" \
+    "Toggle mic mute" \
+    "Select output" \
+    "Show status" \
+    "Quit") || exit 0
+
+case "$CHOICE" in
+    "Volume up")       "$DIR/vol-up" ;;
+    "Volume down")     "$DIR/vol-down" ;;
+    "Set volume")
+        PCT=$(gum input --placeholder "0-100" --prompt "Volume % ") || exit 0
+        case "$PCT" in
+            ""|*[!0-9]*) gum style --foreground 214 "Not a number: $PCT"; exit 1 ;;
+        esac
+        [ "$PCT" -gt 100 ] && PCT=100
+        wpctl set-volume @DEFAULT_AUDIO_SINK@ "${PCT}%" && "$DIR/vol-status" -n
+        ;;
+    "Toggle mute")     "$DIR/vol-mute" ;;
+    "Toggle mic mute") "$DIR/vol-mute" -s ;;
+    "Select output")   "$DIR/audio-output" ;;
+    "Show status")
+        gum style --border normal --padding "1 2" --border-foreground 212 \
+            "Volume: $("$DIR/vol-status")" \
+            "$("$DIR/audio-output" --list)"
+        ;;
+    *) exit 0 ;;
+esac
