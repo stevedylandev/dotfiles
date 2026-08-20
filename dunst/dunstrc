@@ -1,0 +1,135 @@
+# Dunst configuration
+# Darkmatter theme - matches oxwm/config.lua, wezterm, and ghostty
+#
+# Palette:
+#   fg         #ffffff    red        #e78a53
+#   bg         #121113    cyan       #aaaaaa
+#   green      #fbcb97    lavender   #999999
+#   light_blue #888888    grey       #333333
+#   blue       #5f8787    purple     #c1c1c1
+
+[global]
+    monitor = 0
+    follow = mouse
+
+    ### Geometry ###
+    width = (200, 400)
+    height = (0, 300)
+    origin = top-right
+    # y offset clears the oxwm bar; x/y spacing matches the 12px gaps
+    offset = (12, 38)
+    scale = 0
+    notification_limit = 5
+
+    ### Progress bar ###
+    progress_bar = true
+    progress_bar_height = 8
+    progress_bar_frame_width = 1
+    progress_bar_min_width = 150
+    progress_bar_max_width = 400
+    progress_bar_corner_radius = 0
+
+    indicate_hidden = yes
+    transparency = 0
+    separator_height = 2
+    padding = 10
+    horizontal_padding = 12
+    text_icon_padding = 8
+    # Same border width as oxwm windows
+    frame_width = 2
+    frame_color = "#5f8787"
+    # Same as oxwm inner/outer gaps
+    gap_size = 12
+    separator_color = frame
+    sort = yes
+
+    ### Text ###
+    font = BerkeleyMono Nerd Font 11
+    line_height = 0
+    markup = full
+    format = "<b>%s</b>\n%b"
+    alignment = left
+    vertical_alignment = center
+    show_age_threshold = 60
+    ellipsize = middle
+    ignore_newline = no
+    stack_duplicates = true
+    hide_duplicate_count = false
+    show_indicators = no
+
+    ### Icons ###
+    enable_recursive_icon_lookup = true
+    icon_theme = hicolor
+    icon_position = left
+    min_icon_size = 16
+    max_icon_size = 48
+    icon_corner_radius = 0
+
+    ### History ###
+    sticky_history = yes
+    history_length = 20
+
+    ### Misc ###
+    dmenu = /usr/bin/dmenu -c -l 10 -p dunst:
+    browser = /usr/bin/xdg-open
+    always_run_script = true
+    title = Dunst
+    class = Dunst
+    corner_radius = 0
+    ignore_dbusclose = false
+    force_xwayland = false
+    force_xinerama = false
+
+    ### Mouse ###
+    mouse_left_click = close_current
+    mouse_middle_click = do_action, close_current
+    mouse_right_click = close_all
+
+[experimental]
+    per_monitor_dpi = false
+
+[urgency_low]
+    background = "#121113"
+    foreground = "#999999"
+    frame_color = "#333333"
+    timeout = 5
+    default_icon = dialog-information
+
+[urgency_normal]
+    background = "#121113"
+    foreground = "#ffffff"
+    frame_color = "#5f8787"
+    timeout = 8
+    override_pause_level = 30
+    default_icon = dialog-information
+
+[urgency_critical]
+    background = "#121113"
+    foreground = "#e78a53"
+    frame_color = "#e78a53"
+    timeout = 0
+    override_pause_level = 60
+    default_icon = dialog-warning
+
+### Rules ###
+
+# Volume popups from scripts/vol-status (notify-send -a volume): brief, no history
+[volume]
+    appname = "volume"
+    frame_color = "#c1c1c1"
+    foreground = "#c1c1c1"
+    timeout = 2
+    history_ignore = yes
+
+# WiFi/eth0 messages from the dm-*-connect / dm-*-disable scripts
+[network]
+    summary = "WiFi"
+    frame_color = "#999999"
+    foreground = "#999999"
+    timeout = 5
+
+[network-eth]
+    summary = "Network"
+    frame_color = "#999999"
+    foreground = "#999999"
+    timeout = 5
