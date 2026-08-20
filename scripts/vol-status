@@ -1,15 +1,31 @@
 #!/bin/sh
 # Requires: wireplumber (wpctl), optionally libnotify
-# Prints the default sink's volume. Shared by vol-up / vol-down / vol-mute.
-# Usage: vol-status [-n]   -n also fires a desktop notification
+# Prints the default sink's volume with a Nerd Font icon for its level.
+# Shared by vol-up / vol-down / vol-mute and the status bar.
+# Usage: vol-status [-n] [-p] [-s]
+#   -n  also fire a desktop notification
+#   -p  plain output, no Nerd Font icon (for terminals without one)
+#   -s  report the default source (microphone) instead of the sink
 set -u
 
 NOTIFY=0
-[ "${1:-}" = "-n" ] && NOTIFY=1
+PLAIN=0
+TARGET="@DEFAULT_AUDIO_SINK@"
+LABEL="Volume"
 
-RAW=$(wpctl get-volume @DEFAULT_AUDIO_SINK@ 2>/dev/null)
+while [ $# -gt 0 ]; do
+    case "$1" in
+        -n|--notify) NOTIFY=1 ;;
+        -p|--plain)  PLAIN=1 ;;
+        -s|--source) TARGET="@DEFAULT_AUDIO_SOURCE@"; LABEL="Microphone" ;;
+        *) echo "usage: vol-status [-n] [-p] [-s]" >&2; exit 2 ;;
+    esac
+    shift
+done
+
+RAW=$(wpctl get-volume "$TARGET" 2>/dev/null)
 if [ -z "$RAW" ]; then
-    echo "vol-status: no default sink (is pipewire/wireplumber running?)" >&2
+    echo "vol-status: no default device (is pipewire/wireplumber running?)" >&2
     exit 1
 fi
 
@@ -20,19 +36,31 @@ case "$RAW" in
     *)       MUTED=0 ;;
 esac
 
-if [ "$MUTED" -eq 1 ]; then
-    TEXT="muted ($PCT%)"
-    ICON="audio-volume-muted"
+# Two icon sets: speaker glyphs for the sink, mic glyphs for the source.
+# ICON is the Nerd Font glyph in the bar; FDO is the freedesktop icon name
+# the notification daemon looks up in the icon theme.
+if [ "$TARGET" = "@DEFAULT_AUDIO_SOURCE@" ]; then
+    if [ "$MUTED" -eq 1 ]; then
+        ICON="󰍭"; FDO="microphone-sensitivity-muted"; TEXT="muted"
+    else
+        ICON="󰍬"; FDO="microphone-sensitivity-high";  TEXT="$PCT%"
+    fi
+elif [ "$MUTED" -eq 1 ]; then
+    ICON="󰝟"; FDO="audio-volume-muted"; TEXT="muted ($PCT%)"
 else
     TEXT="$PCT%"
-    if   [ "$PCT" -ge 66 ]; then ICON="audio-volume-high"
-    elif [ "$PCT" -ge 33 ]; then ICON="audio-volume-medium"
-    elif [ "$PCT" -gt 0 ];  then ICON="audio-volume-low"
-    else                         ICON="audio-volume-muted"
+    if   [ "$PCT" -ge 66 ]; then ICON="󰕾"; FDO="audio-volume-high"
+    elif [ "$PCT" -ge 33 ]; then ICON="󰖀"; FDO="audio-volume-medium"
+    elif [ "$PCT" -gt 0 ];  then ICON="󰕿"; FDO="audio-volume-low"
+    else                         ICON="󰝟"; FDO="audio-volume-muted"
     fi
 fi
 
-echo "$TEXT"
+if [ "$PLAIN" -eq 1 ]; then
+    echo "$TEXT"
+else
+    echo "$ICON  $TEXT"
+fi
 
 # Only bother with notifications when there is a session to show them in.
 [ "$NOTIFY" -eq 1 ] || exit 0
@@ -41,7 +69,7 @@ command -v notify-send >/dev/null 2>&1 || exit 0
 
 notify-send \
     -a volume \
-    -i "$ICON" \
+    -i "$FDO" \
     -h string:x-canonical-private-synchronous:volume \
     -h "int:value:$PCT" \
-    "Volume" "$TEXT"
+    "$ICON  $LABEL" "$TEXT"

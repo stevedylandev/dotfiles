@@ -1,24 +1,42 @@
 #!/bin/sh
 # Requires: iw
-# Prints the wireless link state, for the status bar and menus.
-# Usage: wifi-status [IFACE]   (default: first wireless interface)
+# Prints the wireless link state with a Nerd Font icon, for the status bar
+# and menus. The icon tracks signal strength while connected, so it moves
+# as the link does.
+# Usage: wifi-status [-p|--plain] [IFACE]   (default: first wireless interface)
 set -u
+
+PLAIN=0
+case "${1:-}" in
+    -p|--plain) PLAIN=1; shift ;;
+esac
+
+# ICON_ONLY/no-icon output goes through this so every exit path is consistent.
+say() {
+    if [ "$PLAIN" -eq 1 ]; then
+        echo "$2"
+    else
+        echo "$1  $2"
+    fi
+}
 
 # Ask the kernel which interfaces are wireless rather than assuming wlan0.
 IFACE="${1:-$(iw dev 2>/dev/null | awk '$1 == "Interface" { print $2; exit }')}"
 
+# 󰤮 no wireless hardware at all, 󰤭 card present but down/unassociated,
+# 󰤫 associated without a lease, 󰤟󰤢󰤥󰤨 connected at rising signal strength.
 if [ -z "$IFACE" ]; then
-    echo "none"
+    say "󰤮" "none"
     exit 0
 fi
 
 # `iw link` prints "Not connected." while the card is up but unassociated, and
 # fails outright once wifi-disable has downed the link.
-LINK=$(iw dev "$IFACE" link 2>/dev/null) || { echo "off"; exit 0; }
+LINK=$(iw dev "$IFACE" link 2>/dev/null) || { say "󰤭" "off"; exit 0; }
 
 case "$LINK" in
     "Connected to"*) ;;
-    *) echo "off"; exit 0 ;;
+    *) say "󰤭" "off"; exit 0 ;;
 esac
 
 SSID=$(printf '%s\n' "$LINK" | sed -n 's/^[[:space:]]*SSID: \(..*\)$/\1/p')
@@ -26,8 +44,20 @@ SSID=$(printf '%s\n' "$LINK" | sed -n 's/^[[:space:]]*SSID: \(..*\)$/\1/p')
 
 # Associated but without a lease carries no traffic — say so rather than
 # showing a network name that looks connected.
-if ip addr show "$IFACE" 2>/dev/null | grep -q "inet "; then
-    echo "$SSID"
-else
-    echo "$SSID (no ip)"
+if ! ip addr show "$IFACE" 2>/dev/null | grep -q "inet "; then
+    say "󰤫" "$SSID (no ip)"
+    exit 0
 fi
+
+# "signal: -47 dBm" — the thresholds are the usual rule of thumb: better than
+# -50 is excellent, -70 is the edge of usable.
+DBM=$(printf '%s\n' "$LINK" | awk '/signal:/ { printf "%d", $2; exit }')
+
+if [ -z "$DBM" ];      then ICON="󰤨"   # no signal line (some drivers) — assume good
+elif [ "$DBM" -ge -50 ]; then ICON="󰤨"
+elif [ "$DBM" -ge -60 ]; then ICON="󰤥"
+elif [ "$DBM" -ge -70 ]; then ICON="󰤢"
+else                         ICON="󰤟"
+fi
+
+say "$ICON" "$SSID"

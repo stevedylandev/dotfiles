@@ -16,4 +16,4 @@ gum spin --spinner dot --title "Disabling $IFACE..." -- sh -c '
     ip link set "$1" down
 ' _ "$IFACE"
 
-gum style --foreground 214 "$IFACE disabled"
+gum style --foreground 214 "󰲛  $IFACE disabled"

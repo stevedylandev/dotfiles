@@ -110,7 +110,7 @@ gum spin --spinner dot --title "Connecting to $SSID..." -- sh -c '
 ' _ "$IFACE"
 
 if ip addr show "$IFACE" | grep -q "inet "; then
-    gum style --foreground 46 --bold "✓ Connected to $SSID on $IFACE"
+    gum style --foreground 46 --bold "$("$(dirname "$0")/wifi-status" "$IFACE")  connected on $IFACE"
 else
-    gum style --foreground 196 --bold "✗ Failed to connect to $SSID"
+    gum style --foreground 196 --bold "󰤮  Failed to connect to $SSID"
 fi

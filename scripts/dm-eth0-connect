@@ -22,7 +22,7 @@ doas -n true 2>/dev/null || fail "doas needs a password; add a nopass rule for t
 
 [ "$(printf 'No\nYes\n' | dmenu -c -i -l 2 -p "Switch to $IFACE and disable $WIFI?")" = "Yes" ] || exit 0
 
-notify "Switching to wired..."
+notify "󰈀  Switching to wired..."
 
 doas sh -c '
     ifdown "$2" 2>/dev/null
@@ -35,7 +35,7 @@ doas sh -c '
 
 if ip addr show "$IFACE" | grep -q "inet "; then
     IP=$(ip -4 addr show "$IFACE" | awk '/inet /{print $2; exit}')
-    notify "✓ $IFACE up — $IP"
+    notify "󰈀  $IFACE up — $IP"
 else
-    fail "✗ $IFACE failed to come up"
+    fail "󰲛  $IFACE failed to come up"
 fi

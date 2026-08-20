@@ -21,7 +21,7 @@ gum spin --spinner dot --title "Switching to wired..." -- sh -c '
 
 if ip addr show "$IFACE" | grep -q "inet "; then
     IP=$(ip -4 addr show "$IFACE" | grep inet | awk '{print $2}')
-    gum style --foreground 46 --bold "✓ $IFACE up — $IP"
+    gum style --foreground 46 --bold "󰈀  $IFACE up — $IP"
 else
-    gum style --foreground 196 --bold "✗ $IFACE failed to come up"
+    gum style --foreground 196 --bold "󰲛  $IFACE failed to come up"
 fi

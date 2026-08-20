@@ -46,7 +46,7 @@ esac
 
 doas ip link set "$IFACE" up 2>/dev/null
 
-notify "Scanning for networks on $IFACE..."
+notify "󰤬  Scanning for networks on $IFACE..."
 
 # `scan dump` reuses cached results if the card is busy (already associated),
 # which is when a live scan tends to fail.
@@ -87,7 +87,7 @@ printf '%s\n' "$NEW" | doas sh -c '
     chmod 600 "$1"
 ' _ "$CONF" || fail "Could not write $CONF."
 
-notify "Connecting to $SSID..."
+notify "󰤨  Connecting to $SSID..."
 
 doas sh -c '
     # wpa_supplicant is a supervised OpenRC service on this host and will not
@@ -121,7 +121,7 @@ doas sh -c '
 
 if ip addr show "$IFACE" | grep -q "inet "; then
     IP=$(ip -4 addr show "$IFACE" | awk '/inet /{print $2; exit}')
-    notify "✓ Connected to $SSID on $IFACE — $IP"
+    notify "$("$(dirname "$0")/wifi-status" "$IFACE")  on $IFACE — $IP"
 else
-    fail "✗ Failed to connect to $SSID"
+    fail "󰤮  Failed to connect to $SSID"
 fi

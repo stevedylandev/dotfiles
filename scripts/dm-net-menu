@@ -10,23 +10,41 @@ DIR=$(dirname "$0")
 
 menu() { dmenu -c -i "$@"; }
 
-# BusyBox's `ip` has no `-br`, so build the brief view by hand.
+# BusyBox's `ip` has no `-br`, so build the brief view by hand. Each line is
+# prefixed with a Nerd Font icon for what that interface is and how it is
+# doing: 󰤨/󰤫/󰤭 wireless connected/no lease/down, 󰈀/󰲛 wired up/down.
 net_status() {
-    ip -4 addr show | awk '
-        function flush() {
-            if (iface != "") printf "%-16s %-8s %s\n", iface, state, addrs
-        }
-        /^[0-9]+: / {
-            flush()
-            iface = $2; sub(/:$/, "", iface)
-            addrs = ""
-            state = "DOWN"
-            if ($0 ~ /state UP/) state = "UP"
-            else if ($0 ~ /state UNKNOWN/) state = "UNKNOWN"
-        }
-        /^[[:space:]]*inet / { addrs = addrs (addrs ? " " : "") $2 }
-        END { flush() }
-    '
+    for path in /sys/class/net/*; do
+        iface=${path##*/}
+        [ "$iface" = "lo" ] && continue
+
+        state=$(cat "$path/operstate" 2>/dev/null || echo unknown)
+        addrs=$(ip -4 addr show "$iface" 2>/dev/null |
+            awk '/inet /{ printf "%s%s", (n++ ? " " : ""), $2 }')
+
+        # Container veths and other virtual links with no address are noise;
+        # a virtual interface that does carry one (tailscale0, docker0) is not.
+        [ -z "$addrs" ] && [ ! -e "$path/device" ] && continue
+
+        # Tunnels sit at operstate "unknown" for their whole life, so an
+        # address is what actually says the link is carrying traffic.
+        up=0
+        case "$state" in
+            up) up=1 ;;
+            unknown) [ -n "$addrs" ] && up=1 ;;
+        esac
+
+        if [ -d "$path/wireless" ] || [ -e "$path/phy80211" ]; then
+            if   [ "$up" -eq 0 ];  then icon="󰤭"
+            elif [ -z "$addrs" ];  then icon="󰤫"
+            else                        icon="󰤨"
+            fi
+        else
+            if [ "$up" -eq 1 ]; then icon="󰈀"; else icon="󰲛"; fi
+        fi
+
+        printf '%s  %-12s %-8s %s\n' "$icon" "$iface" "$state" "$addrs"
+    done
 }
 
 CHOICE=$(printf '%s\n' \

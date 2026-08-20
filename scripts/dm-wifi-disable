@@ -24,7 +24,7 @@ doas -n true 2>/dev/null || fail "doas needs a password; add a nopass rule for t
 # Default to No so a stray Enter never takes the link down.
 [ "$(printf 'No\nYes\n' | dmenu -c -i -l 2 -p "Disable WiFi on $IFACE?")" = "Yes" ] || exit 0
 
-notify "Disabling $IFACE..."
+notify "󰤭  Disabling $IFACE..."
 
 doas sh -c '
     # wpa_supplicant runs under supervise-daemon (supervisor= in
@@ -48,4 +48,4 @@ doas sh -c '
     ip link set "$1" down
 ' _ "$IFACE"
 
-notify "$IFACE disabled"
+notify "󰤭  $IFACE disabled"

@@ -77,9 +77,11 @@ local blocks = {
         underline = false,
     }),
     -- SSID, "off" when the link is down, "none" without a wireless card.
+    -- wifi-status supplies its own Nerd Font icon, which tracks signal
+    -- strength while connected, so the format is just its output.
     -- Click opens the dmenu network menu (connect/disconnect wifi and eth0).
     oxwm.bar.block.shell({
-        format = "Net: {}",
+        format = "{}",
         command = scripts .. "/wifi-status",
         interval = 10,
         color = colors.lavender,
@@ -93,9 +95,10 @@ local blocks = {
         underline = false,
     }),
     -- Volume percentage of the default sink; click toggles mute.
+    -- vol-status supplies its own Nerd Font icon for the level (or mute).
     -- The vol-* keybinds also fire a notification, so this can lag a second.
     oxwm.bar.block.shell({
-        format = "Vol: {}",
+        format = "{}",
         command = scripts .. "/vol-status",
         interval = 2,
         color = colors.purple,

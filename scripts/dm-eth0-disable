@@ -20,11 +20,11 @@ doas -n true 2>/dev/null || fail "doas needs a password; add a nopass rule for t
 
 [ "$(printf 'No\nYes\n' | dmenu -c -i -l 2 -p "Disable $IFACE?")" = "Yes" ] || exit 0
 
-notify "Disabling $IFACE..."
+notify "󰲛  Disabling $IFACE..."
 
 doas sh -c '
     ifdown "$1" 2>/dev/null
     ip link set "$1" down
 ' _ "$IFACE"
 
-notify "$IFACE disabled"
+notify "󰲛  $IFACE disabled"

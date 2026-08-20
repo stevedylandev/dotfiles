@@ -18,10 +18,10 @@ esac
 
 wpctl set-mute "$TARGET" "$ARG" || exit 1
 
+# vol-status carries the icon logic for both devices, so hand the reporting
+# (and the notification) off to it either way.
 if [ "$TARGET" = "@DEFAULT_AUDIO_SOURCE@" ]; then
-    STATE=$(wpctl get-volume @DEFAULT_AUDIO_SOURCE@ 2>/dev/null)
-    case "$STATE" in *MUTED*) echo "mic muted" ;; *) echo "mic live" ;; esac
-    exit 0
+    exec "$(dirname "$0")/vol-status" -s -n
 fi
 
 exec "$(dirname "$0")/vol-status" -n
