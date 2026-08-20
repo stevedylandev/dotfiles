@@ -24,6 +24,14 @@ local modkey = "Mod4"
 -- Terminal emulator command (defaults to alacritty)
 local terminal = "st"
 
+local scripts = "/home/stevedylandev/dotfiles/scripts"
+
+-- Spawn one of those scripts. They resolve their own siblings relative to
+-- themselves, so an absolute path is all they need — PATH is not involved.
+local function script(name)
+    return oxwm.spawn({ scripts .. "/" .. name })
+end
+
 -- Color palette - customize these to match your theme
 -- Alternatively you can import other files in here, such as
 -- local colors = require("colors.lua") and make colors.lua a file
@@ -68,9 +76,41 @@ local blocks = {
         color = colors.green,
         underline = false,
     }),
+    -- SSID, "off" when the link is down, "none" without a wireless card.
+    -- Click opens the dmenu network menu (connect/disconnect wifi and eth0).
+    oxwm.bar.block.shell({
+        format = "Net: {}",
+        command = scripts .. "/wifi-status",
+        interval = 10,
+        color = colors.lavender,
+        underline = true,
+        click = { command = scripts .. "/dm-net-menu" },
+    }),
+    oxwm.bar.block.static({
+        text = "│",
+        interval = 999999999,
+        color = colors.green,
+        underline = false,
+    }),
+    -- Volume percentage of the default sink; click toggles mute.
+    -- The vol-* keybinds also fire a notification, so this can lag a second.
+    oxwm.bar.block.shell({
+        format = "Vol: {}",
+        command = scripts .. "/vol-status",
+        interval = 2,
+        color = colors.purple,
+        underline = true,
+        click = { command = scripts .. "/vol-mute" },
+    }),
+    oxwm.bar.block.static({
+        text = "│",
+        interval = 999999999,
+        color = colors.green,
+        underline = false,
+    }),
     oxwm.bar.block.shell({
         format = "{}",
-        command = "/home/stevedylandev/scripts/weather.sh -h",
+        command = scripts .. "/weather.sh -h",
         interval = 999999999,
         color = colors.red,
         underline = true,
@@ -140,7 +180,7 @@ oxwm.border.set_width(2)
 -- Color of focused window border
 oxwm.border.set_focused_color(colors.blue)
 -- Color of unfocused window borders
-oxwm.border.set_unfocused_color(colors.grey)
+oxwm.border.set_unfocused_color(colors.bg)
 
 -- Where floating windows spawn: "top-left", "top-center", "top-right",
 -- "center-left", "center", "center-right", "bottom-left", "bottom-center", "bottom-right"
@@ -224,6 +264,21 @@ oxwm.key.bind({ modkey }, "D", oxwm.spawn({ "sh", "-c", "dmenu_run -c -l 10" }))
 oxwm.key.bind({ modkey }, "S", oxwm.spawn({ "sh", "-c", "maim -s ~/Downloads/screenshot-$(date +%Y%m%d-%H%M%S).png" }))
 oxwm.key.bind({ modkey }, "O", oxwm.spawn({ "sh", "-c", "helium.AppImage --no-sandbox" }))
 oxwm.key.bind({ modkey }, "W", oxwm.client.kill())
+
+-- Volume control (media keys, with Mod+Shift fallbacks for boards without them)
+oxwm.key.bind({}, "XF86AudioRaiseVolume", script("vol-up"))
+oxwm.key.bind({}, "XF86AudioLowerVolume", script("vol-down"))
+oxwm.key.bind({}, "XF86AudioMute", script("vol-mute"))
+oxwm.key.bind({ modkey, "Shift" }, "Equal", script("vol-up"))
+oxwm.key.bind({ modkey, "Shift" }, "Minus", script("vol-down"))
+oxwm.key.bind({ modkey, "Shift" }, "M", script("vol-mute"))
+-- Audio menu (set volume, mic mute, pick an output) - gum based, needs a terminal
+oxwm.key.bind({ modkey, "Shift" }, "U", oxwm.spawn({ terminal, "-e", scripts .. "/audio-menu" }))
+
+-- Network menu: connect/disconnect wifi and eth0 through dmenu
+oxwm.key.bind({ modkey, "Shift" }, "N", script("dm-net-menu"))
+-- Straight to the wifi picker, skipping the menu
+oxwm.key.bind({ modkey, "Control", "Shift" }, "N", script("dm-wifi-connect"))
 
 -- Keybind overlay - Shows important keybindings on screen
 oxwm.key.bind({ modkey, "Shift" }, "Slash", oxwm.show_keybinds())
