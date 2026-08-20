@@ -1,17 +1,31 @@
 #!/bin/sh
 # Requires: iw
-# Prints the wireless link state with a Nerd Font icon, for the status bar
-# and menus. The icon tracks signal strength while connected, so it moves
-# as the link does.
-# Usage: wifi-status [-p|--plain] [IFACE]   (default: first wireless interface)
+# Prints the link state with a Nerd Font icon, for the status bar and menus.
+# Wireless is the subject: the icon tracks signal strength while connected,
+# so it moves as the link does. When wifi is not carrying traffic it falls
+# back to reporting a live wired link rather than saying "off" while the
+# machine is plainly online.
+# Usage: wifi-status [-p|--plain] [-w|--wifi-only] [IFACE]
+#   -p  plain output, no Nerd Font icon (for terminals without one)
+#   -w  never fall back to wired, even with no wifi
+#   IFACE  wireless interface to report (default: the first one the kernel
+#          lists); naming one implies -w, since the question was about it
 set -u
 
 PLAIN=0
-case "${1:-}" in
-    -p|--plain) PLAIN=1; shift ;;
-esac
+WIFI_ONLY=0
 
-# ICON_ONLY/no-icon output goes through this so every exit path is consistent.
+while [ $# -gt 0 ]; do
+    case "$1" in
+        -p|--plain)     PLAIN=1 ;;
+        -w|--wifi-only) WIFI_ONLY=1 ;;
+        -*) echo "usage: wifi-status [-p] [-w] [IFACE]" >&2; exit 2 ;;
+        *) break ;;
+    esac
+    shift
+done
+
+# Every exit path prints through this, so -p only has to be handled once.
 say() {
     if [ "$PLAIN" -eq 1 ]; then
         echo "$2"
@@ -20,31 +34,67 @@ say() {
     fi
 }
 
-# Ask the kernel which interfaces are wireless rather than assuming wlan0.
-IFACE="${1:-$(iw dev 2>/dev/null | awk '$1 == "Interface" { print $2; exit }')}"
+# A wired interface counts only if it is a real NIC (a `device` symlink rules
+# out docker0, tailscale0 and the veths), is up, and holds a v4 address —
+# that last part is what says it can actually carry traffic.
+wired_iface() {
+    for path in /sys/class/net/*; do
+        iface=${path##*/}
+        [ "$iface" = "lo" ] && continue
+        [ -d "$path/wireless" ] || [ -e "$path/phy80211" ] && continue
+        [ -e "$path/device" ] || continue
+        [ "$(cat "$path/operstate" 2>/dev/null)" = "up" ] || continue
+        ip addr show "$iface" 2>/dev/null | grep -q "inet " || continue
+        echo "$iface"
+        return 0
+    done
+    return 1
+}
+
+# 󰈀 wired link carrying traffic. Only consulted once wifi has come up empty,
+# so a working wifi connection always wins the block.
+fallback() {
+    [ "$WIFI_ONLY" -eq 1 ] && return 1
+    WIRED=$(wired_iface) || return 1
+    say "󰈀" "$WIRED"
+    exit 0
+}
+
+if [ -n "${1:-}" ]; then
+    # An explicitly named interface is the whole question — no wired fallback,
+    # so callers like wifi-connect report on the link they just brought up.
+    IFACE="$1"
+    WIFI_ONLY=1
+else
+    # Ask the kernel which interfaces are wireless rather than assuming wlan0.
+    IFACE=$(iw dev 2>/dev/null | awk '$1 == "Interface" { print $2; exit }')
+fi
 
 # 󰤮 no wireless hardware at all, 󰤭 card present but down/unassociated,
 # 󰤫 associated without a lease, 󰤟󰤢󰤥󰤨 connected at rising signal strength.
 if [ -z "$IFACE" ]; then
+    fallback
     say "󰤮" "none"
     exit 0
 fi
 
 # `iw link` prints "Not connected." while the card is up but unassociated, and
 # fails outright once wifi-disable has downed the link.
-LINK=$(iw dev "$IFACE" link 2>/dev/null) || { say "󰤭" "off"; exit 0; }
+LINK=$(iw dev "$IFACE" link 2>/dev/null) || { fallback; say "󰤭" "off"; exit 0; }
 
 case "$LINK" in
     "Connected to"*) ;;
-    *) say "󰤭" "off"; exit 0 ;;
+    *) fallback; say "󰤭" "off"; exit 0 ;;
 esac
 
 SSID=$(printf '%s\n' "$LINK" | sed -n 's/^[[:space:]]*SSID: \(..*\)$/\1/p')
 [ -n "$SSID" ] || SSID="unknown"
 
-# Associated but without a lease carries no traffic — say so rather than
-# showing a network name that looks connected.
+# Associated but without a lease carries no traffic, so wired wins here too;
+# without one, name the network but say the lease is missing rather than
+# showing an SSID that looks connected.
 if ! ip addr show "$IFACE" 2>/dev/null | grep -q "inet "; then
+    fallback
     say "󰤫" "$SSID (no ip)"
     exit 0
 fi
@@ -53,11 +103,11 @@ fi
 # -50 is excellent, -70 is the edge of usable.
 DBM=$(printf '%s\n' "$LINK" | awk '/signal:/ { printf "%d", $2; exit }')
 
-if [ -z "$DBM" ];      then ICON="󰤨"   # no signal line (some drivers) — assume good
+if   [ -z "$DBM" ];      then ICON="󰤨"   # no signal line (some drivers) — assume good
 elif [ "$DBM" -ge -50 ]; then ICON="󰤨"
 elif [ "$DBM" -ge -60 ]; then ICON="󰤥"
 elif [ "$DBM" -ge -70 ]; then ICON="󰤢"
-else                         ICON="󰤟"
+else                          ICON="󰤟"
 fi
 
 say "$ICON" "$SSID"
