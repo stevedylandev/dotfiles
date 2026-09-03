@@ -1,7 +1,13 @@
 [user]
   name = Steve
   email = contact@stevedylan.dev
-  signingkey = contact@stevedylan.dev
+  signingkey = ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAII+PHvindUrf1didz4vxDDu5/YzSGIJXH1Y0lFBe05zr
+
+[gpg]
+  format = ssh
+
+[gpg "ssh"]
+  program = "/Applications/1Password.app/Contents/MacOS/op-ssh-sign"
 
 [alias]
 	ac = "!f() { git add . && git commit -m \"$1\"; }; f"
