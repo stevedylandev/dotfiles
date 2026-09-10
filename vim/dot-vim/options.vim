@@ -22,3 +22,9 @@ set smartcase " Auto switch to case-sensitive if capital used
 
 set mouse=a "Enabled mouse for scrolling
 set spell
+" System clipboard: * register on macOS, + when xterm_clipboard is built in
+if has('unnamedplus')
+  set clipboard=unnamedplus
+else
+  set clipboard=unnamed
+endif
