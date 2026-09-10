@@ -8,6 +8,8 @@ set relativenumber
 set smartindent
 set showmatch
 set backspace=indent,eol,start
+set autoread
+set lazyredraw
 syntax on
 set termguicolors
 set cursorline
@@ -28,3 +30,12 @@ if has('unnamedplus')
 else
   set clipboard=unnamed
 endif
+
+set noerrorbells
+set novisualbell
+set t_vb=
+set tm=500
+
+set nobackup
+set nowb
+set noswapfile
