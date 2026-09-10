@@ -10,7 +10,15 @@ set showmatch
 set backspace=indent,eol,start
 syntax on
 set termguicolors
+set cursorline
 set shell=/bin/zsh
 set noshowmode
 set signcolumn=yes
+" Search Options
+set hlsearch " Search highlighting
+set incsearch " Incremental search
+set ignorecase " Non case sensitive searching
+set smartcase " Auto switch to case-sensitive if capital used
 
+set mouse=a "Enabled mouse for scrolling
+set spell
