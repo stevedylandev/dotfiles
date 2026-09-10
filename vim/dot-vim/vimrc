@@ -1,4 +1,5 @@
 source ~/.vim/options.vim
+source ~/.vim/autocmds.vim
 source ~/.vim/plugins.vim
 source ~/.vim/keybinds.vim
 source ~/.vim/fzf.vim
