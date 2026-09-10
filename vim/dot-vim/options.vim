@@ -9,6 +9,7 @@ set smartindent
 set showmatch
 set backspace=indent,eol,start
 set autoread
+set updatetime=100 " Drives CursorHold; gitgutter signs refresh on it
 set lazyredraw
 syntax on
 set termguicolors

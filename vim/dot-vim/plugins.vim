@@ -21,6 +21,8 @@ call s:ensure('junegunn/fzf')
 call s:ensure('junegunn/fzf.vim')
 call s:ensure('itchyny/lightline.vim')
 call s:ensure('yegappan/lsp')
+call s:ensure('tpope/vim-fugitive')
+call s:ensure('airblade/vim-gitgutter')
 
 " Colorscheme
 call s:ensure('stevedylandev/darkmatter-nvim')
