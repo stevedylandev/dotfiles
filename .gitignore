@@ -3,3 +3,5 @@
 /zed/.config/zed/prompts/prompts-library-db.0.mdb/
 */.DS_Store
 
+vim/dot-vim/plugged
+vim/dot-vim/.netrwhist
