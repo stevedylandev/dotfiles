@@ -23,6 +23,7 @@ call s:ensure('itchyny/lightline.vim')
 call s:ensure('yegappan/lsp')
 call s:ensure('tpope/vim-fugitive')
 call s:ensure('airblade/vim-gitgutter')
+call s:ensure('christoomey/vim-tmux-navigator')
 
 " Colorscheme
 call s:ensure('stevedylandev/darkmatter-nvim')
