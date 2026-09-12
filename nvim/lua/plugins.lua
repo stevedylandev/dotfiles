@@ -86,6 +86,7 @@ vim.schedule(function()
       go_in_plus = '<CR>'
     }
   })
+  require('mini.git').setup()
 end)
 
 -- Lazy — loads on InsertEnter
