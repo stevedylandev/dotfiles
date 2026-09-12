@@ -5,3 +5,4 @@ source ~/.vim/keybinds.vim
 source ~/.vim/fzf.vim
 source ~/.vim/lightline.vim
 source ~/.vim/lsp.vim
+source ~/.vim/netrw.vim
