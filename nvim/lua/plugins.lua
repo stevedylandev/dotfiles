@@ -1,6 +1,6 @@
 -- Colorscheme
 vim.pack.add({
-	"https://github.com/stevedylandev/darkmatter-nvim",
+	"https://github.com/darkmattertheme/nvim",
   'https://github.com/echasnovski/mini.nvim',
 })
 vim.cmd.colorscheme('darkmatter')

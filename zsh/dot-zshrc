@@ -106,6 +106,7 @@ path_add "$HOME/.nargo/bin"
 path_add "$HOME/.helios/bin"
 path_add "$HOME/.radicle/bin"
 path_add "$PNPM_HOME"
+path_add "$HOME/.config/emacs/bin"
 
 export PATH
 
@@ -252,3 +253,6 @@ command -v fzf >/dev/null 2>&1 && eval "$(fzf --zsh)"
 # zsh-autosuggestions and syntax highlighting
 source /opt/homebrew/share/zsh-autosuggestions/zsh-autosuggestions.zsh
 source /opt/homebrew/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+
+# opencode
+export PATH=/Users/stevedylandev/.opencode/bin:$PATH
