@@ -12,32 +12,28 @@
 (setq display-line-numbers-type "relative")
 (setq org-directory "~/org/")
 
-;; IRC password: prompted once per session, kept only in memory
-(defvar my/soju--password nil)
+;; ZNC password: prompted once per session, kept only in memory
+(defvar my/znc--password nil)
 
-(defun my/soju-password (&rest _)
-  (or my/soju--password
-      (setq my/soju--password (read-passwd "Soju password: "))))
+(defun my/znc-password (&rest _)
+  (or my/znc--password
+      (setq my/znc--password (read-passwd "ZNC password: "))))
 
-;; Prompt before connecting, not mid-SASL handshake
+(defun my/znc-pass (client)
+  "Build ZNC server password for CLIENT."
+  (concat "stevedylandev_@" client "/libera:" (my/znc-password)))
+
+;; Prompt before connecting, not mid-handshake
 (defadvice! my/irc-ask-password-a (&rest _)
   :before #'+irc/connect
-  (my/soju-password))
+  (my/znc-password))
 
-(set-irc-server! "soju"
+(set-irc-server! "znc"
   `(:host "138.197.115.89"
     :port 6697
     :tls t
     :nick "stevedylandev_"
-    :sasl-username "stevedylandev_/libera@emacs"
-    :sasl-password my/soju-password))
-
-(defun my/irc ()
-  (interactive)
-  (erc-tls :server "138.197.115.89" :port 6697
-           :nick "stevedylandev_"
-           :user "stevedylandev_/libera@emacspersonal"
-           :password "REDACTED"))
+    :pass ,(lambda (&rest _) (my/znc-pass "emacs"))))
 
 (after! elfeed-org
   (setq rmh-elfeed-org-files (list "~/org/elfeed.org")))
