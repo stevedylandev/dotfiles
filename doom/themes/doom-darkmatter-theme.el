@@ -8,7 +8,7 @@
 
   ;; name        default   256       16
   ((bg         '("#121113" nil       nil))
-   (bg-alt     '("#121212" nil       nil))
+   (bg-alt     '("#121113" nil       nil))
    (base0      '("#0b0a0b" "black"   "black"))
    (base1      '("#121212" "#1c1c1c" "brightblack"))
    (base2      '("#1a191a" "#262626" "brightblack"))
@@ -61,7 +61,7 @@
    ;; modeline
    (modeline-fg     fg)
    (modeline-fg-alt base6)
-   (modeline-bg     base1)
+   (modeline-bg     bg)
    (modeline-bg-inactive bg-alt))
 
   ;; extra face tweaks
