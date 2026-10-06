@@ -48,6 +48,26 @@
     :nick "stevedylandev_"
     :pass ,(lambda (&rest _) (my/znc-pass "emacs"))))
 
+;; ERC: same ZNC bouncer, separate client id so sessions don't collide with circe
+(after! erc
+  (setq erc-server "138.197.115.89"
+        erc-port 6697
+        erc-nick "stevedylandev_"
+        erc-user-full-name "Steve Simkins"
+        erc-prompt-for-password nil
+        erc-track-shorten-start 8
+        erc-kill-buffer-on-part t
+        erc-kill-queries-on-quit t
+        erc-hide-list '("JOIN" "PART" "QUIT")))
+
+(defun my/erc-znc ()
+  "Connect ERC to ZNC over TLS."
+  (interactive)
+  (erc-tls :server "138.197.115.89"
+           :port 6697
+           :nick "stevedylandev_"
+           :password (my/znc-pass "erc")))
+
 (after! elfeed-org
   (setq rmh-elfeed-org-files (list "~/org/elfeed.org")))
 
@@ -73,6 +93,7 @@
           +dashboard-widget-loaded))
 
 (add-to-list 'load-path "/opt/homebrew/share/emacs/site-lisp/mu/mu4e")
+(load! "scripts/posts")
 
 ;; Make GUI Emacs see Homebrew binaries (mbsync, msmtp, pass, gpg)
 (when (memq window-system '(mac ns))
