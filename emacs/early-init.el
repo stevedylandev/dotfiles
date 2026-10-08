@@ -15,5 +15,12 @@
 (push '(background-color . "#121113") default-frame-alist)
 (push '(foreground-color . "#c1c1c1") default-frame-alist)
 
+;; macOS: blend the title bar into the frame background
+(when (eq system-type 'darwin)
+  (push '(ns-transparent-titlebar . t) default-frame-alist)
+  (push '(ns-appearance . dark) default-frame-alist)
+  (setq ns-use-proxy-icon nil
+        frame-title-format nil))
+
 ;; Keep native-comp noise quiet
 (setq native-comp-async-report-warnings-errors 'silent)
