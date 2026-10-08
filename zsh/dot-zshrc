@@ -148,6 +148,7 @@ alias lst='lstr --icons --color=always --size'
 alias keys='keysmasher'
 alias timestamp='node -e "process.stdout.write(new Date().toISOString())"'
 alias cleardns='sudo dscacheutil -flushcache; sudo killall -HUP mDNSResponder'
+alias e='emacsclient -nw'
 
 # -------------------------------------------
 # Suffix Aliases - Open Files by Extension

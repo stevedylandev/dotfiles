@@ -9,8 +9,12 @@
 ;;       user-mail-address "john@doe.com")
 
 (setq doom-theme 'doom-darkmatter)
+(setq doom-font (font-spec :family "BerkeleyMono Nerd Font" :size 14))
 (setq display-line-numbers-type "relative")
 (setq org-directory "~/org/")
+
+(when (daemonp)
+  (exec-path-from-shell-initialize))
 
 (after! org
   (add-to-list 'org-capture-templates
@@ -18,37 +22,24 @@
                  "* [[%^{URL}][%^{Title}]] %^g\n:PROPERTIES:\n:ADDED: %U\n:END:\n%?"
                  :empty-lines 1)))
 
-;; ZNC password: read from `pass' (gpg-encrypted), cached in memory per session
+;; soju password: read from `pass' (gpg-encrypted), cached in memory per session
 (require 'auth-source-pass)
 
-(defvar my/znc-pass-entry "irc/znc"
-  "Entry in the password store holding the ZNC password.")
+(defvar my/soju-pass-entry "irc/soju")
 
-(defvar my/znc--password nil)
+(defvar my/soju--password nil)
 
-(defun my/znc-password (&rest _)
-  (or my/znc--password
-      (setq my/znc--password
-            (or (auth-source-pass-get 'secret my/znc-pass-entry)
-                (user-error "No ZNC password in pass entry %s" my/znc-pass-entry)))))
+(defun my/soju-password (&rest _)
+  (or my/soju--password
+      (setq my/soju--password
+            (or (auth-source-pass-get 'secret my/soju-pass-entry)
+                (user-error "No soju password in pass entry %s" my/soju-pass-entry)))))
 
-(defun my/znc-pass (client)
-  "Build ZNC server password for CLIENT."
-  (concat "stevedylandev_@" client "/libera:" (my/znc-password)))
+(defun my/soju-user (client &optional network)
+  "Build soju username for CLIENT on NETWORK (default libera)."
+  (format "stevedylandev_/%s@%s" (or network "libera") client))
 
-;; Prompt before connecting, not mid-handshake
-(defadvice! my/irc-ask-password-a (&rest _)
-  :before #'+irc/connect
-  (my/znc-password))
-
-(set-irc-server! "znc"
-  `(:host "138.197.115.89"
-    :port 6697
-    :tls t
-    :nick "stevedylandev_"
-    :pass ,(lambda (&rest _) (my/znc-pass "emacs"))))
-
-;; ERC: same ZNC bouncer, separate client id so sessions don't collide with circe
+;; ERC via soju bouncer
 (after! erc
   (setq erc-server "138.197.115.89"
         erc-port 6697
@@ -60,13 +51,19 @@
         erc-kill-queries-on-quit t
         erc-hide-list '("JOIN" "PART" "QUIT")))
 
-(defun my/erc-znc ()
-  "Connect ERC to ZNC over TLS."
+(defun my/erc-soju ()
+  "Connect ERC to soju over TLS."
   (interactive)
   (erc-tls :server "138.197.115.89"
            :port 6697
            :nick "stevedylandev_"
-           :password (my/znc-pass "erc")))
+           :user (my/soju-user "erc")
+           :password (my/soju-password)))
+
+(after! erc
+  (add-to-list 'erc-modules 'nicks)
+  (erc-update-modules)
+  (setq erc-nicks-skip-nicks '("ChanServ" "NickServ")))
 
 (after! elfeed-org
   (setq rmh-elfeed-org-files (list "~/org/elfeed.org")))
@@ -142,3 +139,13 @@
            (:password . ,(auth-source-pass-get 'secret "xmpp/stevedylandev@xmpp.is")))))
   (jabber-modeline-mode 1)
   (map! :leader "o j" #'jabber-roster)) ; optional binding
+
+(after! jabber-omemo-trust
+  (map! :map jabber-omemo-trust-mode-map
+        :n "t" #'jabber-omemo-trust-set-verified
+        :n "u" #'jabber-omemo-trust-set-untrusted
+        :n "w" #'jabber-omemo-trust-copy-fingerprint
+        :n "r" #'jabber-omemo-reset-session
+        :n "d" #'jabber-omemo-trust-delete
+        :n "G" #'jabber-omemo-trust-refresh
+        :n "?" #'jabber-omemo-trust-menu))

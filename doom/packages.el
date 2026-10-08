@@ -61,3 +61,5 @@
            ;; Build OMEMO native module. Needs `brew install mbedtls@3'
            ;; (4.x dropped mbedtls/aes.h); macOS has no getrandom, so shim it.
            :pre-build (("sh" "-c" "PKG_CONFIG_PATH=/opt/homebrew/opt/mbedtls@3/lib/pkgconfig CFLAGS=\"-I/opt/homebrew/opt/emacs/include '-Dgetrandom(b,n,f)=(arc4random_buf((b),(n)),(ssize_t)(n))'\" MBED_STATIC=1 make module"))))
+(package! kitty-graphics
+  :recipe (:host github :repo "cashmeredev/kitty-graphics.el"))
