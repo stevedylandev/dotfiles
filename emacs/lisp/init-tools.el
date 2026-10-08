@@ -1,10 +1,8 @@
 ;;; init-tools.el -*- lexical-binding: t; -*-
 
-(use-package magit
-  :bind ("C-x g" . magit-status))
+(use-package magit)
 
-(use-package elfeed
-  :bind ("C-x w" . elfeed))
+(use-package elfeed)
 
 ;; Feeds live in ~/org/elfeed.org, same as the Doom setup
 (use-package elfeed-org
