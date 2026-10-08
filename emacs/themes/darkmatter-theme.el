@@ -114,7 +114,20 @@
    `(line-number-current-line    ((t (:foreground ,orange :background ,bg))))
    `(vertical-border             ((t (:foreground ,sel))))
    `(erc-prompt-face             ((t (:foreground ,orange :weight bold))))
-  
+   ;; base16 makes this inherit gnus-group-news-6, whose default spec
+   ;; inherits this face back -> cycle error in enable-theme
+   `(gnus-group-news-6-empty     ((t (:foreground ,base04 :inherit outline-2))))
+   ;; base16 only themes the normal 8; bright ones (used by ghostel etc.)
+   ;; fall back to Emacs defaults. Match the darkmatter ghostty palette.
+   `(ansi-color-bright-black     ((t (:foreground ,base03 :background ,base03))))
+   `(ansi-color-bright-red       ((t (:foreground ,base08 :background ,base08))))
+   `(ansi-color-bright-green     ((t (:foreground ,base0B :background ,base0B))))
+   `(ansi-color-bright-yellow    ((t (:foreground ,base0A :background ,base0A))))
+   `(ansi-color-bright-blue      ((t (:foreground ,base0D :background ,base0D))))
+   `(ansi-color-bright-magenta   ((t (:foreground ,base0E :background ,base0E))))
+   `(ansi-color-bright-cyan      ((t (:foreground ,base0C :background ,base0C))))
+   `(ansi-color-bright-white     ((t (:foreground ,base07 :background ,base07))))
+
    ;; Packages base16 has no faces for
    `(elfeed-search-date-face          ((t (:foreground ,const))))
    `(elfeed-search-feed-face          ((t (:foreground ,func))))

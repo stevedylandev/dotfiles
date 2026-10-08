@@ -21,4 +21,7 @@
 (require 'init-evil)
 (require 'init-ui)
 (require 'init-erc)
+(require 'init-jabber)
+(require 'init-lang)
 (require 'init-tools)
+(require 'init-term)
