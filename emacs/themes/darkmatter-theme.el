@@ -114,6 +114,10 @@
    `(line-number-current-line    ((t (:foreground ,orange :background ,bg))))
    `(vertical-border             ((t (:foreground ,sel))))
    `(erc-prompt-face             ((t (:foreground ,orange :weight bold))))
+   ;; base16 uses base01 for highlight, which is ~identical to bg here
+   `(highlight                   ((t (:background ,sel))))
+   `(icomplete-selected-match    ((t (:foreground ,orange :background ,sel :weight bold :extend t))))
+   `(completions-highlight       ((t (:inherit icomplete-selected-match))))
    ;; base16 makes this inherit gnus-group-news-6, whose default spec
    ;; inherits this face back -> cycle error in enable-theme
    `(gnus-group-news-6-empty     ((t (:foreground ,base04 :inherit outline-2))))
