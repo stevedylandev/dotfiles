@@ -28,6 +28,8 @@
 
 (use-package elfeed
   :config
+  (setq-default elfeed-search-filter "@6-months-ago")
+
   (defvar my/elfeed-feeds-url "https://feeds.stevedylan.dev/feeds?format=json"
     "Endpoint returning my subscriptions as JSON.")
 
@@ -51,7 +53,12 @@ Keeps the current list if the fetch fails."
                       (error-message-string err)))))
 
   ;; Fresh list before every update (`G' / `elfeed-update')
-  (advice-add 'elfeed-update :before #'my/elfeed-refresh-feeds))
+  (advice-add 'elfeed-update :before #'my/elfeed-refresh-feeds)
+
+  (defun my/elfeed-show-font ()
+    (face-remap-add-relative 'variable-pitch :family "BerkeleyMono Nerd Font" :height 140)
+    (face-remap-add-relative 'default :family "BerkeleyMono Nerd Font" :height 140))
+  (add-hook 'elfeed-show-mode-hook #'my/elfeed-show-font))
 
 ;; ob-go isn't bundled with org; must load before org-babel-do-load-languages
 (use-package ob-go)
