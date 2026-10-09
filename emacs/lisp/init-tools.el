@@ -36,4 +36,7 @@
            "* [[%^{URL}][%^{Title}]] %^g\n:PROPERTIES:\n:ADDED: %U\n:END:\n%?"
            :empty-lines 1))))
 
+(require 'posts)
+(require 'uguu)
+
 (provide 'init-tools)

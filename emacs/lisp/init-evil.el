@@ -62,6 +62,12 @@
     "oT"  '(ghostel-project :wk "project terminal")
     "os"  '(eshell :wk "eshell")
 
+    "u"   '(:ignore t :wk "upload")
+    "uu"  '(uguu-upload-file :wk "upload file")
+    "uc"  '(uguu-upload-clipboard :wk "upload clipboard")
+
+    "P"   '(posts-compose :wk "new post")
+
     "p"   '(:ignore t :wk "project")
     "pp"  '(project-switch-project :wk "switch")
     "pf"  '(project-find-file :wk "find file")
