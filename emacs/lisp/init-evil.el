@@ -60,6 +60,7 @@
     "oe"  '(elfeed :wk "elfeed")
     "oi"  '(my/erc-soju :wk "irc")
     "oj"  '(jabber-roster :wk "jabber")
+    "om"  '(mu4e :wk "mail")
     "ot"  '(ghostel :wk "terminal")
     "oT"  '(ghostel-project :wk "project terminal")
     "os"  '(eshell :wk "eshell")

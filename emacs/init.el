@@ -22,6 +22,7 @@
 (require 'init-ui)
 (require 'init-erc)
 (require 'init-jabber)
+(require 'init-mail)
 (require 'init-lang)
 (require 'init-tools)
 (require 'init-term)
