@@ -75,6 +75,11 @@
 ;; Trim trailing whitespace on save
 (add-hook 'before-save-hook #'delete-trailing-whitespace)
 
+;; Show warnings/backtraces in a full window instead of a small bottom split
+(add-to-list 'display-buffer-alist
+             '("\\`\\*\\(Warnings\\|Backtrace\\|Compile-Log\\)\\*\\'"
+               (display-buffer-reuse-window display-buffer-same-window)))
+
 ;; macOS
 (when (eq system-type 'darwin)
   (setq mac-command-modifier 'super
