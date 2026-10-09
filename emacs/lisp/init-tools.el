@@ -85,6 +85,17 @@ Keeps the current list if the fetch fails."
            "* [[%^{URL}][%^{Title}]] %^g\n:PROPERTIES:\n:ADDED: %U\n:END:\n%?"
            :empty-lines 1))))
 
+(use-package dired
+  :ensure nil
+  :custom
+  (dired-kill-when-opening-new-dired-buffer t)  ; reuse one buffer
+  (dired-dwim-target t)
+  :config
+  (evil-collection-define-key 'normal 'dired-mode-map
+    "h" 'dired-up-directory
+    "l" 'dired-find-file
+    "q" 'quit-window))
+
 (require 'posts)
 (require 'uguu)
 
