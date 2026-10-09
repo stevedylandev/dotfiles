@@ -147,9 +147,9 @@
   ;; Magit/diff/org/vc faces, flattened from doom-darkmatter
   (custom-theme-set-faces
    'darkmatter
-   `(diff-hl-change ((t (:foreground ,orange :background ,orange))))
-   `(diff-hl-delete ((t (:foreground ,red :background ,red))))
-   `(diff-hl-insert ((t (:foreground ,string :background ,string))))
+   `(diff-hl-change ((t (:foreground "#e78a53" :background "#e78a53"))))
+   `(diff-hl-delete ((t (:foreground "#aa6c6c" :background "#aa6c6c"))))
+   `(diff-hl-insert ((t (:foreground "#fbcb97" :background "#fbcb97"))))
    `(diff-added ((t (:inherit hl-line :foreground ,string))))
    `(diff-changed ((t (:foreground ,const))))
    `(diff-context ((t (:foreground ,const))))
