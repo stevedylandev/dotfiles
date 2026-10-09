@@ -8,7 +8,8 @@
         evil-want-Y-yank-to-eol t
         evil-undo-system 'undo-redo
         evil-split-window-below t
-        evil-vsplit-window-right t)
+        evil-vsplit-window-right t
+        evil-ex-hl-update-delay 0.01)
   :config
   (evil-mode 1))
 
@@ -55,6 +56,7 @@
     "gl"  '(magit-log-current :wk "log")
 
     "o"   '(:ignore t :wk "open")
+    "ow"  '(eww :wk "eww")
     "oe"  '(elfeed :wk "elfeed")
     "oi"  '(my/erc-soju :wk "irc")
     "oj"  '(jabber-roster :wk "jabber")

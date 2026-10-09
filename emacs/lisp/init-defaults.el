@@ -32,6 +32,17 @@
       load-prefer-newer t
       read-process-output-max (* 1024 1024))
 
+;; Responsiveness / latency
+(setq fast-but-imprecise-scrolling t
+      redisplay-skip-fontification-on-input t
+      inhibit-compacting-font-caches t
+      treesit-font-lock-level 2
+      icomplete-compute-delay 0.01
+      show-paren-delay 0.05
+      which-key-idle-delay 0.5
+      tooltip-delay 0.3
+      tooltip-short-delay 0.08)
+
 ;; Built-in minor modes worth having
 (delete-selection-mode 1)
 (electric-pair-mode 1)
