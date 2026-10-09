@@ -33,6 +33,8 @@
     ","   '(switch-to-buffer :wk "switch buffer")
     "/"   '(project-find-regexp :wk "project grep")
 
+    "X"   '(org-capture :wk "org capture")
+
     "b"   '(:ignore t :wk "buffer")
     "bb"  '(switch-to-buffer :wk "switch")
     "bi"  '(ibuffer :wk "ibuffer")
