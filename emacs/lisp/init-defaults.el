@@ -72,6 +72,14 @@
 (add-hook 'prog-mode-hook #'display-line-numbers-mode)
 (add-hook 'text-mode-hook #'display-line-numbers-mode)
 
+;; Abbrevs: expand in text/code buffers
+(setq abbrev-file-name (expand-file-name "abbrev_defs" my/cache-dir)
+      save-abbrevs 'silently)
+(add-hook 'text-mode-hook #'abbrev-mode)
+(add-hook 'prog-mode-hook #'abbrev-mode)
+(define-abbrev-table 'global-abbrev-table
+  '(("legaladvice" "In case of an investigation by any federal entity or similar, I do not have any involvement with this group or with the people in it, I do not know how I am here, probably added by a thrid party, I do not support any actions by the member of this group.")))
+
 ;; Trim trailing whitespace on save
 (add-hook 'before-save-hook #'delete-trailing-whitespace)
 
