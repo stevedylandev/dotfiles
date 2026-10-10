@@ -8,6 +8,7 @@
 
 [gpg "ssh"]
   program = "/Applications/1Password.app/Contents/MacOS/op-ssh-sign"
+	allowedSignersFile = /Users/stevedylandev/.ssh/allowed_signers
 
 [alias]
 	ac = "!f() { git add . && git commit -m \"$1\"; }; f"
