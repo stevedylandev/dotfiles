@@ -65,6 +65,15 @@
     "oT"  '(ghostel-project :wk "project terminal")
     "os"  '(eshell :wk "eshell")
 
+    "m"   '(:ignore t :wk "mail")
+    "mc"  '(mu4e-compose-new :wk "compose")
+    "ms"  '(mml-secure-message-sign-pgpmime :wk "sign")
+    "me"  '(mml-secure-message-encrypt-pgpmime :wk "sign+encrypt")
+    "mE"  '((lambda () (interactive) (mml-secure-message-encrypt-pgpmime t))
+            :wk "encrypt only")
+    "md"  '(my/mail-decrypt-bridge :wk "decrypt (bridge)")
+    "mn"  '(mml-unsecure-message :wk "remove sign/encrypt")
+
     "u"   '(:ignore t :wk "upload")
     "uu"  '(uguu-upload-file :wk "upload file")
     "uc"  '(uguu-upload-clipboard :wk "upload clipboard")
