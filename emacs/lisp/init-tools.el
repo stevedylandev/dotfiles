@@ -116,8 +116,12 @@ Keeps the current list if the fetch fails."
   :custom
   (dired-kill-when-opening-new-dired-buffer t)  ; reuse one buffer
   (dired-dwim-target t)
+  :hook (dired-mode . dired-omit-mode)          ; hide dotfiles by default
   :config
+  (require 'dired-x)
+  (setq dired-omit-files "\\`[.][^.]")          ; dotfiles, but keep ".."
   (evil-collection-define-key 'normal 'dired-mode-map
+    "." 'dired-omit-mode                        ; toggle dotfiles
     "h" 'dired-up-directory
     "l" 'dired-find-file
     "q" 'quit-window))
