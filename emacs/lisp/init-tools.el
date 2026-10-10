@@ -85,6 +85,32 @@ Keeps the current list if the fetch fails."
            "* [[%^{URL}][%^{Title}]] %^g\n:PROPERTIES:\n:ADDED: %U\n:END:\n%?"
            :empty-lines 1))))
 
+;; HTML export: darkmatter CSS from org.css, inlined so exports are self-contained
+(use-package ox-html
+  :ensure nil
+  :after org
+  :config
+  (defun my/org-html-head ()
+    "Return `org-html-head' contents with org.css inlined."
+    (let ((css (expand-file-name "org.css" user-emacs-directory)))
+      (concat "<meta name=\"theme-color\" content=\"#121113\" />\n"
+              "<style>\n"
+              (with-temp-buffer
+                (insert-file-contents css)
+                (buffer-string))
+              "</style>")))
+  (setq org-html-head-include-default-style nil
+        org-html-head-include-scripts nil
+        org-html-validation-link nil
+        org-html-postamble nil
+        org-html-htmlize-output-type 'css
+        org-html-head (my/org-html-head))
+  ;; Re-read org.css on each export so edits apply without restarting
+  (advice-add 'org-html-export-as-html :before
+              (lambda (&rest _) (setq org-html-head (my/org-html-head))))
+  (advice-add 'org-html-export-to-html :before
+              (lambda (&rest _) (setq org-html-head (my/org-html-head)))))
+
 (use-package dired
   :ensure nil
   :custom

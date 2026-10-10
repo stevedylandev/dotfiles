@@ -1,0 +1,300 @@
+/* Darkmatter theme for org HTML export (inlined by init-tools.el) */
+
+@font-face {
+  font-family: "Commit Mono";
+  src: local("Commit Mono"), local("CommitMono-400-Regular");
+  font-weight: 400;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Commit Mono";
+  src: local("Commit Mono Bold"), local("CommitMono-700-Regular");
+  font-weight: 700;
+  font-style: normal;
+}
+
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+  font-family: "Commit Mono", monospace, sans-serif;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+html {
+  background: #121113;
+  color: #ffffff;
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+html::-webkit-scrollbar {
+  display: none;
+}
+
+body {
+  max-width: 700px;
+  margin: auto;
+  padding: 0 1rem 4rem;
+}
+
+@media (max-width: 480px) {
+  body {
+    padding: 1rem;
+  }
+}
+
+a {
+  color: #ffffff;
+  text-decoration: none;
+}
+
+a:hover {
+  opacity: 0.7;
+}
+
+#content {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+/* Title */
+.title {
+  margin-top: 2rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid #333;
+  font-size: 28px;
+  font-weight: 700;
+  text-transform: uppercase;
+  text-align: left;
+}
+
+.subtitle {
+  font-size: 12px;
+  opacity: 0.5;
+}
+
+/* Headings */
+h1, h2, h3, h4, h5, h6 {
+  font-weight: 700;
+}
+
+h1 { font-size: 18px; }
+h2 { font-size: 16px; margin-top: 1rem; }
+h3 { font-size: 15px; }
+h4, h5, h6 { font-size: 14px; }
+
+.section-number-2,
+.section-number-3,
+.section-number-4 {
+  opacity: 0.5;
+}
+
+.outline-2, .outline-3, .outline-4, .outline-text-2, .outline-text-3, .outline-text-4 {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+/* Text */
+p, li {
+  font-size: 14px;
+}
+
+ul, ol {
+  padding-left: 1.5rem;
+}
+
+li + li {
+  margin-top: 0.25rem;
+}
+
+b, strong { font-weight: 700; }
+i, em { font-style: italic; }
+del { opacity: 0.5; }
+
+.timestamp, .timestamp-kwd, .timestamp-wrapper {
+  font-size: 12px;
+  opacity: 0.5;
+}
+
+.tag {
+  font-size: 12px;
+  opacity: 0.5;
+  float: right;
+}
+
+.tag span {
+  background: none;
+  font-weight: 400;
+}
+
+/* TODO keywords: no color, weight/opacity only */
+.todo, .done {
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.done {
+  opacity: 0.5;
+}
+
+/* Code */
+code {
+  background: #1e1c1f;
+  padding: 0.1rem 0.3rem;
+  font-size: 13px;
+}
+
+pre {
+  background: #1e1c1f;
+  color: #ffffff;
+  border: none;
+  border-radius: 0;
+  box-shadow: none;
+  padding: 0.75rem 1rem;
+  font-size: 13px;
+  overflow-x: auto;
+  white-space: pre;
+}
+
+pre code {
+  background: none;
+  padding: 0;
+}
+
+pre.src:before {
+  display: none;
+}
+
+/* htmlize classes (needs org-html-htmlize-output-type 'css) */
+pre span[class^="org-"] {
+  color: #ffffff;
+  background: none;
+  font-weight: 400;
+  font-style: normal;
+}
+
+pre span.org-comment,
+pre span.org-comment-delimiter,
+pre span.org-doc {
+  opacity: 0.5;
+  font-style: italic;
+}
+
+pre span.org-keyword,
+pre span.org-function-name,
+pre span.org-type {
+  font-weight: 700;
+}
+
+pre span.org-string {
+  opacity: 0.7;
+}
+
+/* Blockquote */
+blockquote {
+  border-left: 2px solid #555;
+  padding-left: 0.75rem;
+  opacity: 0.7;
+}
+
+blockquote p {
+  margin: 0;
+}
+
+/* Tables */
+table {
+  border-collapse: collapse;
+  width: 100%;
+  border: none;
+}
+
+table caption {
+  font-size: 12px;
+  opacity: 0.5;
+  text-align: left;
+  margin-bottom: 0.25rem;
+}
+
+th, td {
+  padding: 0.4rem 0.75rem 0.4rem 0;
+  border: none;
+  border-bottom: 1px solid #333;
+  text-align: left;
+}
+
+th {
+  opacity: 0.5;
+  font-weight: 400;
+  font-size: 12px;
+  text-transform: uppercase;
+}
+
+/* Misc */
+hr {
+  border: none;
+  border-top: 1px solid #333;
+}
+
+img {
+  max-width: 100%;
+  border-radius: 0;
+}
+
+figure {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+figcaption, .figure-number {
+  font-size: 12px;
+  opacity: 0.5;
+}
+
+.footnotes, #footnotes {
+  border-top: 1px solid #333;
+  padding-top: 0.75rem;
+  font-size: 12px;
+}
+
+.footdef {
+  opacity: 0.7;
+}
+
+sup a, .footref {
+  font-size: 12px;
+}
+
+/* TOC */
+#table-of-contents {
+  border-bottom: 1px solid #333;
+  padding-bottom: 1rem;
+}
+
+#table-of-contents h2 {
+  font-size: 12px;
+  text-transform: uppercase;
+  opacity: 0.5;
+  margin-top: 0;
+}
+
+#text-table-of-contents ul {
+  list-style: none;
+  padding-left: 1rem;
+}
+
+#text-table-of-contents > ul {
+  padding-left: 0;
+}
+
+/* Postamble */
+#postamble, .postamble {
+  font-size: 12px;
+  opacity: 0.5;
+}
