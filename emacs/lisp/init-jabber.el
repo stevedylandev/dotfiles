@@ -25,4 +25,7 @@
     "G" #'jabber-omemo-trust-refresh
     "?" #'jabber-omemo-trust-menu))
 
+(setq jabber-muc-decorate-presence-patterns
+      '((".")))  ; "Hide all"
+
 (provide 'init-jabber)
