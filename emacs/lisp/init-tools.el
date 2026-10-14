@@ -132,7 +132,8 @@ Keeps the current list if the fetch fails."
           :endpoint "/api/v1/chat/completions"
           :stream t
           :key #'openrouter--api-key
-          :request-params '(:tools [(:type "openrouter:web_search")])
+          :request-params '(:tools [(:type "openrouter:web_search")
+                                    (:type "openrouter:web_fetch")])
           :models '(z-ai/glm-5.3
                     z-ai/glm-5.3-flash
                     z-ai/glm-5.3-flashx))))
