@@ -1,7 +1,7 @@
 ;;; init-ui.el -*- lexical-binding: t; -*-
 
 (when (display-graphic-p)
-  (set-face-attribute 'default nil :family "BerkeleyMono Nerd Font" :height 140))
+  (set-face-attribute 'default nil :family "BerkeleyMono Nerd Font Mono" :height 130))
 
 (use-package base16-theme)
 
@@ -31,8 +31,8 @@
                                        '("?" "#666666"))))
       (propertize (format " %s " letter)
                   'face `(:background ,color
-                          :foreground ,(alist-get 'base00 darkmatter-palette)
-                          :weight bold)))))
+                                      :foreground ,(alist-get 'base00 darkmatter-palette)
+                                      :weight bold)))))
 
 (setq-default
  mode-line-format

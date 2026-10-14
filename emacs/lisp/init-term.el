@@ -12,7 +12,6 @@
   :hook (ghostel-mode . evil-ghostel-mode))
 
 ;; Terminal perf tweaks, adapted from James Cherti (MIT):
-;; https://www.jamescherti.com/emacs-terminal-performance-vterm-eat-ansi-term-ghostel/
 (defun my/speed-up-terminal-buffer ()
   "Reduce unnecessary Emacs features in terminal buffers."
   (let ((ghostel-buffer (derived-mode-p 'ghostel-mode)))

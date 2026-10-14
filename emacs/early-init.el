@@ -1,14 +1,30 @@
 ;;; early-init.el -*- lexical-binding: t; -*-
 
-;; Faster startup: defer GC, restore after init
-(setq gc-cons-threshold most-positive-fixnum)
+(setq gc-cons-threshold most-positive-fixnum
+      gc-cons-percentage 1.0)
 (add-hook 'emacs-startup-hook
-          (lambda () (setq gc-cons-threshold (* 16 1024 1024))))
+          (lambda () (setq gc-cons-threshold (* 16 1024 1024)
+                           gc-cons-percentage 0.1)))
 
-;; Skip UI chrome before first frame draws
+;; Every `load'/`require' checks file names against these regexps; skip that
+;; during init and restore afterwards (adapted from minimal-emacs.d)
+(let ((handlers file-name-handler-alist))
+  ;; keep jka-compr so compressed .el.gz libraries still load
+  (setq file-name-handler-alist (list (rassq 'jka-compr-handler handlers)))
+  (add-hook 'emacs-startup-hook
+            (lambda ()
+              (setq file-name-handler-alist
+                    (delete-dups (append file-name-handler-alist handlers))))
+            101))
+
 (setq package-enable-at-startup t
       inhibit-startup-screen t
-      frame-inhibit-implied-resize t)
+      inhibit-startup-echo-area-message user-login-name
+      frame-inhibit-implied-resize t
+      frame-resize-pixelwise t
+      auto-mode-case-fold nil)
+
+;; Skip UI chrome before first frame draws
 (push '(menu-bar-lines . 0) default-frame-alist)
 (push '(tool-bar-lines . 0) default-frame-alist)
 (push '(vertical-scroll-bars) default-frame-alist)

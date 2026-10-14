@@ -19,6 +19,7 @@
 
 (require 'url)
 (require 'json)
+(require 'mailcap)
 (require 'subr-x)
 (require 'auth-source-pass)
 
@@ -33,13 +34,25 @@
 
 (defun posts--api-key ()
   "Return the API key from password-store."
-  (or (auth-source-pass-get 'secret posts-pass-entry)
-      (user-error "No pass entry `%s'" posts-pass-entry)))
+  ;; Encode so the header is unibyte; otherwise url-http refuses to mix
+  ;; it with a binary request body.
+  (encode-coding-string
+   (or (auth-source-pass-get 'secret posts-pass-entry)
+       (user-error "No pass entry `%s'" posts-pass-entry))
+   'utf-8))
 
 (defcustom posts-endpoint "https://posts.stevedylan.dev/api/posts"
   "URL that receives the JSON post."
   :type 'string
   :group 'posts)
+
+(defcustom posts-files-endpoint "https://posts.stevedylan.dev/api/files"
+  "URL that receives multipart file uploads."
+  :type 'string
+  :group 'posts)
+
+(defconst posts--max-file-size (* 10 1024 1024)
+  "Largest file the server accepts, in bytes.")
 
 ;;;; Fields
 
@@ -132,12 +145,89 @@ FIELDS is an alist of (NAME . VALUE) strings, CONTENT the body."
          (kill-buffer (current-buffer))))
      nil t)))
 
+;;;; Uploading files
+
+(defun posts--multipart-body (boundary file name)
+  "Return a unibyte multipart/form-data body for FILE using BOUNDARY.
+NAME, when non-nil, is sent as the `name' field."
+  (let ((type (or (mailcap-file-name-to-mime-type file)
+                  "application/octet-stream"))
+        (filename (replace-regexp-in-string
+                   "\"" "\\\\\""
+                   (encode-coding-string (file-name-nondirectory file) 'utf-8))))
+    (with-temp-buffer
+      (set-buffer-multibyte nil)
+      (when name
+        (insert "--" boundary "\r\n"
+                "Content-Disposition: form-data; name=\"name\"\r\n\r\n"
+                (encode-coding-string name 'utf-8) "\r\n"))
+      (insert "--" boundary "\r\n"
+              "Content-Disposition: form-data; name=\"file\"; filename=\""
+              filename "\"\r\n"
+              "Content-Type: " type "\r\n\r\n")
+      (insert-file-contents-literally file)
+      (goto-char (point-max))
+      (insert "\r\n--" boundary "--\r\n")
+      (buffer-string))))
+
+(defun posts--response-json ()
+  "Parse the JSON body of the current HTTP response buffer, or nil."
+  (goto-char (point-min))
+  (when (re-search-forward "\r?\n\r?\n" nil t)
+    (ignore-errors (json-parse-buffer :object-type 'alist))))
+
+(defun posts-upload-file (file &optional name callback)
+  "Upload FILE to `posts-files-endpoint'.
+NAME, if non-empty, sets the stored filename.  On success the file's
+URL is copied to the kill ring and CALLBACK, if non-nil, is called
+with the parsed response alist."
+  (interactive
+   (list (read-file-name "Upload file: " nil nil t)
+         (read-string "Name (optional): ")))
+  (setq file (expand-file-name file))
+  (unless (file-regular-p file)
+    (user-error "Not a regular file: %s" file))
+  (when (> (file-attribute-size (file-attributes file)) posts--max-file-size)
+    (user-error "File exceeds 10 MB: %s" file))
+  (when (and name (string-empty-p (string-trim name)))
+    (setq name nil))
+  (let* ((boundary (format "posts-%s" (md5 (format "%s%s" (random) (float-time)))))
+         (url-request-method "POST")
+         (url-request-extra-headers
+          `(("Content-Type" . ,(encode-coding-string
+                                (concat "multipart/form-data; boundary=" boundary)
+                                'utf-8))
+            ("X-API-Key" . ,(posts--api-key))))
+         (url-request-data (posts--multipart-body boundary file name)))
+    (message "Uploading %s..." (file-name-nondirectory file))
+    (url-retrieve
+     posts-files-endpoint
+     (lambda (status)
+       (unwind-protect
+           (let ((err (plist-get status :error))
+                 (resp (posts--response-json)))
+             (cond
+              ((equal err '(error http 409))
+               (message "Upload failed: name `%s' is already taken" name))
+              (err
+               (message "Upload error: %S%s" err
+                        (if resp (format " %S" resp) "")))
+              ((null (alist-get 'url resp))
+               (message "Uploaded (unexpected response)"))
+              (t
+               (kill-new (alist-get 'url resp))
+               (message "Uploaded: %s (copied)" (alist-get 'url resp))
+               (when callback (funcall callback resp)))))
+         (kill-buffer (current-buffer))))
+     nil t)))
+
 ;;;; Compose buffer
 
 (defvar posts-compose-mode-map
   (let ((m (make-sparse-keymap)))
     (define-key m (kbd "C-c C-c") #'posts-compose-submit)
     (define-key m (kbd "C-c C-k") #'posts-compose-cancel)
+    (define-key m (kbd "C-c C-a") #'posts-compose-attach)
     m)
   "Keymap for `posts-compose-mode'.")
 
@@ -145,7 +235,7 @@ FIELDS is an alist of (NAME . VALUE) strings, CONTENT the body."
   "Compose a post.  Leading `name: value' lines are fields, the rest is content.
 \\{posts-compose-mode-map}"
   (setq header-line-format
-        "Fields as `name: value' lines, then content.  C-c C-c to send, C-c C-k to cancel"))
+        "Fields as `name: value' lines, then content.  C-c C-c send, C-c C-a attach file, C-c C-k cancel"))
 
 ;;;###autoload
 (defun posts-compose ()
@@ -170,6 +260,27 @@ FIELDS is an alist of (NAME . VALUE) strings, CONTENT the body."
       (user-error "Content is empty"))
     (posts fields content)
     (quit-window t)))
+
+(defun posts-compose-attach (file &optional name)
+  "Upload FILE (stored as NAME) and insert a Markdown link at point.
+Images are inserted as `![](url)'."
+  (interactive
+   (list (read-file-name "Attach file: " nil nil t)
+         (read-string "Name (optional): ")))
+  (let ((marker (point-marker)))
+    (posts-upload-file
+     file name
+     (lambda (resp)
+       (when (buffer-live-p (marker-buffer marker))
+         (with-current-buffer (marker-buffer marker)
+           (save-excursion
+             (goto-char marker)
+             (insert (format "%s[%s](%s)"
+                             (if (string-prefix-p "image/" (or (alist-get 'content_type resp) ""))
+                                 "!" "")
+                             (or (alist-get 'original_name resp)
+                                 (alist-get 'filename resp) "")
+                             (alist-get 'url resp))))))))))
 
 (defun posts-compose-cancel ()
   "Discard the compose buffer."

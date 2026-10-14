@@ -89,6 +89,10 @@
 
   ;; Fringe/line numbers share the main background, like doom-darkmatter
   (setq base16-theme-distinct-fringe-background nil)
+  ;; In a tty base16 defaults to the terminal's ANSI palette by name
+  ;; (base02 -> brightyellow, i.e. orange in ghostty), so map our hex
+  ;; colors to the nearest 256-color instead.
+  (setq base16-theme-256-color-source 'colors)
 
   (base16-theme-define
    'darkmatter

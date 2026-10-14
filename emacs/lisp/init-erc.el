@@ -1,7 +1,5 @@
 ;;; init-erc.el -*- lexical-binding: t; -*-
 
-(require 'auth-source-pass)
-
 ;; soju password: read from `pass' (gpg-encrypted), cached in memory per session
 (defvar my/soju-pass-entry "irc/soju")
 (defvar my/soju--password nil)
@@ -36,7 +34,7 @@
   (erc-tls :server "138.197.115.89"
            :port 6697
            :nick "stevedylandev_"
-           :user (my/soju-user "erc")
+           :user (my/soju-user "erc-benson")
            :password (my/soju-password)))
 
 (provide 'init-erc)

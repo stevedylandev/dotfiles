@@ -1,17 +1,13 @@
 ;;; init-jabber.el -*- lexical-binding: t; -*-
 
-(require 'auth-source-pass)
-
-;; Built from git for OMEMO. Native module needs `brew install mbedtls@3'
-;; (4.x dropped mbedtls/aes.h); macOS has no getrandom, so shim it.
+;; Built from git for OMEMO. Native module needs mbedtls 3.x headers, gcc,
+;; make and pkg-config on PATH (4.x dropped mbedtls/aes.h).
 (use-package jabber
   :vc (:url "https://git.thanosapollo.org/emacs-jabber"
-       :lisp-dir "lisp"
-       :shell-command "PKG_CONFIG_PATH=/opt/homebrew/opt/mbedtls@3/lib/pkgconfig CFLAGS=\"-I/opt/homebrew/opt/emacs/include '-Dgetrandom(b,n,f)=(arc4random_buf((b),(n)),(ssize_t)(n))'\" MBED_STATIC=1 make module")
+            :lisp-dir "lisp"
+            :shell-command "MBED_STATIC=1 make module")
   :defer t
   :init
-  ;; `jabber-roster' autoloads from jabber-roster-menu, which never loads
-  ;; jabber.el, so :config (account list) would never run. Pull it in.
   (with-eval-after-load 'jabber-roster-menu (require 'jabber))
   :config
   (setq jabber-account-list

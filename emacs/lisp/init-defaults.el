@@ -43,7 +43,7 @@
       tooltip-delay 0.3
       tooltip-short-delay 0.08)
 
-;; Built-in minor modes worth having
+;; Built-in minor modes
 (delete-selection-mode 1)
 (electric-pair-mode 1)
 (show-paren-mode 1)
@@ -67,7 +67,7 @@
       read-buffer-completion-ignore-case t)
 (fido-vertical-mode 1)
 
-;; Line numbers in code/text, relative like Doom config
+;; Line numbers in code/text
 (setq display-line-numbers-type 'relative)
 (add-hook 'prog-mode-hook #'display-line-numbers-mode)
 (add-hook 'text-mode-hook #'display-line-numbers-mode)

@@ -1,6 +1,7 @@
 ;;; init-tools.el -*- lexical-binding: t; -*-
 
-(use-package magit)
+(use-package magit
+  :defer t)
 
 (use-package diff-hl
   :hook ((after-init . global-diff-hl-mode)
@@ -27,6 +28,7 @@
    '(diff-hl-margin-delete ((t (:foreground "#aa6c6c" :background unspecified :weight bold))))))
 
 (use-package elfeed
+  :defer t
   :config
   (setq-default elfeed-search-filter "@6-months-ago")
 
@@ -52,20 +54,21 @@ Keeps the current list if the fetch fails."
       (error (message "elfeed: feed refresh failed (%s), keeping existing list"
                       (error-message-string err)))))
 
-  ;; Fresh list before every update (`G' / `elfeed-update')
   (advice-add 'elfeed-update :before #'my/elfeed-refresh-feeds)
 
   (defun my/elfeed-show-font ()
-    (face-remap-add-relative 'variable-pitch :family "BerkeleyMono Nerd Font" :height 140)
-    (face-remap-add-relative 'default :family "BerkeleyMono Nerd Font" :height 140))
+    (face-remap-add-relative 'variable-pitch :family "BerkeleyMono Nerd Font Mono" :height 140)
+    (face-remap-add-relative 'default :family "BerkeleyMono Nerd Font Mono" :height 140))
   (add-hook 'elfeed-show-mode-hook #'my/elfeed-show-font))
 
-;; ob-go isn't bundled with org; must load before org-babel-do-load-languages
-(use-package ob-go)
+(use-package ob-go
+  :defer t)
 
 (use-package org
   :ensure nil
+  :defer t
   :config
+  (require 'ob-go)
   (org-babel-do-load-languages
    'org-babel-load-languages
    '((js    . t)
@@ -85,32 +88,6 @@ Keeps the current list if the fetch fails."
            "* [[%^{URL}][%^{Title}]] %^g\n:PROPERTIES:\n:ADDED: %U\n:END:\n%?"
            :empty-lines 1))))
 
-;; HTML export: darkmatter CSS from org.css, inlined so exports are self-contained
-(use-package ox-html
-  :ensure nil
-  :after org
-  :config
-  (defun my/org-html-head ()
-    "Return `org-html-head' contents with org.css inlined."
-    (let ((css (expand-file-name "org.css" user-emacs-directory)))
-      (concat "<meta name=\"theme-color\" content=\"#121113\" />\n"
-              "<style>\n"
-              (with-temp-buffer
-                (insert-file-contents css)
-                (buffer-string))
-              "</style>")))
-  (setq org-html-head-include-default-style nil
-        org-html-head-include-scripts nil
-        org-html-validation-link nil
-        org-html-postamble nil
-        org-html-htmlize-output-type 'css
-        org-html-head (my/org-html-head))
-  ;; Re-read org.css on each export so edits apply without restarting
-  (advice-add 'org-html-export-as-html :before
-              (lambda (&rest _) (setq org-html-head (my/org-html-head))))
-  (advice-add 'org-html-export-to-html :before
-              (lambda (&rest _) (setq org-html-head (my/org-html-head)))))
-
 (use-package dired
   :ensure nil
   :custom
@@ -126,7 +103,51 @@ Keeps the current list if the fetch fails."
     "l" 'dired-find-file
     "q" 'quit-window))
 
-(require 'posts)
-(require 'uguu)
+(autoload 'posts-compose "posts" nil t)
+(autoload 'uguu-upload-file "uguu" nil t)
+(autoload 'uguu-upload-clipboard "uguu" nil t)
+
+(defgroup openrouter nil
+  "OpenRouter backend for gptel."
+  :group 'gptel)
+
+(defcustom openrouter-pass-entry "openrouter/openrouter-api-key"
+  "Name of the `pass' entry holding the API key."
+  :type 'string
+  :group 'openrouter)
+
+(defun openrouter--api-key ()
+  "Return the OpenRouter API key from password-store."
+  (require 'auth-source-pass)       ; autoloaded in Emacs 28+, but cheap to be explicit
+  (let ((key (auth-source-pass-get 'secret openrouter-pass-entry)))
+    (or (and key (string-trim key))
+        (user-error "No pass entry `%s'" openrouter-pass-entry))))
+
+(use-package gptel
+  :defer t
+  :config
+  (setq gptel-backend
+        (gptel-make-openai "OpenRouter"
+          :host "openrouter.ai"
+          :endpoint "/api/v1/chat/completions"
+          :stream t
+          :key #'openrouter--api-key
+          :request-params '(:tools [(:type "openrouter:web_search")])
+          :models '(z-ai/glm-5.3
+                    z-ai/glm-5.3-flash
+                    z-ai/glm-5.3-flashx))))
+
+(defun gptel-model (model)
+  "Set the gptel model in the current buffer."
+  (interactive
+   (list (intern (completing-read "Model: "
+                                  '("z-ai/glm-5.3"
+                                    "z-ai/glm-5.3-flash"
+                                    "z-ai/glm-5.3-flashx")))))
+  (setq-local gptel-model model))
+
+(use-package markdown-mode
+  :defer t)
+
 
 (provide 'init-tools)
